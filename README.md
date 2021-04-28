@@ -9,7 +9,7 @@
 This library allows for easily communicating with [Siren] servers. It's built
 on top of the [core Siren.js library][core].
 
-[Siren]: https://github.com/kevinswiber/siren
+[siren]: https://github.com/kevinswiber/siren
 [core]: https://github.com/siren-js/core
 
 - [Installation](#installation)
