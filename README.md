@@ -51,8 +51,8 @@ let response = await client.fetch('http://api.example.com');
 ```
 
 The `fetch()` method acts as a wrapper for the [Fetch API][fetch]. The value
-returned from `fetch()` is a [decorated `Response`](#client-response) object
-that adds a `siren()` method for parsing JSON text as Siren.
+returned from `fetch()` is a decorated [`Response`][response] object that adds a
+`siren()` method for parsing JSON text as Siren.
 
 [fetch]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [response]: https://developer.mozilla.org/en-US/docs/Web/API/Response
