@@ -1,7 +1,7 @@
 import { Action, Field } from '@siren-js/core';
 import { isRecord, UnknownRecord } from '@siren-js/core/dist/util/type-guard';
 
-export default class Entry {
+export class Entry {
   #name: string;
   #value: string;
 
