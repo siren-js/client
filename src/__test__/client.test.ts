@@ -1,54 +1,12 @@
 import { Action, EmbeddedLink, Entity, Link } from '@siren-js/core';
 import nock from 'nock';
 import Client from '../client';
+import siren from './entity.json';
 
 const baseUrl = 'http://api.example.com';
-
-const entity = new Entity({
-  class: ['foo'],
-  entities: [
-    {
-      rel: ['link'],
-      href: `${baseUrl}/foo/bar`
-    },
-    {
-      class: ['entity'],
-      rel: ['entity'],
-      links: [{ rel: ['self'], href: `${baseUrl}/foo/bar/baz` }]
-    },
-    {
-      class: ['missing-link'],
-      rel: ['missing-link']
-    }
-  ],
-  actions: [
-    {
-      name: 'search',
-      href: `${baseUrl}/foo`,
-      fields: [
-        { name: 'foo', value: 'bar' },
-        { name: 'bar', type: 'number', value: 42 },
-        { name: 'baz', value: 'foo bar/baz' }
-      ]
-    },
-    {
-      name: 'create',
-      method: 'POST',
-      href: `${baseUrl}/foo`,
-      fields: [
-        { name: 'foo', value: 'bar' },
-        { name: 'bar', type: 'number', value: 42 },
-        { name: 'baz', value: 'foo bar/baz' }
-      ]
-    }
-  ],
-  links: [{ rel: ['self'], href: `${baseUrl}/foo` }]
-});
-
-const siren = JSON.stringify(entity);
-
+const entity = new Entity(siren);
+const json = JSON.stringify(entity);
 const sirenMediaType = 'application/vnd.siren+json';
-
 const replyHeaders = {
   'Content-Type': sirenMediaType
 };
@@ -77,7 +35,7 @@ describe('SirenClient', () => {
 
   describe('fetch()', () => {
     it('should return successful Siren response', async () => {
-      scope = nock(baseUrl).get('/').reply(200, siren, replyHeaders);
+      scope = nock(baseUrl).get('/').reply(200, json, replyHeaders);
 
       const response = await client.fetch(baseUrl);
 
@@ -87,7 +45,7 @@ describe('SirenClient', () => {
     });
 
     it('should return unsuccessful Siren response', async () => {
-      scope = nock(baseUrl).get('/').reply(404, siren, replyHeaders);
+      scope = nock(baseUrl).get('/').reply(404, json, replyHeaders);
 
       const response = await client.fetch(baseUrl);
 
@@ -125,7 +83,7 @@ describe('SirenClient', () => {
 
   describe('follow()', () => {
     it('should follow a Link', async () => {
-      scope = nock(baseUrl).get('/about').reply(200, siren, replyHeaders);
+      scope = nock(baseUrl).get('/about').reply(200, json, replyHeaders);
       const link = new Link(['about'], `${baseUrl}/about`);
 
       const response = await client.follow(link);
@@ -135,7 +93,7 @@ describe('SirenClient', () => {
     });
 
     it('should follow an EmbeddedLink', async () => {
-      scope = nock(baseUrl).get('/42').reply(200, siren, replyHeaders);
+      scope = nock(baseUrl).get('/42').reply(200, json, replyHeaders);
       const link = new EmbeddedLink(['item'], `${baseUrl}/42`);
 
       const response = await client.follow(link);
@@ -159,7 +117,7 @@ describe('SirenClient', () => {
     });
 
     it('should accept link-like object', async () => {
-      scope = nock(baseUrl).get('/author').reply(200, siren, replyHeaders);
+      scope = nock(baseUrl).get('/author').reply(200, json, replyHeaders);
 
       const response = await client.follow({ href: `${baseUrl}/author` });
 
