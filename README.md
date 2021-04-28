@@ -59,7 +59,7 @@ returned from `fetch()` is a decorated [`Response`][response] object that adds a
 
 ```js
 let entity;
-// check Content-Type to avoid potential error (optional)
+// optionally check Content-Type to avoid potential error
 if (response.headers.get('Content-Type') === 'application/vnd.siren+json') {
   entity = await response.siren();
   //=> instanceof Entity from @siren-js/core
