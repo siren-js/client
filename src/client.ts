@@ -1,4 +1,5 @@
 import { Action, Link } from '@siren-js/core';
+import { isRecord, isString } from '@siren-js/core/dist/util/type-guard';
 import fetch from 'cross-fetch';
 import ClientResponse from './response';
 import { toEntryList, toURLSearchParams } from './entry';
@@ -38,5 +39,5 @@ export default class Client {
 export type LinkLike = Pick<Link, 'href'>;
 
 function isLinkLike(value: unknown): value is LinkLike {
-  return typeof value === 'object' && value != null && 'href' in value;
+  return isRecord(value) && isString(value.href);
 }
