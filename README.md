@@ -40,7 +40,7 @@ improve! See the [Contributing](#contributing) section below.
 
 Once you've [installed the package](#installation), import the client class,
 create a new instance, and use the `fetch()` method to call the entry point of
-an API.
+a Siren API.
 
 ```js
 import SirenClient from '@siren-js/client';
