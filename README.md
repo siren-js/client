@@ -68,8 +68,7 @@ if (response.headers.get('Content-Type') === 'application/vnd.siren+json') {
 
 ## Following Links
 
-The `follow()` method lets you follow [links][link], including
-[embedded links][embedded-link].
+The `follow()` method lets you follow [links][link].
 
 [link]: https://github.com/kevinswiber/siren#links-1
 [embedded-link]: https://github.com/kevinswiber/siren#embedded-link
@@ -80,6 +79,15 @@ const [link] = entity.getLinksByRel('item');
 // if an item link exists
 if (link) {
   // follow it
+  response = await client.follow(link);
+}
+```
+
+You can also follow [embedded links][embedded-link].
+
+```js
+const [link] = entity.getEntitiesByRel('item');
+if (link) {
   response = await client.follow(link);
 }
 ```
