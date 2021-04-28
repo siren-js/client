@@ -21,7 +21,7 @@ export default class Client {
     const entryList = toEntryList(action);
     const urlSearchParams = toURLSearchParams(entryList);
     const url = new URL(action.href);
-    const { method = 'GET' } = action;
+    const method = action.method ?? 'GET';
     const requestInit: RequestInit = { method };
     if (['GET', 'DELETE'].includes(method)) {
       url.search = urlSearchParams.toString();
