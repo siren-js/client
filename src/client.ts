@@ -18,7 +18,7 @@ export default class Client {
       : Promise.reject('cannot follow a link without an href');
   }
 
-  submit(action: Action): Promise<ClientResponse> {
+  submit(action: ActionLike): Promise<ClientResponse> {
     const entryList = toEntryList(action);
     const urlSearchParams = toURLSearchParams(entryList);
     const url = new URL(action.href);
@@ -37,6 +37,7 @@ export default class Client {
 }
 
 export type LinkLike = Pick<Link, 'href'>;
+export type ActionLike = Pick<Action, 'href' | 'fields' | 'method' | 'type'>;
 
 function isLinkLike(value: unknown): value is LinkLike {
   return isRecord(value) && isString(value.href);
