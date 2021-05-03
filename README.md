@@ -79,7 +79,7 @@ You can initialize this at runtime:
 new SirenClient({
   headers: {
     'Api-Key': 'abcdefghijklmnopqrstuvwxyz',
-    'Authorization': 'Bearer abc.efg.hij'
+    Authorization: 'Bearer abc.efg.hij'
   }
 });
 ```

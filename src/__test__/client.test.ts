@@ -151,7 +151,7 @@ describe('SirenClient', () => {
         .get('/')
         .reply(204);
 
-      await client.fetch(baseUrl, { headers: { Foo: 'baz' }});
+      await client.fetch(baseUrl, { headers: { Foo: 'baz' } });
     });
   });
 
