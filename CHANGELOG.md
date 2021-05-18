@@ -10,7 +10,15 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
-## 0.1.0
+## 0.2.0
+
+### Added
+
+- The client class now has a `headers` property for customizing HTTP headers
+  sent in each request. The property can be initialized via the constructor's
+  options object (see the [README](README.md#http-headers)).
+
+## 0.1.0 - 2021-05-03
 
 ### Added
 

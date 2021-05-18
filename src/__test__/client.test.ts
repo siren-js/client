@@ -1,4 +1,5 @@
 import { Action, EmbeddedLink, Entity, Link } from '@siren-js/core';
+import { Headers } from 'cross-fetch';
 import nock from 'nock';
 import Client from '../client';
 import siren from './entity.json';
@@ -29,11 +30,57 @@ describe('SirenClient', () => {
     client = new Client();
   });
 
-  afterEach(() => {
-    expect(scope.isDone()).toBe(true);
+  describe('headers', () => {
+    it('should have defaults', () => {
+      const headers = [...client.headers.entries()];
+      expect(headers).toEqual([['accept', Client.DEFAULT_ACCEPT_PREFERENCE]]);
+    });
+
+    describe('init', () => {
+      it('should accept record', () => {
+        client = new Client({ headers: { Foo: 'bar', Baz: 'qux' } });
+
+        expect(client.headers.get('Foo')).toBe('bar');
+        expect(client.headers.get('Baz')).toBe('qux');
+      });
+
+      it('should accept pairs', () => {
+        client = new Client({
+          headers: [
+            ['Foo', 'bar'],
+            ['Baz', 'qux']
+          ]
+        });
+
+        expect(client.headers.get('Foo')).toBe('bar');
+        expect(client.headers.get('Baz')).toBe('qux');
+      });
+
+      it('should accept Headers', () => {
+        client = new Client({
+          headers: new Headers({ Foo: 'bar', Baz: 'qux' })
+        });
+
+        expect(client.headers.get('Foo')).toBe('bar');
+        expect(client.headers.get('Baz')).toBe('qux');
+      });
+
+      it('should overwrite defaults', () => {
+        const preference = 'application/xml';
+        client = new Client({
+          headers: { Accept: preference }
+        });
+
+        expect(client.headers.get('Accept')).toBe(preference);
+      });
+    });
   });
 
   describe('fetch()', () => {
+    afterEach(() => {
+      expect(scope.isDone()).toBe(true);
+    });
+
     it('should return successful Siren response', async () => {
       scope = nock(baseUrl).get('/').reply(200, json, replyHeaders);
 
@@ -79,9 +126,40 @@ describe('SirenClient', () => {
       expect(response.headers.get('Content-Type')).toBe(mediaType);
       await expect(response.text()).resolves.toBe(body);
     });
+
+    it('should include headers in request', async () => {
+      client.headers.set('Foo', 'bar');
+      scope = nock(baseUrl, { reqheaders: { Foo: 'bar' } })
+        .get('/')
+        .reply(204);
+
+      await client.fetch(baseUrl);
+    });
+
+    it('should add headers to RequestInit', async () => {
+      client.headers.set('Foo', 'bar');
+      scope = nock(baseUrl, { reqheaders: { Foo: 'bar' } })
+        .post('/')
+        .reply(204);
+
+      await client.fetch(baseUrl, { method: 'POST' });
+    });
+
+    it('should overwrite headers from RequestInit', async () => {
+      client.headers.set('Foo', 'bar');
+      scope = nock(baseUrl, { reqheaders: { Foo: 'baz' } })
+        .get('/')
+        .reply(204);
+
+      await client.fetch(baseUrl, { headers: { Foo: 'baz' } });
+    });
   });
 
   describe('follow()', () => {
+    afterEach(() => {
+      expect(scope.isDone()).toBe(true);
+    });
+
     it('should follow a Link', async () => {
       scope = nock(baseUrl).get('/about').reply(200, json, replyHeaders);
       const link = new Link(['about'], `${baseUrl}/about`);
@@ -137,6 +215,10 @@ describe('SirenClient', () => {
   });
 
   describe('submit()', () => {
+    afterEach(() => {
+      expect(scope.isDone()).toBe(true);
+    });
+
     it('should submit action without method as GET', async () => {
       const action = new Action('search', `${baseUrl}/search`);
       scope = nock(baseUrl).get('/search').reply(204);

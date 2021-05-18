@@ -6,8 +6,8 @@
 [![License](https://img.shields.io/github/license/siren-js/client)](LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-This library allows for easily communicating with [Siren] servers. It's built
-on top of the [core Siren.js library][core].
+A cross-platform library that allows for easily communicating with [Siren]
+servers. Built on top of the [core Siren.js library][core].
 
 [siren]: https://github.com/kevinswiber/siren
 [core]: https://github.com/siren-js/core
@@ -15,6 +15,7 @@ on top of the [core Siren.js library][core].
 - [Installation](#installation)
 - [Development Release](#development-release)
 - [Getting Started](#getting-started)
+- [HTTP Headers](#http-headers)
 - [Following Links](#following-links)
 - [Submitting Actions](#submitting-actions)
 - [Contributing](#contributing)
@@ -65,6 +66,39 @@ if (response.headers.get('Content-Type') === 'application/vnd.siren+json') {
   //=> instanceof Entity from @siren-js/core
 }
 ```
+
+## HTTP Headers
+
+The `headers` property lets you specify HTTP headers to include in each request.
+
+[headers]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
+
+You can initialize this at runtime:
+
+```js
+new SirenClient({
+  headers: {
+    'Api-Key': 'abcdefghijklmnopqrstuvwxyz',
+    Authorization: 'Bearer abc.efg.hij'
+  }
+});
+```
+
+Or you can modify the property via the [`Headers`][headers] interface:
+
+```js
+client.headers.set('Authorization', 'Bearer klm.nop.qrs');
+```
+
+By default, the `Accept` header is set to the following preference string:
+
+```text
+application/vnd.siren+json,application/json;q=0.9,*/*;q=0.8
+```
+
+This can of course be overwritten via either the options object or the property.
+The default value is made available by the static constant
+`SirenClient.DEFAULT_ACCEPT_PREFERENCE`.
 
 ## Following Links
 
