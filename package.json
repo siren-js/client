@@ -1,6 +1,6 @@
 {
   "name": "@siren-js/client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Client class for communicating with Siren APIs",
   "files": [
     "/dist"
