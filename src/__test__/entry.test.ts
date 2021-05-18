@@ -78,6 +78,54 @@ describe('constructing the entry list', () => {
     });
   });
 
+  it('should default value to empty string', () => {
+    const action = new Action('create-account', '/kitchen-sink', {
+      fields: [
+        { name: 'source', type: 'hidden' },
+        { name: 'fullName', type: 'text' },
+        { name: 'quest', type: 'search' },
+        { name: 'phone', type: 'tel' },
+        { name: 'website', type: 'url' },
+        { name: 'email', type: 'email' },
+        { name: 'password', type: 'password' },
+        { name: 'birthDate', type: 'date' },
+        { name: 'birthMonth', type: 'week' },
+        { name: 'birthWeek', type: 'week' },
+        { name: 'birthTime', type: 'time' },
+        { name: 'birthDateTime', type: 'datetime-local' },
+        { name: 'favoriteNumber', type: 'number' },
+        { name: 'randomNumber', type: 'range' },
+        { name: 'favoriteColor', type: 'color' }
+      ]
+    });
+
+    const entryList = toEntryList(action);
+
+    const expected = [
+      ['source', ''],
+      ['fullName', ''],
+      ['quest', ''],
+      ['phone', ''],
+      ['website', ''],
+      ['email', ''],
+      ['password', ''],
+      ['birthDate', ''],
+      ['birthMonth', ''],
+      ['birthWeek', ''],
+      ['birthTime', ''],
+      ['birthDateTime', ''],
+      ['favoriteNumber', ''],
+      ['randomNumber', ''],
+      ['favoriteColor', '']
+    ];
+
+    expect(entryList).toHaveLength(expected.length);
+    expected.forEach(([name, value], index) => {
+      expect(entryList[index].name).toBe(name);
+      expect(entryList[index].value).toBe(value);
+    });
+  });
+
   it('should ignore skippable fields', () => {
     const action = {
       fields: [
