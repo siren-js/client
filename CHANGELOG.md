@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 - When submitting an action, non-`checkbox` and non-`radio` fields with no
   `value` property are submitted with an empty string value, rather than
   `"undefined"` ([#3]).
-  
+
 [#3]: https://github.com/siren-js/client/issues/3
 
 ## 0.2.0 - 2021-05-18
