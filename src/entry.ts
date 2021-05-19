@@ -38,7 +38,7 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
         appendCheckbox(entryList, field);
         break;
       default:
-        appendEntry(entryList, field.name, String(field.value));
+        appendEntry(entryList, field.name, String(field.value ?? ''));
     }
   }
   return entryList;
