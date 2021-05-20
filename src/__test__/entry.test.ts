@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
 import { File } from 'web-file-polyfill';
-import { Entry, EntryList, EntryValue, toEntryList, toURLSearchParams } from '../entry';
+import {
+  Entry,
+  EntryList,
+  EntryValue,
+  toEntryList,
+  toURLSearchParams
+} from '../entry';
 
 const toNameValuePairs = (entryList: EntryList): [string, EntryValue][] =>
   entryList.map(({ name, value }) => [name, value]);
