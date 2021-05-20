@@ -97,8 +97,8 @@ function appendRadioButton(entryList: EntryList, field: Field): void {
   }
 }
 
-const isCheckedRadio = (object: unknown): object is UnknownRecord =>
-  isRecord(object) && !!object.checked;
+const isCheckedRadio = (value: unknown): value is UnknownRecord =>
+  isRecord(value) && !!value.checked;
 
 function appendSelect(entryList: EntryList, field: Field): void {
   if (isArray(field.options)) {
