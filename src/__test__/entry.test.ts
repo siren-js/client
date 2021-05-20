@@ -267,7 +267,7 @@ describe('constructing the entry list', () => {
       );
     });
 
-    it('should add empty file when files is empty, missing, or invalid', () => {
+    it('should add empty file when files is empty, missing, or invalid', async () => {
       const action = new Action('foo', '/foo', {
         fields: [
           { name: 'foo', type: 'file', files: [] },
@@ -278,11 +278,12 @@ describe('constructing the entry list', () => {
 
       const entryList = toEntryList(action);
 
-      expect(toNameValuePairs(entryList)).toEqual([
-        ['foo', new File([], '', { type: 'application/octet-stream' })],
-        ['bar', new File([], '', { type: 'application/octet-stream' })],
-        ['baz', new File([], '', { type: 'application/octet-stream' })]
-      ]);
+      expect(entryList).toHaveLength(3);
+      for (const { value } of entryList) {
+        expect((<File>value).name).toBe('');
+        expect((<File>value).type).toBe('application/octet-stream');
+        await expect((<File>value).text()).resolves.toBe('');
+      }
     });
   });
 
