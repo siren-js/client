@@ -247,6 +247,7 @@ describe('constructing the entry list', () => {
           {
             name: 'foo',
             type: 'select',
+            multiple: true,
             options: [
               { title: 'Foo', value: 'foo', selected: true },
               { title: 'Bar', value: 'bar' },
