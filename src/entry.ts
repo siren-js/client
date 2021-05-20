@@ -37,6 +37,9 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
       case 'checkbox':
         appendCheckbox(entryList, field);
         break;
+      case 'select':
+        appendSelect(entryList, field);
+        break;
       default:
         appendEntry(
           entryList,
@@ -96,6 +99,28 @@ function appendCheckbox(entryList: EntryList, field: Field): void {
   if (field.checked) {
     appendEntry(entryList, field.name, String(field.value ?? 'on'));
   }
+}
+
+function appendSelect(entryList: EntryList, field: Field): void {
+  if (isArray(field.options)) {
+    field.options.forEach((option) => {
+      if (isSelectedOption(option)) {
+        appendEntry(
+          entryList,
+          field.name,
+          String(option.value ?? option.title)
+        );
+      }
+    });
+  }
+}
+
+function isSelectedOption(value: unknown): value is UnknownRecord {
+  return isRecord(value) && isPrimitive(value.title) && !!value.selected;
+}
+
+function isPrimitive(value: unknown): value is string | number | boolean {
+  return ['string', 'number', 'boolean'].includes(typeof value);
 }
 
 export function toURLSearchParams(entryList: EntryList): URLSearchParams {

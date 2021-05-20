@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
-import { toEntryList } from '../entry';
+import { EntryList, toEntryList } from '../entry';
+
+const toNameValuePairs = (entryList: EntryList): [string, string][] =>
+  entryList.map(({ name, value }) => [name, value]);
 
 describe('constructing the entry list', () => {
   it('should return empty list when fields is not an array', () => {
@@ -50,13 +53,24 @@ describe('constructing the entry list', () => {
             { title: 'Slytherin', value: 'slytherin' }
           ]
         },
+        {
+          name: 'bloodStatus',
+          type: 'select',
+          options: [
+            { title: 'Muggle-born', value: 'muggle-born' },
+            { title: 'Half-blood', value: 'half-blood', selected: true },
+            { title: 'Pure-blood', value: 'pure-blood' },
+            { title: 'Squib', value: 'squib' },
+            { title: 'Half-breed', value: 'half-breed' }
+          ]
+        },
         { name: 'bio', type: 'textarea', value: bio }
       ]
     });
 
     const entryList = toEntryList(action);
 
-    const expected = [
+    expect(toNameValuePairs(entryList)).toEqual([
       ['source', 'mobile'],
       ['fullName', 'Harry Potter'],
       ['quest', 'destroy the horcruxes'],
@@ -74,14 +88,9 @@ describe('constructing the entry list', () => {
       ['favoriteColor', '#740001'],
       ['wizard', 'yes'],
       ['hogwartsHouse', 'gryffindor'],
+      ['bloodStatus', 'half-blood'],
       ['bio', bio]
-    ];
-
-    expect(entryList).toHaveLength(expected.length);
-    expected.forEach(([name, value], index) => {
-      expect(entryList[index].name).toBe(name);
-      expect(entryList[index].value).toBe(value);
-    });
+    ]);
   });
 
   it('should sanitize field names and values', () => {
@@ -129,7 +138,7 @@ describe('constructing the entry list', () => {
 
     const entryList = toEntryList(action);
 
-    const expected = [
+    expect(toNameValuePairs(entryList)).toEqual([
       ['source', ''],
       ['fullName', ''],
       ['quest', ''],
@@ -145,13 +154,7 @@ describe('constructing the entry list', () => {
       ['favoriteNumber', ''],
       ['randomNumber', ''],
       ['favoriteColor', '']
-    ];
-
-    expect(entryList).toHaveLength(expected.length);
-    expected.forEach(([name, value], index) => {
-      expect(entryList[index].name).toBe(name);
-      expect(entryList[index].value).toBe(value);
-    });
+    ]);
   });
 
   it('should ignore skippable fields', () => {
@@ -235,5 +238,109 @@ describe('constructing the entry list', () => {
     const entryList = toEntryList(action);
 
     expect(entryList).toEqual([]);
+  });
+
+  describe('select fields', () => {
+    it('should include all selected select options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', value: 'foo', selected: true },
+              { title: 'Bar', value: 'bar' },
+              { title: 'Baz', value: 'baz', selected: true },
+              { title: 'Qux', value: 'qux', selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'foo'],
+        ['foo', 'baz'],
+        ['foo', 'qux']
+      ]);
+    });
+
+    it('should use option title if option value is missing', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', selected: true },
+              { title: 'Bar', selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'Foo'],
+        ['foo', 'Bar']
+      ]);
+    });
+
+    it('should skip options without title and value', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', value: 'foo', selected: true },
+              { title: 'Bar', selected: true },
+              { selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'foo'],
+        ['foo', 'Bar']
+      ]);
+    });
+
+    it('should exclude field when no options selected', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', value: 'foo' },
+              { title: 'Bar', value: 'bar' }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toEqual([]);
+    });
+
+    it('should ignore select with invalid or missing options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          { name: 'foo', type: 'select' },
+          { name: 'bar', type: 'select', options: {} }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toEqual([]);
+    });
   });
 });
