@@ -31,11 +31,11 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
       continue;
     }
     switch (field.type) {
-      case 'radio':
-        appendRadioButton(entryList, field);
-        break;
       case 'checkbox':
         appendCheckbox(entryList, field);
+        break;
+      case 'radio':
+        appendRadioButton(entryList, field);
         break;
       case 'select':
         appendSelect(entryList, field);
@@ -63,17 +63,10 @@ function isSkippableField(field: Field): boolean {
   );
 }
 
-function appendRadioButton(entryList: EntryList, field: Field): void {
-  if (isArray(field.group)) {
-    const radio = <UnknownRecord | undefined>field.group.find(isCheckedRadio);
-    if (radio !== undefined) {
-      appendEntry(entryList, field.name, String(radio.value ?? 'on'));
-    }
+function appendCheckbox(entryList: EntryList, field: Field): void {
+  if (field.checked) {
+    appendEntry(entryList, field.name, String(field.value ?? 'on'));
   }
-}
-
-function isCheckedRadio(object: unknown): object is UnknownRecord {
-  return isRecord(object) && !!object.checked;
 }
 
 function appendEntry(
@@ -95,11 +88,17 @@ const normalizeLineBreaks = (s: string): string =>
 
 const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
 
-function appendCheckbox(entryList: EntryList, field: Field): void {
-  if (field.checked) {
-    appendEntry(entryList, field.name, String(field.value ?? 'on'));
+function appendRadioButton(entryList: EntryList, field: Field): void {
+  if (isArray(field.group)) {
+    const radio = <UnknownRecord | undefined>field.group.find(isCheckedRadio);
+    if (radio !== undefined) {
+      appendEntry(entryList, field.name, String(radio.value ?? 'on'));
+    }
   }
 }
+
+const isCheckedRadio = (object: unknown): object is UnknownRecord =>
+  isRecord(object) && !!object.checked;
 
 function appendSelect(entryList: EntryList, field: Field): void {
   if (isArray(field.options)) {
@@ -115,13 +114,11 @@ function appendSelect(entryList: EntryList, field: Field): void {
   }
 }
 
-function isSelectedOption(value: unknown): value is UnknownRecord {
-  return isRecord(value) && isPrimitive(value.title) && !!value.selected;
-}
+const isSelectedOption = (value: unknown): value is UnknownRecord =>
+  isRecord(value) && isPrimitive(value.title) && !!value.selected;
 
-function isPrimitive(value: unknown): value is string | number | boolean {
-  return ['string', 'number', 'boolean'].includes(typeof value);
-}
+const isPrimitive = (value: unknown): value is string | number | boolean =>
+  ['string', 'number', 'boolean'].includes(typeof value);
 
 export function toURLSearchParams(entryList: EntryList): URLSearchParams {
   const init = entryList.map(({ name, value }) => [name, value]);
