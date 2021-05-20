@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## 0.3.0
 
+### Added
+
+- The following field types are now supported in action submission:
+  - [`textarea`](https://github.com/siren-js/spec-extensions#textarea-fields)
+
 ### Changed
 
 - Fields' `name` and `value` properties have their line breaks normalized and

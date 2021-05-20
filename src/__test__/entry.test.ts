@@ -10,6 +10,10 @@ describe('constructing the entry list', () => {
   });
 
   it('should convert fields to entry list', () => {
+    const bio = `
+      English half-blood wizard. One of the most famous wizards of modern times.
+      Boy Who Lived. Chosen One. Auror.
+    `;
     const action = new Action('create-account', '/kitchen-sink', {
       fields: [
         { name: 'source', type: 'hidden', value: 'mobile' },
@@ -45,7 +49,8 @@ describe('constructing the entry list', () => {
             { title: 'Ravenclaw', value: 'ravenclaw' },
             { title: 'Slytherin', value: 'slytherin' }
           ]
-        }
+        },
+        { name: 'bio', type: 'textarea', value: bio }
       ]
     });
 
@@ -68,7 +73,8 @@ describe('constructing the entry list', () => {
       ['randomNumber', '69'],
       ['favoriteColor', '#740001'],
       ['wizard', 'yes'],
-      ['hogwartsHouse', 'gryffindor']
+      ['hogwartsHouse', 'gryffindor'],
+      ['bio', bio]
     ];
 
     expect(entryList).toHaveLength(expected.length);
