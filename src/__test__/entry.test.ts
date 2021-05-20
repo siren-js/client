@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
-import { EntryList, toEntryList } from '../entry';
+import { File } from 'web-file-polyfill';
+import { Entry, EntryList, EntryValue, toEntryList, toURLSearchParams } from '../entry';
 
-const toNameValuePairs = (entryList: EntryList): [string, string][] =>
+const toNameValuePairs = (entryList: EntryList): [string, EntryValue][] =>
   entryList.map(({ name, value }) => [name, value]);
 
 describe('constructing the entry list', () => {
@@ -17,6 +18,7 @@ describe('constructing the entry list', () => {
       English half-blood wizard. One of the most famous wizards of modern times.
       Boy Who Lived. Chosen One. Auror.
     `;
+    const file = new File(['foobar'], 'avatar.png', { type: 'image/png' });
     const action = new Action('create-account', '/kitchen-sink', {
       fields: [
         { name: 'source', type: 'hidden', value: 'mobile' },
@@ -64,7 +66,8 @@ describe('constructing the entry list', () => {
             { title: 'Half-breed', value: 'half-breed' }
           ]
         },
-        { name: 'bio', type: 'textarea', value: bio }
+        { name: 'bio', type: 'textarea', value: bio },
+        { name: 'avatar', type: 'file', files: [file] }
       ]
     });
 
@@ -89,7 +92,8 @@ describe('constructing the entry list', () => {
       ['wizard', 'yes'],
       ['hogwartsHouse', 'gryffindor'],
       ['bloodStatus', 'half-blood'],
-      ['bio', bio]
+      ['bio', bio],
+      ['avatar', file]
     ]);
   });
 
@@ -240,6 +244,42 @@ describe('constructing the entry list', () => {
     expect(entryList).toEqual([]);
   });
 
+  describe('file fields', () => {
+    it('should add entry for each file', () => {
+      const files = [
+        new File(['foo'], 'foo.txt', { type: 'text/plain' }),
+        new File(['"foo"'], 'foo.json', { type: 'application/json' })
+      ];
+      const action = new Action('foo', '/foo', {
+        fields: [{ name: 'foo', type: 'file', multiple: true, files }]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual(
+        files.map((file) => ['foo', file])
+      );
+    });
+
+    it('should add empty file when files is empty, missing, or invalid', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          { name: 'foo', type: 'file', files: [] },
+          { name: 'bar', type: 'file' },
+          { name: 'baz', type: 'file', files: {} }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', new File([], '', { type: 'application/octet-stream' })],
+        ['bar', new File([], '', { type: 'application/octet-stream' })],
+        ['baz', new File([], '', { type: 'application/octet-stream' })]
+      ]);
+    });
+  });
+
   describe('select fields', () => {
     it('should include all selected select options', () => {
       const action = new Action('foo', '/foo', {
@@ -343,5 +383,17 @@ describe('constructing the entry list', () => {
 
       expect(entryList).toEqual([]);
     });
+  });
+});
+
+describe('toURLSearchParams', () => {
+  it('should use file name', () => {
+    const entryList = [
+      new Entry('foo', new File(['foo'], 'foo.txt', { type: 'text/plain' }))
+    ];
+
+    const searchParams = toURLSearchParams(entryList);
+
+    expect(searchParams.get('foo')).toBe('foo.txt');
   });
 });

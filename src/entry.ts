@@ -1,11 +1,12 @@
 import { Action, Field } from '@siren-js/core';
 import { isRecord, UnknownRecord } from '@siren-js/core/dist/util/type-guard';
+import { File } from 'web-file-polyfill';
 
 export class Entry {
   #name: string;
-  #value: string;
+  #value: EntryValue;
 
-  constructor(name: string, value: string) {
+  constructor(name: string, value: EntryValue) {
     this.#name = name;
     this.#value = value;
   }
@@ -14,10 +15,12 @@ export class Entry {
     return this.#name;
   }
 
-  get value(): string {
+  get value(): EntryValue {
     return this.#value;
   }
 }
+
+export type EntryValue = File | string;
 
 export type EntryList = Entry[];
 
@@ -33,6 +36,9 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
     switch (field.type) {
       case 'checkbox':
         appendCheckbox(entryList, field);
+        break;
+      case 'file':
+        appendFileUpload(entryList, field);
         break;
       case 'radio':
         appendRadioButton(entryList, field);
@@ -72,14 +78,16 @@ function appendCheckbox(entryList: EntryList, field: Field): void {
 function appendEntry(
   entryList: EntryList,
   name: string,
-  value: string,
+  value: EntryValue,
   preventLineBreakNormalization = false
 ): void {
   const entryName = convert(normalizeLineBreaks(name));
-  // TODO: file check
-  const entryValue = convert(
-    preventLineBreakNormalization ? value : normalizeLineBreaks(value)
-  );
+  let entryValue = value;
+  if (typeof value === 'string') {
+    entryValue = convert(
+      preventLineBreakNormalization ? value : normalizeLineBreaks(value)
+    );
+  }
   entryList.push(new Entry(entryName, entryValue));
 }
 
@@ -87,6 +95,38 @@ const normalizeLineBreaks = (s: string): string =>
   s.replace(/\r(?!\n)|(?<!\r)\n/g, '\r\n');
 
 const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
+
+const isBlob = (value: unknown): value is Blob =>
+  isRecord(value) &&
+  typeof value.size === 'number' &&
+  typeof value.type === 'string' &&
+  typeof value.arrayBuffer === 'function' &&
+  typeof value.slice === 'function' &&
+  typeof value.stream === 'function' &&
+  typeof value.text === 'function';
+
+const isFile = (value: unknown): value is File =>
+  isRecord(value) &&
+  typeof value.lastModified === 'number' &&
+  typeof value.name === 'string' &&
+  isBlob(value);
+
+function appendFileUpload(entryList: EntryList, field: Field): void {
+  if (isArray(field.files)) {
+    const selectedFiles = field.files.filter(isFile);
+    if (selectedFiles.length > 0) {
+      selectedFiles.forEach((file) => {
+        appendEntry(entryList, field.name, file);
+      });
+    } else {
+      appendEntry(entryList, field.name, emptyFile());
+    }
+  } else {
+    appendEntry(entryList, field.name, emptyFile());
+  }
+}
+
+const emptyFile = () => new File([], '', { type: 'application/octet-stream' });
 
 function appendRadioButton(entryList: EntryList, field: Field): void {
   if (isArray(field.group)) {
@@ -121,6 +161,9 @@ const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
 
 export function toURLSearchParams(entryList: EntryList): URLSearchParams {
-  const init = entryList.map(({ name, value }) => [name, value]);
+  const init = entryList.map(({ name, value }) => [
+    name,
+    typeof value === 'string' ? value : value.name
+  ]);
   return new URLSearchParams(init);
 }

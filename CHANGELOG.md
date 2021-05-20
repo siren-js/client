@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 ### Added
 
 - The following field types are now supported in action submission:
+  - [`file`](https://github.com/siren-js/spec-extensions#file-fields)
   - [`select`](https://github.com/siren-js/spec-extensions#select-fields)
   - [`textarea`](https://github.com/siren-js/spec-extensions#textarea-fields)
 
