@@ -78,7 +78,29 @@ describe('constructing the entry list', () => {
     });
   });
 
-  it('should default value to empty string', () => {
+  it('should sanitize field names and values', () => {
+    const cases: [string, string][] = [
+      ['\nfoo\rbar\n\rbaz\r\n', '\r\nfoo\r\nbar\r\n\r\nbaz\r\n'],
+      [
+        '\uD7FF\uD800\uD801\uDFFE\uDFFF\uE000',
+        '\uD7FF\uFFFD\uFFFD\uFFFD\uFFFD\uE000'
+      ],
+      ['\uD800\n\r\uDFFF', '\uFFFD\r\n\r\n\uFFFD']
+    ];
+    const action = new Action('foo', '/foo', {
+      fields: cases.map(([s]) => ({ name: s, value: s }))
+    });
+
+    const entryList = toEntryList(action);
+
+    expect(entryList).toHaveLength(cases.length);
+    cases.forEach(([, expected], index) => {
+      expect(entryList[index].name).toBe(expected);
+      expect(entryList[index].value).toBe(expected);
+    });
+  });
+
+  it('should default value when undefined', () => {
     const action = new Action('create-account', '/kitchen-sink', {
       fields: [
         { name: 'source', type: 'hidden' },

@@ -68,9 +68,24 @@ function isCheckedRadio(object: unknown): object is UnknownRecord {
   return isRecord(object) && !!object.checked;
 }
 
-function appendEntry(entryList: EntryList, name: string, value: string): void {
-  entryList.push(new Entry(name, value));
+function appendEntry(
+  entryList: EntryList,
+  name: string,
+  value: string,
+  preventLineBreakNormalization = false
+): void {
+  const entryName = convert(normalizeLineBreaks(name));
+  // TODO: file check
+  const entryValue = convert(
+    preventLineBreakNormalization ? value : normalizeLineBreaks(value)
+  );
+  entryList.push(new Entry(entryName, entryValue));
 }
+
+const normalizeLineBreaks = (s: string): string =>
+  s.replace(/\r(?!\n)|(?<!\r)\n/g, '\r\n');
+
+const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
 
 function appendCheckbox(entryList: EntryList, field: Field): void {
   if (field.checked) {
