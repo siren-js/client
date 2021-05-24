@@ -112,21 +112,29 @@ const isFile = (value: unknown): value is File =>
   isBlob(value);
 
 function appendFileUpload(entryList: EntryList, field: Field): void {
-  if (isArray(field.files)) {
-    const selectedFiles = field.files.filter(isFile);
+  const { name, files } = field;
+  if (isArray(files)) {
+    const selectedFiles = files.filter(isFile);
     if (selectedFiles.length > 0) {
       selectedFiles.forEach((file) => {
-        appendEntry(entryList, field.name, file);
+        appendEntry(entryList, name, file);
       });
     } else {
-      appendEntry(entryList, field.name, emptyFile());
+      appendEntry(entryList, name, emptyFile());
     }
+  } else if (isFileList(files) && files.length > 0) {
+    [...files].forEach((file) => {
+      appendEntry(entryList, name, file);
+    });
   } else {
-    appendEntry(entryList, field.name, emptyFile());
+    appendEntry(entryList, name, emptyFile());
   }
 }
 
 const emptyFile = () => new File([], '', { type: 'application/octet-stream' });
+
+const isFileList = (value: unknown): value is FileList =>
+  typeof FileList !== 'undefined' && value instanceof FileList;
 
 function appendRadioButton(entryList: EntryList, field: Field): void {
   if (isArray(field.group)) {
