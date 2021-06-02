@@ -1,6 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
-import { toEntryList } from '../entry';
+import { File } from 'web-file-polyfill';
+import {
+  Entry,
+  EntryList,
+  EntryValue,
+  toEntryList,
+  toURLSearchParams
+} from '../entry';
+
+const toNameValuePairs = (entryList: EntryList): [string, EntryValue][] =>
+  entryList.map(({ name, value }) => [name, value]);
 
 describe('constructing the entry list', () => {
   it('should return empty list when fields is not an array', () => {
@@ -10,6 +20,11 @@ describe('constructing the entry list', () => {
   });
 
   it('should convert fields to entry list', () => {
+    const bio = `
+      English half-blood wizard. One of the most famous wizards of modern times.
+      Boy Who Lived. Chosen One. Auror.
+    `;
+    const file = new File(['foobar'], 'avatar.png', { type: 'image/png' });
     const action = new Action('create-account', '/kitchen-sink', {
       fields: [
         { name: 'source', type: 'hidden', value: 'mobile' },
@@ -45,13 +60,26 @@ describe('constructing the entry list', () => {
             { title: 'Ravenclaw', value: 'ravenclaw' },
             { title: 'Slytherin', value: 'slytherin' }
           ]
-        }
+        },
+        {
+          name: 'bloodStatus',
+          type: 'select',
+          options: [
+            { title: 'Muggle-born', value: 'muggle-born' },
+            { title: 'Half-blood', value: 'half-blood', selected: true },
+            { title: 'Pure-blood', value: 'pure-blood' },
+            { title: 'Squib', value: 'squib' },
+            { title: 'Half-breed', value: 'half-breed' }
+          ]
+        },
+        { name: 'bio', type: 'textarea', value: bio },
+        { name: 'avatar', type: 'file', files: [file] }
       ]
     });
 
     const entryList = toEntryList(action);
 
-    const expected = [
+    expect(toNameValuePairs(entryList)).toEqual([
       ['source', 'mobile'],
       ['fullName', 'Harry Potter'],
       ['quest', 'destroy the horcruxes'],
@@ -68,17 +96,42 @@ describe('constructing the entry list', () => {
       ['randomNumber', '69'],
       ['favoriteColor', '#740001'],
       ['wizard', 'yes'],
-      ['hogwartsHouse', 'gryffindor']
-    ];
-
-    expect(entryList).toHaveLength(expected.length);
-    expected.forEach(([name, value], index) => {
-      expect(entryList[index].name).toBe(name);
-      expect(entryList[index].value).toBe(value);
-    });
+      ['hogwartsHouse', 'gryffindor'],
+      ['bloodStatus', 'half-blood'],
+      ['bio', bio],
+      ['avatar', file]
+    ]);
   });
 
-  it('should default value to empty string', () => {
+  it('should covert field names and values to scalar value strings', () => {
+    const nonScalar = '\uD7FE\uD7FF\uD800\uD801\uDFFE\uDFFF\uE000\uE001';
+    const action = new Action('foo', '/foo', {
+      fields: [{ name: nonScalar, value: nonScalar }]
+    });
+
+    const entryList = toEntryList(action);
+
+    const scalar = '\uD7FE\uD7FF\uFFFD\uFFFD\uFFFD\uFFFD\uE000\uE001';
+    expect(entryList).toHaveLength(1);
+    expect(entryList[0].name).toBe(scalar);
+    expect(entryList[0].value).toBe(scalar);
+  });
+
+  it("should normalize newlines of textarea field's value", () => {
+    const action = new Action('foo', '/foo', {
+      fields: [
+        { name: 'foo', type: 'textarea', value: '\nfoo\rbar\n\rbaz\r\n' }
+      ]
+    });
+
+    const entryList = toEntryList(action);
+
+    expect(entryList).toHaveLength(1);
+    expect(entryList[0].name).toBe('foo');
+    expect(entryList[0].value).toBe('\nfoo\nbar\n\nbaz\n');
+  });
+
+  it('should default value when undefined', () => {
     const action = new Action('create-account', '/kitchen-sink', {
       fields: [
         { name: 'source', type: 'hidden' },
@@ -101,7 +154,7 @@ describe('constructing the entry list', () => {
 
     const entryList = toEntryList(action);
 
-    const expected = [
+    expect(toNameValuePairs(entryList)).toEqual([
       ['source', ''],
       ['fullName', ''],
       ['quest', ''],
@@ -117,13 +170,7 @@ describe('constructing the entry list', () => {
       ['favoriteNumber', ''],
       ['randomNumber', ''],
       ['favoriteColor', '']
-    ];
-
-    expect(entryList).toHaveLength(expected.length);
-    expected.forEach(([name, value], index) => {
-      expect(entryList[index].name).toBe(name);
-      expect(entryList[index].value).toBe(value);
-    });
+    ]);
   });
 
   it('should ignore skippable fields', () => {
@@ -176,7 +223,7 @@ describe('constructing the entry list', () => {
     expect(entryList).toEqual([]);
   });
 
-  it('should include first checked radio button', () => {
+  it('should only include first checked radio button', () => {
     const action = new Action('foo', '/foo', {
       fields: [
         {
@@ -207,5 +254,183 @@ describe('constructing the entry list', () => {
     const entryList = toEntryList(action);
 
     expect(entryList).toEqual([]);
+  });
+
+  describe('file fields', () => {
+    it('should add entry for each file', () => {
+      const files = [
+        new File(['foo'], 'foo.txt', { type: 'text/plain' }),
+        new File(['"foo"'], 'foo.json', { type: 'application/json' })
+      ];
+      const action = new Action('foo', '/foo', {
+        fields: [{ name: 'foo', type: 'file', multiple: true, files }]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual(
+        files.map((file) => ['foo', file])
+      );
+    });
+
+    it('should add empty file when files is empty, missing, or invalid', async () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          { name: 'foo', type: 'file', files: [] },
+          { name: 'bar', type: 'file' },
+          { name: 'baz', type: 'file', files: {} }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toHaveLength(3);
+      for (const { value } of entryList) {
+        expect((<File>value).name).toBe('');
+        expect((<File>value).type).toBe('application/octet-stream');
+        await expect((<File>value).text()).resolves.toBe('');
+      }
+    });
+  });
+
+  describe('select fields', () => {
+    it('should include all selected select options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            multiple: true,
+            options: [
+              { title: 'Foo', value: 'foo', selected: true },
+              { title: 'Bar', value: 'bar' },
+              { title: 'Baz', value: 'baz', selected: true },
+              { title: 'Qux', value: 'qux', selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'foo'],
+        ['foo', 'baz'],
+        ['foo', 'qux']
+      ]);
+    });
+
+    it('should ignore disabled options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            multiple: true,
+            options: [
+              { title: 'Foo', value: 'foo', disabled: true, selected: true },
+              { title: 'Bar', value: 'bar', disabled: true },
+              { title: 'Baz', value: 'baz', selected: true },
+              { title: 'Qux', value: 'qux' }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toHaveLength(1);
+      expect(entryList[0].name).toBe('foo');
+      expect(entryList[0].value).toBe('baz');
+    });
+
+    it('should use option title if option value is missing', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', selected: true },
+              { title: 'Bar', selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'Foo'],
+        ['foo', 'Bar']
+      ]);
+    });
+
+    it('should skip options without title and value', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', value: 'foo', selected: true },
+              { title: 'Bar', selected: true },
+              { selected: true }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(toNameValuePairs(entryList)).toEqual([
+        ['foo', 'foo'],
+        ['foo', 'Bar']
+      ]);
+    });
+
+    it('should exclude field when no options selected', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            options: [
+              { title: 'Foo', value: 'foo' },
+              { title: 'Bar', value: 'bar' }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toEqual([]);
+    });
+
+    it('should ignore select with invalid or missing options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          { name: 'foo', type: 'select' },
+          { name: 'bar', type: 'select', options: {} }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toEqual([]);
+    });
+  });
+});
+
+describe('toURLSearchParams', () => {
+  it('should use file name', () => {
+    const entryList = [
+      new Entry('foo', new File(['foo'], 'foo.txt', { type: 'text/plain' }))
+    ];
+
+    const searchParams = toURLSearchParams(entryList);
+
+    expect(searchParams.get('foo')).toBe('foo.txt');
   });
 });

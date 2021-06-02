@@ -146,12 +146,14 @@ if (action) {
 }
 ```
 
-[Checkboxes][radio] and [radio buttons][radio] are read and submitted according
-to our [Siren extensions][ext].
+The following field types are submitted according to our
+[Siren extensions](https://github.com/siren-js/spec-extensions):
 
-[checkbox]: https://github.com/siren-js/spec-extensions#checkbox-fields
-[ext]: https://github.com/siren-js/spec-extensions
-[radio]: https://github.com/siren-js/spec-extensions#radio-fields
+- [`checkbox`](https://github.com/siren-js/spec-extensions#checkbox-fields)
+- [`file`](https://github.com/siren-js/spec-extensions#file-fields)
+- [`radio`](https://github.com/siren-js/spec-extensions#radio-fields)
+- [`select`](https://github.com/siren-js/spec-extensions#select-fields)
+- [`textarea`](https://github.com/siren-js/spec-extensions#textarea-fields)
 
 ## Contributing
 

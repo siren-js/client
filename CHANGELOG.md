@@ -10,6 +10,23 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
+## 0.3.0
+
+### Added
+
+- The following field types are now supported in action submission:
+  - [`file`](https://github.com/siren-js/spec-extensions#file-fields)
+  - [`select`](https://github.com/siren-js/spec-extensions#select-fields)
+  - [`textarea`](https://github.com/siren-js/spec-extensions#textarea-fields)
+
+### Changed
+
+- Fields' `name` and `value` properties have their line breaks normalized and
+  are [converted] according to [HTML rules][aae].
+
+[aae]: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#append-an-entry
+[converted]: https://infra.spec.whatwg.org/#javascript-string-convert
+
 ## 0.2.1 - 2021-05-19
 
 ### Fixed
