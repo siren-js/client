@@ -74,14 +74,11 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
 
 const isArray: (x: unknown) => x is unknown[] = Array.isArray;
 
-function isSkippableField(field: Field): boolean {
-  return (
-    field.name == null ||
-    field.name === '' ||
-    !!field.disabled ||
-    field.type === 'image'
-  );
-}
+const isSkippableField = (field: Field): boolean =>
+  field.name == null ||
+  field.name === '' ||
+  !!field.disabled ||
+  field.type === 'image';
 
 /**
  * Appends a [`checkbox` field](https://github.com/siren-js/spec-extensions#checkbox-fields)
