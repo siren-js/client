@@ -66,7 +66,7 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
         appendTextArea(entryList, field);
         break;
       default:
-        appendEntry(entryList, field.name, coerceValue(field));
+        appendEntry(entryList, field.name, coerceToString(field.value));
     }
   }
   return entryList;
@@ -85,7 +85,7 @@ function isSkippableField(field: Field): boolean {
 
 function appendCheckbox(entryList: EntryList, field: Field): void {
   if (field.checked) {
-    appendEntry(entryList, field.name, String(field.value ?? 'on'));
+    appendEntry(entryList, field.name, coerceToString(field.value, 'on'));
   }
 }
 
@@ -150,7 +150,7 @@ function appendRadioButton(entryList: EntryList, field: Field): void {
   if (isArray(field.group)) {
     const radio = <UnknownRecord | undefined>field.group.find(isCheckedRadio);
     if (radio !== undefined) {
-      appendEntry(entryList, field.name, String(radio.value ?? 'on'));
+      appendEntry(entryList, field.name, coerceToString(radio.value, 'on'));
     }
   }
 }
@@ -165,7 +165,7 @@ function appendSelect(entryList: EntryList, field: Field): void {
         appendEntry(
           entryList,
           field.name,
-          String(option.value ?? option.title)
+          coerceToString(option.value, option.title)
         );
       }
     });
@@ -179,11 +179,12 @@ const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
 
 function appendTextArea(entryList: EntryList, field: Field) {
-  const value = normalizeNewlines(coerceValue(field));
+  const value = normalizeNewlines(coerceToString(field.value));
   appendEntry(entryList, field.name, value);
 }
 
-const coerceValue = (field: Field) => String(field.value ?? '');
+const coerceToString = (value: unknown, defaultValue: unknown = '') =>
+  String(value ?? defaultValue);
 
 /**
  * Normalizes the newlines of a string as defined in WHATWG's
