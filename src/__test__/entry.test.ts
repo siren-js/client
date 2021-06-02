@@ -223,7 +223,7 @@ describe('constructing the entry list', () => {
     expect(entryList).toEqual([]);
   });
 
-  it('should include first checked radio button', () => {
+  it('should only include first checked radio button', () => {
     const action = new Action('foo', '/foo', {
       fields: [
         {
@@ -318,6 +318,30 @@ describe('constructing the entry list', () => {
         ['foo', 'baz'],
         ['foo', 'qux']
       ]);
+    });
+
+    it('should ignore disabled options', () => {
+      const action = new Action('foo', '/foo', {
+        fields: [
+          {
+            name: 'foo',
+            type: 'select',
+            multiple: true,
+            options: [
+              { title: 'Foo', value: 'foo', disabled: true, selected: true },
+              { title: 'Bar', value: 'bar', disabled: true },
+              { title: 'Baz', value: 'baz', selected: true },
+              { title: 'Qux', value: 'qux' }
+            ]
+          }
+        ]
+      });
+
+      const entryList = toEntryList(action);
+
+      expect(entryList).toHaveLength(1);
+      expect(entryList[0].name).toBe('foo');
+      expect(entryList[0].value).toBe('baz');
     });
 
     it('should use option title if option value is missing', () => {

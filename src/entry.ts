@@ -204,7 +204,10 @@ function appendSelect(entryList: EntryList, field: Field): void {
 }
 
 const isSelectedOption = (value: unknown): value is UnknownRecord =>
-  isRecord(value) && isPrimitive(value.title) && !!value.selected;
+  isRecord(value) &&
+  isPrimitive(value.title) &&
+  !!value.selected &&
+  !value.disabled;
 
 const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
