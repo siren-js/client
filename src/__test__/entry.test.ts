@@ -103,26 +103,32 @@ describe('constructing the entry list', () => {
     ]);
   });
 
-  it('should sanitize field names and values', () => {
-    const cases: [string, string][] = [
-      ['\nfoo\rbar\n\rbaz\r\n', '\r\nfoo\r\nbar\r\n\r\nbaz\r\n'],
-      [
-        '\uD7FF\uD800\uD801\uDFFE\uDFFF\uE000',
-        '\uD7FF\uFFFD\uFFFD\uFFFD\uFFFD\uE000'
-      ],
-      ['\uD800\n\r\uDFFF', '\uFFFD\r\n\r\n\uFFFD']
-    ];
+  it('should covert field names and values to scalar value strings', () => {
+    const nonScalar = '\uD7FE\uD7FF\uD800\uD801\uDFFE\uDFFF\uE000\uE001';
     const action = new Action('foo', '/foo', {
-      fields: cases.map(([s]) => ({ name: s, value: s }))
+      fields: [{ name: nonScalar, value: nonScalar }]
     });
 
     const entryList = toEntryList(action);
 
-    expect(entryList).toHaveLength(cases.length);
-    cases.forEach(([, expected], index) => {
-      expect(entryList[index].name).toBe(expected);
-      expect(entryList[index].value).toBe(expected);
+    const scalar = '\uD7FE\uD7FF\uFFFD\uFFFD\uFFFD\uFFFD\uE000\uE001';
+    expect(entryList).toHaveLength(1);
+    expect(entryList[0].name).toBe(scalar);
+    expect(entryList[0].value).toBe(scalar);
+  });
+
+  it("should normalize newlines of textarea field's value", () => {
+    const action = new Action('foo', '/foo', {
+      fields: [
+        { name: 'foo', type: 'textarea', value: '\nfoo\rbar\n\rbaz\r\n' }
+      ]
     });
+
+    const entryList = toEntryList(action);
+
+    expect(entryList).toHaveLength(1);
+    expect(entryList[0].name).toBe('foo');
+    expect(entryList[0].value).toBe('\nfoo\nbar\n\nbaz\n');
   });
 
   it('should default value when undefined', () => {

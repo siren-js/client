@@ -2,10 +2,20 @@ import { Action, Field } from '@siren-js/core';
 import { isRecord, UnknownRecord } from '@siren-js/core/dist/util/type-guard';
 import { File } from 'web-file-polyfill';
 
+/**
+ * Represents an [entry](https://xhr.spec.whatwg.org/#concept-formdata-entry) as
+ * defined in WHATWG's XMLHttpRequest standard.
+ */
 export class Entry {
   #name: string;
   #value: EntryValue;
 
+  /**
+   * Implementation of a subset of the XMLHttpRequest standard's algorithm to
+   * [create an entry](https://xhr.spec.whatwg.org/#create-an-entry). Namely,
+   * `Blob` values and the optional `filename` parameter aren't currently
+   * supported.
+   */
   constructor(name: string, value: EntryValue) {
     this.#name = name;
     this.#value = value;
@@ -24,6 +34,12 @@ export type EntryValue = File | string;
 
 export type EntryList = Entry[];
 
+/**
+ * Converts an `Action` to an `EntryList`. This is an implementation of the
+ * algorithm for
+ * [contructing the entry list](https://github.com/siren-js/spec-extensions#constructing-the-entry-list),
+ * as defined in our Siren specification extensions.
+ */
 export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
   if (!isArray(action.fields)) {
     return [];
@@ -46,13 +62,11 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
       case 'select':
         appendSelect(entryList, field);
         break;
+      case 'textarea':
+        appendTextArea(entryList, field);
+        break;
       default:
-        appendEntry(
-          entryList,
-          field.name,
-          String(field.value ?? ''),
-          field.type === 'textarea'
-        );
+        appendEntry(entryList, field.name, coerceValue(field));
     }
   }
   return entryList;
@@ -75,24 +89,20 @@ function appendCheckbox(entryList: EntryList, field: Field): void {
   }
 }
 
+/**
+ * Implementation of the algorithm to
+ * [append an entry](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#append-an-entry)
+ * to `entryList` given a `name` and a `value`, as defined in the HTML standard.
+ */
 function appendEntry(
   entryList: EntryList,
   name: string,
-  value: EntryValue,
-  preventLineBreakNormalization = false
+  value: EntryValue
 ): void {
-  const entryName = convert(normalizeLineBreaks(name));
-  let entryValue = value;
-  if (typeof value === 'string') {
-    entryValue = convert(
-      preventLineBreakNormalization ? value : normalizeLineBreaks(value)
-    );
-  }
-  entryList.push(new Entry(entryName, entryValue));
+  name = convert(name);
+  value = typeof value === 'string' ? convert(value) : value;
+  entryList.push(new Entry(name, value));
 }
-
-const normalizeLineBreaks = (s: string): string =>
-  s.replace(/\r(?!\n)|(?<!\r)\n/g, '\r\n');
 
 const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
 
@@ -168,6 +178,25 @@ const isSelectedOption = (value: unknown): value is UnknownRecord =>
 const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
 
+function appendTextArea(entryList: EntryList, field: Field) {
+  const value = normalizeNewlines(coerceValue(field));
+  appendEntry(entryList, field.name, value);
+}
+
+const coerceValue = (field: Field) => String(field.value ?? '');
+
+/**
+ * Normalizes the newlines of a string as defined in WHATWG's
+ * [Infra standard](https://infra.spec.whatwg.org)
+ */
+const normalizeNewlines = (s: string): string =>
+  s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+/**
+ * Implementation of the
+ * [`application/x-www-form-urlencoded` serializer](https://url.spec.whatwg.org/#concept-urlencoded-serializer),
+ * from the WHATWG's URL standard.
+ */
 export function toURLSearchParams(entryList: EntryList): URLSearchParams {
   const init = entryList.map(({ name, value }) => [
     name,
