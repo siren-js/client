@@ -40,6 +40,7 @@ If you'd like to contribute a change, follow these steps:
 1. Clone your fork.
 1. Create a branch.
 1. Make and commit your changes (see [Development](#development)).
+   - Be sure to update the [changelog](CHANGELOG.md).
    - If you're making code changes, be sure to write tests!
 1. Push your changes to your fork.
 1. If your build is passing, create a pull request.
