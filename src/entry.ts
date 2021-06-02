@@ -83,6 +83,12 @@ function isSkippableField(field: Field): boolean {
   );
 }
 
+/**
+ * Appends a [`checkbox` field](https://github.com/siren-js/spec-extensions#checkbox-fields)
+ * to the given `entryList`, if it is
+ * [checked](https://github.com/siren-js/spec-extensions#checked)
+ * @see appendEntry
+ */
 function appendCheckbox(entryList: EntryList, field: Field): void {
   if (field.checked) {
     appendEntry(entryList, field.name, coerceToString(field.value, 'on'));
@@ -104,6 +110,9 @@ function appendEntry(
   entryList.push(new Entry(name, value));
 }
 
+/**
+ * Converts a string into a [scalar string value](https://infra.spec.whatwg.org/#javascript-string-convert)
+ */
 const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
 
 const isBlob = (value: unknown): value is Blob =>
@@ -121,6 +130,11 @@ const isFile = (value: unknown): value is File =>
   typeof value.name === 'string' &&
   isBlob(value);
 
+/**
+ * Appends a [`file` field](https://github.com/siren-js/spec-extensions#file-fields)
+ * to the given `entryList`
+ * @see appendEntry
+ */
 function appendFileUpload(entryList: EntryList, field: Field): void {
   const { name, files } = field;
   if (isArray(files)) {
@@ -143,9 +157,19 @@ function appendFileUpload(entryList: EntryList, field: Field): void {
 
 const emptyFile = () => new File([], '', { type: 'application/octet-stream' });
 
+/**
+ * Cross-platform type guard for `FileList`
+ */
 const isFileList = (value: unknown): value is FileList =>
   typeof FileList !== 'undefined' && value instanceof FileList;
 
+/**
+ * Appends the first [checked](https://github.com/siren-js/spec-extensions#checked-1)
+ * [radio button](https://github.com/siren-js/spec-extensions#radio-object) of a
+ * [`radio` field](https://github.com/siren-js/spec-extensions#radio-fields) to
+ * the given `entryList`
+ * @see appendEntry
+ */
 function appendRadioButton(entryList: EntryList, field: Field): void {
   if (isArray(field.group)) {
     const radio = <UnknownRecord | undefined>field.group.find(isCheckedRadio);
@@ -158,6 +182,13 @@ function appendRadioButton(entryList: EntryList, field: Field): void {
 const isCheckedRadio = (value: unknown): value is UnknownRecord =>
   isRecord(value) && !!value.checked;
 
+/**
+ * Appends all [selected](https://github.com/siren-js/spec-extensions#selected)
+ * [`options`](https://github.com/siren-js/spec-extensions#options) of a
+ * [`select` field](https://github.com/siren-js/spec-extensions#select-fields) to
+ * the given `entryList`
+ * @see appendEntry
+ */
 function appendSelect(entryList: EntryList, field: Field): void {
   if (isArray(field.options)) {
     field.options.forEach((option) => {
@@ -178,6 +209,12 @@ const isSelectedOption = (value: unknown): value is UnknownRecord =>
 const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
 
+/**
+ * Appends a [`textarea` field](https://github.com/siren-js/spec-extensions#textarea-fields)
+ * to the given `entryList`, with its `value`'s newline's normalized
+ * @see appendEntry
+ * @see normalizeNewlines
+ */
 function appendTextArea(entryList: EntryList, field: Field) {
   const value = normalizeNewlines(coerceToString(field.value));
   appendEntry(entryList, field.name, value);
@@ -187,8 +224,8 @@ const coerceToString = (value: unknown, defaultValue: unknown = '') =>
   String(value ?? defaultValue);
 
 /**
- * Normalizes the newlines of a string as defined in WHATWG's
- * [Infra standard](https://infra.spec.whatwg.org)
+ * [Normalizes newlines](https://infra.spec.whatwg.org/#normalize-newlines) of a
+ * string as defined in WHATWG's Infra standard
  */
 const normalizeNewlines = (s: string): string =>
   s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
