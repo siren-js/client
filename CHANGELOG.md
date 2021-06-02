@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
-## 0.3.0
+## 0.3.0 - 2021-06-02
 
 ### Added
 
@@ -21,10 +21,9 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ### Changed
 
-- Fields' `name` and `value` properties have their line breaks normalized and
-  are [converted] according to [HTML rules][aae].
+- When creating entries for action submission, fields' `name` and `value`
+  properties are [converted] according to the HTML standard.
 
-[aae]: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#append-an-entry
 [converted]: https://infra.spec.whatwg.org/#javascript-string-convert
 
 ## 0.2.1 - 2021-05-19
