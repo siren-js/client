@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
+## 0.3.1
+
+### Changed
+
+- Using `@web-std/file` in place of `web-file-polyfill` (fixes [#6])
+
+[#6]: https://github.com/siren-js/client/issues/6
+
 ## 0.3.0 - 2021-06-02
 
 ### Added

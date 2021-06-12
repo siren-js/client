@@ -1,6 +1,6 @@
 import { Action, Field } from '@siren-js/core';
 import { isRecord, UnknownRecord } from '@siren-js/core/dist/util/type-guard';
-import { File } from 'web-file-polyfill';
+import { File } from '@web-std/file';
 
 /**
  * Represents an [entry](https://xhr.spec.whatwg.org/#concept-formdata-entry) as
