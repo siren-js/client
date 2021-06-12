@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
-import { File } from 'web-file-polyfill';
+import { File } from '@web-std/file';
 import {
   Entry,
   EntryList,
@@ -286,6 +286,7 @@ describe('constructing the entry list', () => {
 
       expect(entryList).toHaveLength(3);
       for (const { value } of entryList) {
+        expect(value).toBeInstanceOf(File);
         expect((<File>value).name).toBe('');
         expect((<File>value).type).toBe('application/octet-stream');
         await expect((<File>value).text()).resolves.toBe('');
