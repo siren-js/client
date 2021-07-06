@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
+## 0.4.0
+
+### Added
+
+- Support for custom serializers
+
 ## 0.3.1 - 2021-06-12
 
 ### Changed

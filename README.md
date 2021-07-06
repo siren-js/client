@@ -15,9 +15,10 @@ servers. Built on top of the [core Siren.js library][core].
 - [Installation](#installation)
 - [Development Release](#development-release)
 - [Getting Started](#getting-started)
-- [HTTP Headers](#http-headers)
 - [Following Links](#following-links)
 - [Submitting Actions](#submitting-actions)
+  - [Customizing Field Serialization](#customizing-field-serialization)
+- [Customizing HTTP Headers](#customizing-http-headers)
 - [Contributing](#contributing)
 
 ## Installation
@@ -67,45 +68,11 @@ if (response.headers.get('Content-Type') === 'application/vnd.siren+json') {
 }
 ```
 
-## HTTP Headers
-
-The `headers` property lets you specify HTTP headers to include in each request.
-
-[headers]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
-
-You can initialize this at runtime:
-
-```js
-new SirenClient({
-  headers: {
-    'Api-Key': 'abcdefghijklmnopqrstuvwxyz',
-    Authorization: 'Bearer abc.efg.hij'
-  }
-});
-```
-
-Or you can modify the property via the [`Headers`][headers] interface:
-
-```js
-client.headers.set('Authorization', 'Bearer klm.nop.qrs');
-```
-
-By default, the `Accept` header is set to the following preference string:
-
-```text
-application/vnd.siren+json,application/json;q=0.9,*/*;q=0.8
-```
-
-This can of course be overwritten via either the options object or the property.
-The default value is made available by the static constant
-`SirenClient.DEFAULT_ACCEPT_PREFERENCE`.
-
 ## Following Links
 
 The `follow()` method lets you follow [links][link].
 
 [link]: https://github.com/kevinswiber/siren#links-1
-[embedded-link]: https://github.com/kevinswiber/siren#embedded-link
 
 ```js
 // look up item links
@@ -119,6 +86,8 @@ if (link) {
 
 You can also follow [embedded links][embedded-link].
 
+[embedded-link]: https://github.com/kevinswiber/siren#embedded-link
+
 ```js
 const [link] = entity.getEntitiesByRel('item');
 if (link) {
@@ -129,10 +98,11 @@ if (link) {
 ## Submitting Actions
 
 The `submit()` method will convert an [action] into and make an HTTP request
-based on the `href`, `method`, and `type` (currently only
-`application/x-www-form-urlencoded` is supported).
+based on the `href` and `method`. Fields are serialized based on the action's
+`type`.
 
 [action]: https://github.com/kevinswiber/siren#actions-1
+[ext]: https://github.com/siren-js/spec-extensions#action-submission-algorithm
 
 ```js
 const action = entity.getActionByName('add-item');
@@ -146,14 +116,98 @@ if (action) {
 }
 ```
 
-The following field types are submitted according to our
-[Siren extensions](https://github.com/siren-js/spec-extensions):
+By default, actions are submitted according to our [Siren extensions][ext], but
+this is [customizable](#customizing-field-serialization). Out of the box, the
+client supports submitting an action whose `type` is
+`application/x-www-form-urlencoded` (default), `multipart/form-data`, or
+`text/plain`. Additionally, it supports the following field types:
 
 - [`checkbox`](https://github.com/siren-js/spec-extensions#checkbox-fields)
 - [`file`](https://github.com/siren-js/spec-extensions#file-fields)
 - [`radio`](https://github.com/siren-js/spec-extensions#radio-fields)
 - [`select`](https://github.com/siren-js/spec-extensions#select-fields)
 - [`textarea`](https://github.com/siren-js/spec-extensions#textarea-fields)
+
+### Customizing Field Serialization
+
+The client lets you customize how fields are serialized for
+[action submission](#submitting-actions) based on its `type`. There are two ways
+to configure serializers: constructor initialization or the `serializers`
+property.
+
+For constructor initialization, pass an object to the constructor with a
+`serializers` member. The value can be an object, an array of key-value pairs,
+or a `Serializers` instance. Regardless of the specific data structure, keys are
+media type strings and values are serializers, which are functions from `Action`
+to [`BodyInit`][bodyinit].
+
+[bodyinit]: https://fetch.spec.whatwg.org/#bodyinit-unions
+
+Here's an example using an object:
+
+```js
+new SirenClient({
+  serializers: {
+    'application/json': (action) => {
+      const fields = action.fields ?? [];
+      const obj = fields.reduce((obj, field) => {
+        obj[field.name] = field.value;
+        return obj;
+      }, {});
+      return JSON.stringify(obj);
+    }
+  }
+});
+```
+
+Alternatively, use the `serializers` property, which is a `Serializers`
+instance:
+
+```js
+client.serializers.set('application/json', (action) => { /* ... */ });
+```
+
+The `Serializers` class is an extension of `Map` that only allows entries whose
+keys are valid media type strings and values are functions.
+
+## Customizing HTTP Headers
+
+The client lets you customize HTTP headers to include in each request (e.g., an
+API key or bearer token). There are two ways to configure headers: constructor
+initialization or the `headers` property.
+
+For constructor initialization, pass an object to the constructor with a
+`headers` member whose value is anything you can pass to the
+[`Headers`][headers] constructor.
+
+[headers]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
+
+```js
+new SirenClient({
+  headers: {
+    'Api-Key': 'abcdefghijklmnopqrstuvwxyz',
+    Authorization: 'Bearer abc.efg.hij'
+  }
+});
+```
+
+Alternatively, use the `headers` property on the client to modify HTTP headers
+using the `Headers` interface:
+
+```js
+client.headers.set('Authorization', 'Bearer klm.nop.qrs');
+```
+
+By default, an `Accept` header is included with the following preference string:
+
+```text
+application/vnd.siren+json,application/json;q=0.9,*/*;q=0.8
+```
+
+You can overwrite or remove this via the `headers` property, or you can
+overwrite it by including your own `Accept` header in the constructor options.
+The default value is made available by the static constant
+`SirenClient.DEFAULT_ACCEPT_PREFERENCE`.
 
 ## Contributing
 

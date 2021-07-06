@@ -1,6 +1,6 @@
 {
   "name": "@siren-js/client",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Client class for communicating with Siren APIs",
   "files": [
     "/dist"
@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/siren-js/client#readme",
   "dependencies": {
-    "@siren-js/core": "^0.3.1",
+    "@siren-js/core": "^0.3.2",
     "@web-std/file": "^1.1.0",
     "cross-fetch": "^3.1.4"
   },

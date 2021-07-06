@@ -2,6 +2,7 @@ import { Action, EmbeddedLink, Entity, Link } from '@siren-js/core';
 import { Headers } from 'cross-fetch';
 import nock from 'nock';
 import Client from '../client';
+import { Serializers } from '../serializer';
 import siren from './entity.json';
 
 const baseUrl = 'http://api.example.com';
@@ -22,7 +23,7 @@ afterEach(() => {
   nock.restore();
 });
 
-describe('SirenClient', () => {
+describe('Client', () => {
   let client: Client;
   let scope: nock.Scope;
 
@@ -65,6 +66,14 @@ describe('SirenClient', () => {
         expect(client.headers.get('Baz')).toBe('qux');
       });
 
+      it('should ignore unsupported type', () => {
+        client = new Client({
+          headers: 'foobar' as any
+        });
+
+        expect([...client.headers.entries()]).toHaveLength(1);
+      });
+
       it('should overwrite defaults', () => {
         const preference = 'application/xml';
         client = new Client({
@@ -72,6 +81,73 @@ describe('SirenClient', () => {
         });
 
         expect(client.headers.get('Accept')).toBe(preference);
+      });
+    });
+  });
+
+  describe('serializers', () => {
+    it('should have defaults', () => {
+      expect([...client.serializers.keys()]).toEqual([
+        'application/x-www-form-urlencoded'
+        // 'multipart/form-data',
+        // 'text/plain'
+      ]);
+    });
+
+    describe('initialization', () => {
+      const serializer = () => '';
+
+      it('should accept record', () => {
+        client = new Client({
+          serializers: {
+            'application/json': serializer,
+            'application/xml': serializer
+          }
+        });
+
+        expect(client.serializers.get('application/json')).toBe(serializer);
+        expect(client.serializers.get('application/xml')).toBe(serializer);
+      });
+
+      it('should accept pairs', () => {
+        client = new Client({
+          serializers: [
+            ['application/json', serializer],
+            ['application/xml', serializer]
+          ]
+        });
+
+        expect(client.serializers.get('application/json')).toBe(serializer);
+        expect(client.serializers.get('application/xml')).toBe(serializer);
+      });
+
+      it('should accept Serializers', () => {
+        client = new Client({
+          serializers: new Serializers({
+            'application/json': serializer,
+            'application/xml': serializer
+          })
+        });
+
+        expect(client.serializers.get('application/json')).toBe(serializer);
+        expect(client.serializers.get('application/xml')).toBe(serializer);
+      });
+
+      it('should ignore unsupported type', () => {
+        client = new Client({
+          serializers: 'foobar' as any
+        });
+
+        expect(client.serializers.size).toBe(1);
+      });
+
+      it('should overwrite defaults', () => {
+        const mediaType = 'application/x-www-form-urlencoded';
+        client = new Client({
+          serializers: { [mediaType]: serializer }
+        });
+
+        expect(client.serializers.get(mediaType)).toBe(serializer);
       });
     });
   });
@@ -228,53 +304,145 @@ describe('SirenClient', () => {
       expect(response.ok).toBe(true);
     });
 
-    it('should submit fields as query string when method is GET or DELETE', async () => {
-      const path = '/foos?query=lorem+ipsum&page=42';
-      scope = nock(baseUrl).get(path).reply(204).delete(path).reply(204);
-      const action = new Action('foo', `${baseUrl}/foos`, {
-        fields: [
-          { name: 'query', value: 'lorem ipsum' },
-          { name: 'page', value: 42 }
-        ]
+    describe('default application/x-www-form-urlencoded serializer', () => {
+      const urlEncodedForm = 'query=lorem+ipsum&page=42';
+      const path = '/foos';
+      const uri = `${path}?${urlEncodedForm}`;
+      let action: Action;
+
+      beforeEach(() => {
+        action = new Action('foo', `${baseUrl}/foos`, {
+          fields: [
+            { name: 'query', value: 'lorem ipsum' },
+            { name: 'page', value: 42 }
+          ]
+        });
       });
 
-      const methods = ['GET', 'DELETE'];
-      for (const method of methods) {
-        action.method = method;
+      it('should use as the default type', async () => {
+        scope = nock(baseUrl).get(uri).reply(204);
 
         const response = await client.submit(action);
 
         expect(response.ok).toBe(true);
-      }
+      });
+
+      it('should enforce for methods with undefined payload semantics', async () => {
+        scope = nock(baseUrl).get(uri).reply(204);
+        action.type = 'application/json';
+
+        const response = await client.submit(action);
+
+        expect(response.ok).toBe(true);
+      });
+
+      it('should serialize fields in payload for methods that support one', async () => {
+        const reqheaders = requestHeaderMatcher(
+          'application/x-www-form-urlencoded'
+        );
+        scope = nock(baseUrl, { reqheaders })
+          .post(path, urlEncodedForm)
+          .reply(204);
+        action.method = 'POST';
+
+        const response = await client.submit(action);
+
+        expect(response.ok).toBe(true);
+      });
     });
 
-    it('should submit fields as body for other methods', async () => {
-      const path = '/foos';
-      const body = 'title=lorem+ipsum&price=42';
-      scope = nock(baseUrl, {
-        reqheaders: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      })
-        .post(path, body)
-        .reply(204)
-        .put(path, body)
-        .reply(204)
-        .patch(path, body)
-        .reply(204);
-      const action = new Action('foo', `${baseUrl}/foos`, {
-        fields: [
-          { name: 'title', value: 'lorem ipsum' },
-          { name: 'price', value: 42 }
-        ]
+    // describe('default multipart/form-data serializer', () => {
+    //   const type = 'multipart/form-data';
+    //   const action = new Action('foo', `${baseUrl}/foos`, {
+    //     type,
+    //     method: 'POST',
+    //     fields: [
+    //       { name: 'query', value: 'lorem ipsum' },
+    //       { name: 'page', value: 42 }
+    //     ]
+    //   });
+    // });
+
+    // describe('default text/plain serializer', () => {
+    //   const type = 'text/plain';
+    //   const action = new Action('foo', `${baseUrl}/foos`, {
+    //     type,
+    //     method: 'POST',
+    //     fields: [
+    //       { name: 'query', value: 'lorem ipsum' },
+    //       { name: 'page', value: 42 }
+    //     ]
+    //   });
+    // });
+
+    describe('custom serializers', () => {
+      let action: Action;
+      const type = 'application/json';
+      const body = JSON.stringify({
+        query: 'lorem ipsum',
+        page: 42
       });
 
-      const methods = ['POST', 'PUT', 'PATCH'];
-      for (const method of methods) {
-        action.method = method;
+      beforeEach(() => {
+        action = new Action('foo', baseUrl, {
+          type,
+          method: 'POST',
+          fields: [
+            { name: 'query', value: 'lorem ipsum' },
+            { name: 'page', value: 42 }
+          ]
+        });
+      });
+
+      it('should use when present', async () => {
+        client.serializers.set(type, () => ({
+          contentType: type,
+          body
+        }));
+        const reqheaders = requestHeaderMatcher(type);
+        scope = nock(baseUrl, { reqheaders }).post('/', body).reply(204);
 
         const response = await client.submit(action);
 
         expect(response.ok).toBe(true);
-      }
+      });
+
+      it('should default Content-Type to plain text', async () => {
+        client.serializers.set(type, () => ({ body }));
+        const reqheaders = requestHeaderMatcher('text/plain');
+        scope = nock(baseUrl, { reqheaders }).post('/', body).reply(204);
+
+        const response = await client.submit(action);
+
+        expect(response.ok).toBe(true);
+      });
+
+      it('should error when no serializer present for type', async () => {
+        await expect(client.submit(action)).rejects.toThrow();
+
+        action.method = 'GET';
+        action.type = 'application/x-www-form-urlencoded';
+        client.serializers.delete(action.type);
+
+        await expect(client.submit(action)).rejects.toThrow();
+      });
+
+      it('should not error when no fields present', async () => {
+        action.fields = undefined;
+        scope = nock(baseUrl).post('/').reply(204);
+
+        const response = await client.submit(action);
+
+        expect(response.ok).toBe(true);
+      });
     });
   });
 });
+
+function requestHeaderMatcher(
+  mediaType: string
+): Record<string, nock.RequestHeaderMatcher> {
+  return {
+    'Content-Type': RegExp(`^${mediaType}`)
+  };
+}
