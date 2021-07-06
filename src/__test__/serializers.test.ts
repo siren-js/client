@@ -14,7 +14,7 @@ describe('Serializers', () => {
         [mediaType, serializer],
         ['application/xml', serializer]
       ];
-  
+
       const serializers = new Serializers(pairs);
 
       expect([...serializers.entries()]).toEqual(pairs);

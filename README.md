@@ -164,7 +164,9 @@ Alternatively, use the `serializers` property, which is a `Serializers`
 instance:
 
 ```js
-client.serializers.set('application/json', (action) => { /* ... */ });
+client.serializers.set('application/json', (action) => {
+  /* ... */
+});
 ```
 
 The `Serializers` class is an extension of `Map` that only allows entries whose

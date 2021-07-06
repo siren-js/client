@@ -1,4 +1,4 @@
-import { isRecord } from "@siren-js/core/dist/util/type-guard";
+import { isRecord } from '@siren-js/core/dist/util/type-guard';
 
 export function merge<T>(
   target: Target<T>,

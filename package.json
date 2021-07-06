@@ -60,6 +60,7 @@
     "preset": "ts-jest"
   },
   "prettier": {
+    "endOfLine": "crlf",
     "singleQuote": true,
     "trailingComma": "none"
   }
