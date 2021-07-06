@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 - Support for custom serializers
 
+### Changed
+
+- Upgraded `@siren-js/core` to v0.3.2
+
 ## 0.3.1 - 2021-06-12
 
 ### Changed
