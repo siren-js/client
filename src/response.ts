@@ -80,7 +80,7 @@ export default class ClientResponse implements Response {
   }
 
   formData() {
-    // TODO: formData is not defined on `Response`
+    /* istanbul ignore next: formData method is undefined in the implementation */
     return this.#response.formData();
   }
 

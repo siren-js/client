@@ -113,7 +113,10 @@ function appendFileUpload(entryList: EntryList, field: Field): void {
     } else {
       appendEntry(entryList, name, emptyFile());
     }
-  } else if (isFileList(files) && files.length > 0) {
+  } /* istanbul ignore next: can't test in Node */ else if (
+    isFileList(files) &&
+    files.length > 0
+  ) {
     [...files].forEach((file) => {
       appendEntry(entryList, name, file);
     });
@@ -127,6 +130,7 @@ const emptyFile = () => new File([], '', { type: 'application/octet-stream' });
 /**
  * Cross-platform type guard for `FileList`
  */
+/* istanbul ignore next: can't test in Node */
 const isFileList = (value: unknown): value is FileList =>
   typeof FileList !== 'undefined' && value instanceof FileList;
 
