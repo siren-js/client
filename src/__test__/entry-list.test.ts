@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
 import { File } from '@web-std/file';
-import {
-  Entry,
-  EntryList,
-  EntryValue,
-  toEntryList,
-  toURLSearchParams
-} from '../entry';
+import { EntryList, EntryValue, toEntryList } from '../entry-list';
 
-const toNameValuePairs = (entryList: EntryList): [string, EntryValue][] =>
+const toRawPairs = (entryList: EntryList): [string, EntryValue][] =>
   entryList.map(({ name, value }) => [name, value]);
 
 describe('constructing the entry list', () => {
@@ -19,7 +13,7 @@ describe('constructing the entry list', () => {
     });
   });
 
-  it('should convert fields to entry list', () => {
+  it('should use value for text-based field types', () => {
     const bio = `
       English half-blood wizard. One of the most famous wizards of modern times.
       Boy Who Lived. Chosen One. Auror.
@@ -79,7 +73,7 @@ describe('constructing the entry list', () => {
 
     const entryList = toEntryList(action);
 
-    expect(toNameValuePairs(entryList)).toEqual([
+    expect(toRawPairs(entryList)).toEqual([
       ['source', 'mobile'],
       ['fullName', 'Harry Potter'],
       ['quest', 'destroy the horcruxes'],
@@ -103,6 +97,37 @@ describe('constructing the entry list', () => {
     ]);
   });
 
+  it('should create entry for first checked radio button', () => {
+    const action = new Action('foo', '/foo', {
+      fields: [
+        {
+          name: 'foo',
+          type: 'radio',
+          group: [
+            { title: 'bar', value: 1, checked: true },
+            { title: 'baz', value: 2 }
+          ]
+        },
+        {
+          name: 'bar',
+          type: 'radio',
+          group: [
+            { title: 'foo', value: 0, checked: true },
+            { title: 'baz', value: 2, checked: true }
+          ]
+        }
+      ]
+    });
+
+    const entryList = toEntryList(action);
+
+    expect(entryList).toHaveLength(2);
+    expect(entryList[0].name).toBe('foo');
+    expect(entryList[0].value).toBe('1');
+    expect(entryList[1].name).toBe('bar');
+    expect(entryList[1].value).toBe('0');
+  });
+
   it('should covert field names and values to scalar value strings', () => {
     const nonScalar = '\uD7FE\uD7FF\uD800\uD801\uDFFE\uDFFF\uE000\uE001';
     const action = new Action('foo', '/foo', {
@@ -115,20 +140,6 @@ describe('constructing the entry list', () => {
     expect(entryList).toHaveLength(1);
     expect(entryList[0].name).toBe(scalar);
     expect(entryList[0].value).toBe(scalar);
-  });
-
-  it("should normalize newlines of textarea field's value", () => {
-    const action = new Action('foo', '/foo', {
-      fields: [
-        { name: 'foo', type: 'textarea', value: '\nfoo\rbar\n\rbaz\r\n' }
-      ]
-    });
-
-    const entryList = toEntryList(action);
-
-    expect(entryList).toHaveLength(1);
-    expect(entryList[0].name).toBe('foo');
-    expect(entryList[0].value).toBe('\nfoo\nbar\n\nbaz\n');
   });
 
   it('should default value when undefined', () => {
@@ -154,7 +165,7 @@ describe('constructing the entry list', () => {
 
     const entryList = toEntryList(action);
 
-    expect(toNameValuePairs(entryList)).toEqual([
+    expect(toRawPairs(entryList)).toEqual([
       ['source', ''],
       ['fullName', ''],
       ['quest', ''],
@@ -223,26 +234,6 @@ describe('constructing the entry list', () => {
     expect(entryList).toEqual([]);
   });
 
-  it('should only include first checked radio button', () => {
-    const action = new Action('foo', '/foo', {
-      fields: [
-        {
-          name: 'foo',
-          type: 'radio',
-          group: [
-            { title: 'bar', value: 1, checked: true },
-            { title: 'baz', value: 2, checked: true }
-          ]
-        }
-      ]
-    });
-
-    const entryList = toEntryList(action);
-
-    expect(entryList).toHaveLength(1);
-    expect(entryList[0].value).toBe('1');
-  });
-
   it('should ignore radio button with invalid or missing group', () => {
     const action = new Action('foo', '/foo', {
       fields: [
@@ -268,9 +259,7 @@ describe('constructing the entry list', () => {
 
       const entryList = toEntryList(action);
 
-      expect(toNameValuePairs(entryList)).toEqual(
-        files.map((file) => ['foo', file])
-      );
+      expect(toRawPairs(entryList)).toEqual(files.map((file) => ['foo', file]));
     });
 
     it('should add empty file when files is empty, missing, or invalid', async () => {
@@ -295,7 +284,7 @@ describe('constructing the entry list', () => {
   });
 
   describe('select fields', () => {
-    it('should include all selected select options', () => {
+    it('should create entry for each selected select options', () => {
       const action = new Action('foo', '/foo', {
         fields: [
           {
@@ -314,7 +303,7 @@ describe('constructing the entry list', () => {
 
       const entryList = toEntryList(action);
 
-      expect(toNameValuePairs(entryList)).toEqual([
+      expect(toRawPairs(entryList)).toEqual([
         ['foo', 'foo'],
         ['foo', 'baz'],
         ['foo', 'qux']
@@ -361,7 +350,7 @@ describe('constructing the entry list', () => {
 
       const entryList = toEntryList(action);
 
-      expect(toNameValuePairs(entryList)).toEqual([
+      expect(toRawPairs(entryList)).toEqual([
         ['foo', 'Foo'],
         ['foo', 'Bar']
       ]);
@@ -384,7 +373,7 @@ describe('constructing the entry list', () => {
 
       const entryList = toEntryList(action);
 
-      expect(toNameValuePairs(entryList)).toEqual([
+      expect(toRawPairs(entryList)).toEqual([
         ['foo', 'foo'],
         ['foo', 'Bar']
       ]);
@@ -421,17 +410,5 @@ describe('constructing the entry list', () => {
 
       expect(entryList).toEqual([]);
     });
-  });
-});
-
-describe('toURLSearchParams', () => {
-  it('should use file name', () => {
-    const entryList = [
-      new Entry('foo', new File(['foo'], 'foo.txt', { type: 'text/plain' }))
-    ];
-
-    const searchParams = toURLSearchParams(entryList);
-
-    expect(searchParams.get('foo')).toBe('foo.txt');
   });
 });

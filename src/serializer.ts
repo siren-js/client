@@ -3,7 +3,9 @@ import {
   isMediaTypeString,
   isRecord
 } from '@siren-js/core/dist/util/type-guard';
+import { toEntryList } from './entry-list';
 import { merge } from './merge';
+import { toNameValuePairs } from './name-value-pairs';
 
 export type Serializer = (
   action: Action
@@ -23,6 +25,14 @@ export function isSerialization(value: unknown): value is Serialization {
 }
 
 export class Serializers extends Map<string, Serializer> {
+  static get URL_ENCODED_FORM_DATA(): Serializer {
+    return (action) => {
+      const entryList = toEntryList(action);
+      const nameValuePairs = toNameValuePairs(entryList);
+      return new URLSearchParams(nameValuePairs);
+    }
+  }
+
   constructor(init?: SerializersInit) {
     super();
     if (init != null) {

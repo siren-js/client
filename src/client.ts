@@ -2,7 +2,6 @@ import { Action, Link } from '@siren-js/core';
 import { isRecord, isString } from '@siren-js/core/dist/util/type-guard';
 import fetch, { Headers } from 'cross-fetch';
 import { ActionLike } from './common';
-import { toEntryList, toURLSearchParams } from './entry';
 import { merge } from './merge';
 import ClientResponse from './response';
 import { isSerialization, Serializers, SerializersInit } from './serializer';
@@ -19,8 +18,7 @@ export default class Client {
   });
 
   #serializers = new Serializers({
-    'application/x-www-form-urlencoded': (action) =>
-      toURLSearchParams(toEntryList(action))
+    'application/x-www-form-urlencoded': Serializers.URL_ENCODED_FORM_DATA
     // 'multipart/form-data': (action) => '',
     // 'text/plain': (action) => ''
   });

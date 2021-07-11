@@ -19,6 +19,11 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 ### Changed
 
 - Upgraded `@siren-js/core` to v0.3.2
+- Aligned newline normalization with HTML's algorithm for
+  [converting an entry list to a list of name-value pairs][el2nvp], which
+  normalizes newlines in fields' `name`s and values during action submission.
+
+[el2nvp]: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#converting-an-entry-list-to-a-list-of-name-value-pairs
 
 ## 0.3.1 - 2021-06-12
 
