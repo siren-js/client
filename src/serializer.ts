@@ -30,20 +30,17 @@ export class Serializers extends Map<string, Serializer> {
     }
   }
 
-  /* istanbul ignore next */
-  /* customizing parameter name */
+  /* istanbul ignore next: customizing parameter name */
   delete(mediaType: string): boolean {
     return super.delete(mediaType);
   }
 
-  /* istanbul ignore next */
-  /* customizing parameter name */
+  /* istanbul ignore next: customizing parameter name */
   get(mediaType: string): Serializer | undefined {
     return super.get(mediaType);
   }
 
-  /* istanbul ignore next */
-  /* customizing parameter name */
+  /* istanbul ignore next: customizing parameter name */
   has(mediaType: string): boolean {
     return super.has(mediaType);
   }
