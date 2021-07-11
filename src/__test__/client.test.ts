@@ -88,9 +88,9 @@ describe('Client', () => {
   describe('serializers', () => {
     it('should have defaults', () => {
       expect([...client.serializers.keys()]).toEqual([
-        'application/x-www-form-urlencoded'
+        'application/x-www-form-urlencoded',
         // 'multipart/form-data',
-        // 'text/plain'
+        'text/plain'
       ]);
     });
 
@@ -138,7 +138,7 @@ describe('Client', () => {
           serializers: 'foobar' as any
         });
 
-        expect(client.serializers.size).toBe(1);
+        expect(client.serializers.size).toBe(2);
       });
 
       it('should overwrite defaults', () => {
@@ -327,7 +327,7 @@ describe('Client', () => {
         expect(response.ok).toBe(true);
       });
 
-      it('should enforce for methods with undefined payload semantics', async () => {
+      it('should be enforced for methods with undefined payload semantics', async () => {
         scope = nock(baseUrl).get(uri).reply(204);
         action.type = 'application/json';
 
@@ -363,17 +363,28 @@ describe('Client', () => {
     //   });
     // });
 
-    // describe('default text/plain serializer', () => {
-    //   const type = 'text/plain';
-    //   const action = new Action('foo', `${baseUrl}/foos`, {
-    //     type,
-    //     method: 'POST',
-    //     fields: [
-    //       { name: 'query', value: 'lorem ipsum' },
-    //       { name: 'page', value: 42 }
-    //     ]
-    //   });
-    // });
+    describe('default text/plain serializer', () => {
+      const type = 'text/plain';
+      const action = new Action('foo', `${baseUrl}/foos`, {
+        type,
+        method: 'POST',
+        fields: [
+          { name: 'query', value: 'lorem ipsum' },
+          { name: 'page', value: 42 }
+        ]
+      });
+      const body = 'query=lorem ipsum\r\npage=42\r\n';
+
+      it('should serialize fields in payload', async () => {
+        const reqheaders = requestHeaderMatcher(type);
+        const status = 204;
+        scope = nock(baseUrl, { reqheaders }).post('/foos', body).reply(status);
+
+        const response = await client.submit(action);
+
+        expect(response.status).toBe(status);
+      });
+    });
 
     describe('custom serializers', () => {
       let action: Action;

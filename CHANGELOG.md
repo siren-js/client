@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 ### Added
 
 - Support for custom serializers
+- Default serializer for `text/plain` actions
 
 ### Changed
 

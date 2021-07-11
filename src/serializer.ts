@@ -25,12 +25,22 @@ export function isSerialization(value: unknown): value is Serialization {
 }
 
 export class Serializers extends Map<string, Serializer> {
+  static get PLAIN_TEXT_FORM_DATA(): Serializer {
+    return (action) => {
+      const entryList = toEntryList(action);
+      return toNameValuePairs(entryList).reduce(
+        (result, [name, value]) => `${result}${name}=${value}\r\n`,
+        ''
+      );
+    };
+  }
+
   static get URL_ENCODED_FORM_DATA(): Serializer {
     return (action) => {
       const entryList = toEntryList(action);
       const nameValuePairs = toNameValuePairs(entryList);
       return new URLSearchParams(nameValuePairs);
-    }
+    };
   }
 
   constructor(init?: SerializersInit) {

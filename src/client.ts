@@ -18,9 +18,9 @@ export default class Client {
   });
 
   #serializers = new Serializers({
-    'application/x-www-form-urlencoded': Serializers.URL_ENCODED_FORM_DATA
+    'application/x-www-form-urlencoded': Serializers.URL_ENCODED_FORM_DATA,
     // 'multipart/form-data': (action) => '',
-    // 'text/plain': (action) => ''
+    'text/plain': Serializers.PLAIN_TEXT_FORM_DATA
   });
 
   constructor(options?: ClientOptions) {
