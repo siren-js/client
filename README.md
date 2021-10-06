@@ -118,9 +118,15 @@ if (action) {
 
 By default, actions are submitted according to our [Siren extensions][ext], but
 this is [customizable](#customizing-field-serialization). Out of the box, the
-client supports submitting an action whose `type` is
-`application/x-www-form-urlencoded` (default), `multipart/form-data`, or
-`text/plain`. Additionally, it supports the following field types:
+client supports submitting an action whose `type` is either
+`application/x-www-form-urlencoded` or `text/plain`.
+
+> Unfortunately, due to limitations in the `node-fetch` package, there is
+> currently no default support for `multipart/form-data` actions. See
+> [this issue](https://github.com/siren-js/client/issues/8) for details.
+
+Additionally, the following field types are supported in the default
+serializers:
 
 - [`checkbox`](https://github.com/siren-js/spec-extensions#checkbox-fields)
 - [`file`](https://github.com/siren-js/spec-extensions#file-fields)
@@ -138,39 +144,49 @@ property.
 For constructor initialization, pass an object to the constructor with a
 `serializers` member. The value can be an object, an array of key-value pairs,
 or a `Serializers` instance. Regardless of the specific data structure, keys are
-media type strings and values are serializers, which are functions from `Action`
-to [`BodyInit`][bodyinit].
+media type strings and values are serializers, which are (possibly `async`)
+functions from an `Action` to either a [`BodyInit`][bodyinit] or a
+`Serialization`.
 
 [bodyinit]: https://fetch.spec.whatwg.org/#bodyinit-unions
 
-Here's an example using an object:
+A `Serialization` is an object with `body` and `mediaType` members used to
+customize the `Content-Type` header when the Fetch API cannot detect the correct
+media type from the body.
+
+Here's an example of customizing the client to handle JSON actions:
 
 ```js
 new SirenClient({
   serializers: {
     'application/json': (action) => {
       const fields = action.fields ?? [];
-      const obj = fields.reduce((obj, field) => {
-        obj[field.name] = field.value;
-        return obj;
-      }, {});
-      return JSON.stringify(obj);
+      const entries = fields.map(field => [field.name, field.value]);
+      const body = Object.fromEntries(entries);
+      return {
+        mediaType: 'application/json',
+        body
+      };
     }
   }
 });
 ```
 
-Alternatively, use the `serializers` property, which is a `Serializers`
-instance:
+Alternatively, you can use the `serializers` property, which is a `Serializers`
+instance, which is an extension of `Map` that only allows entries whose keys are
+valid media type strings and values are functions.
 
 ```js
 client.serializers.set('application/json', (action) => {
-  /* ... */
+  const fields = action.fields ?? [];
+  const entries = fields.map(field => [field.name, field.value]);
+  const body = Object.fromEntries(entries);
+  return {
+    mediaType: 'application/json',
+    body
+  };
 });
 ```
-
-The `Serializers` class is an extension of `Map` that only allows entries whose
-keys are valid media type strings and values are functions.
 
 ## Customizing HTTP Headers
 
