@@ -161,7 +161,7 @@ new SirenClient({
   serializers: {
     'application/json': (action) => {
       const fields = action.fields ?? [];
-      const entries = fields.map(field => [field.name, field.value]);
+      const entries = fields.map((field) => [field.name, field.value]);
       const body = Object.fromEntries(entries);
       return {
         mediaType: 'application/json',
@@ -179,7 +179,7 @@ valid media type strings and values are functions.
 ```js
 client.serializers.set('application/json', (action) => {
   const fields = action.fields ?? [];
-  const entries = fields.map(field => [field.name, field.value]);
+  const entries = fields.map((field) => [field.name, field.value]);
   const body = Object.fromEntries(entries);
   return {
     mediaType: 'application/json',
