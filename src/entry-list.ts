@@ -10,7 +10,7 @@ export type EntryList = Entry[];
 /**
  * Converts an `Action` to an `EntryList`. This is an implementation of the
  * algorithm for
- * [contructing the entry list](https://github.com/siren-js/spec-extensions#constructing-the-entry-list),
+ * [constructing the entry list](https://github.com/siren-js/spec-extensions#constructing-the-entry-list),
  * as defined in our Siren specification extensions.
  */
 export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
