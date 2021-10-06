@@ -89,7 +89,6 @@ describe('Client', () => {
     it('should have defaults', () => {
       expect([...client.serializers.keys()]).toEqual([
         'application/x-www-form-urlencoded',
-        // 'multipart/form-data',
         'text/plain'
       ]);
     });
@@ -350,18 +349,6 @@ describe('Client', () => {
         expect(response.ok).toBe(true);
       });
     });
-
-    // describe('default multipart/form-data serializer', () => {
-    //   const type = 'multipart/form-data';
-    //   const action = new Action('foo', `${baseUrl}/foos`, {
-    //     type,
-    //     method: 'POST',
-    //     fields: [
-    //       { name: 'query', value: 'lorem ipsum' },
-    //       { name: 'page', value: 42 }
-    //     ]
-    //   });
-    // });
 
     describe('default text/plain serializer', () => {
       const type = 'text/plain';
