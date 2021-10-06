@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, EmbeddedLink, Entity, Link } from '@siren-js/core';
 import { Headers } from 'cross-fetch';
 import nock from 'nock';
