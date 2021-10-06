@@ -89,11 +89,9 @@ export default class Client {
     const result = await serializer(Action.of(action));
     if (isSerialization(result)) {
       requestInit.body = result.body;
-      if (result.contentType != null) {
-        requestInit.headers = {
-          'Content-Type': result.contentType
-        };
-      }
+      requestInit.headers = {
+        'Content-Type': result.mediaType
+      };
     } else {
       requestInit.body = result;
     }

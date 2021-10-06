@@ -12,7 +12,7 @@ export type Serializer = (
 ) => BodyInit | Serialization | Promise<BodyInit | Serialization>;
 
 export interface Serialization {
-  contentType?: string;
+  mediaType: string;
   body: BodyInit;
 }
 

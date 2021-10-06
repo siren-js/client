@@ -394,20 +394,10 @@ describe('Client', () => {
 
       it('should use when present', async () => {
         client.serializers.set(type, () => ({
-          contentType: type,
+          mediaType: type,
           body
         }));
         const reqheaders = requestHeaderMatcher(type);
-        scope = nock(baseUrl, { reqheaders }).post('/', body).reply(204);
-
-        const response = await client.submit(action);
-
-        expect(response.ok).toBe(true);
-      });
-
-      it('should default Content-Type to plain text', async () => {
-        client.serializers.set(type, () => ({ body }));
-        const reqheaders = requestHeaderMatcher('text/plain');
         scope = nock(baseUrl, { reqheaders }).post('/', body).reply(204);
 
         const response = await client.submit(action);
