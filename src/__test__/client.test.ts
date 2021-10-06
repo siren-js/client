@@ -441,6 +441,6 @@ function requestHeaderMatcher(
   mediaType: string
 ): Record<string, nock.RequestHeaderMatcher> {
   return {
-    'Content-Type': RegExp(`^${mediaType}`)
+    'Content-Type': new RegExp(`^${mediaType}`)
   };
 }
