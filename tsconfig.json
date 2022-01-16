@@ -1,11 +1,9 @@
 {
-  "include": ["src/**/*"],
+  "include": ["**/*.ts"],
   "compilerOptions": {
-    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
-    "outDir": "dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

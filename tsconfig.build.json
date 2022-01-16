@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist"
+  },
   "extends": "./tsconfig.json",
-  "exclude": ["src/**/__test__"]
+  "exclude": ["**/*.spec.ts", "jest.config.ts"]
 }
