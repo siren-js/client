@@ -1,7 +1,7 @@
 import { Response } from 'cross-fetch';
 import { Entity } from '@siren-js/core';
-import ClientResponse from '../response';
-import siren from './entity.json';
+import ClientResponse from './response';
+import siren from '../test/entity.json';
 
 describe('SirenClientResponse', () => {
   const headers = [
@@ -75,9 +75,7 @@ describe('SirenClientResponse', () => {
 
   it('should delegate text()', async () => {
     const text = 'foobar';
-    clientResponse = new ClientResponse(
-      new Response(text, { headers: { 'Content-Type': 'text/plain' } })
-    );
+    clientResponse = new ClientResponse(new Response(text, { headers: { 'Content-Type': 'text/plain' } }));
 
     await expect(clientResponse.text()).resolves.toBe(text);
   });

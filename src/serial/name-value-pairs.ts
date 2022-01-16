@@ -1,4 +1,5 @@
 import { Entry, EntryList } from './entry-list';
+import normalizeNewlines from './normalize-newlines';
 
 /**
  * Implementation of the algorithm to
@@ -11,11 +12,6 @@ export function toNameValuePairs(entryList: EntryList): [string, string][] {
 
 function toNameValuePair(entry: Entry): [string, string] {
   const name = normalizeNewlines(entry.name);
-  const value =
-    typeof entry.value === 'string' ? entry.value : entry.value.name;
+  const value = typeof entry.value === 'string' ? entry.value : entry.value.name;
   return [name, normalizeNewlines(value)];
-}
-
-function normalizeNewlines(s: string): string {
-  return s.replace(/(?<!\r)\n|\r(?!\n)/g, '\r\n');
 }

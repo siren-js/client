@@ -1,10 +1,10 @@
 import { Action, Link } from '@siren-js/core';
 import { isRecord, isString } from '@siren-js/core/dist/util/type-guard';
-import fetch, { Headers } from 'cross-fetch';
+import { fetch, Headers } from 'cross-fetch';
 import { ActionLike } from './common';
 import { merge } from './merge';
 import ClientResponse from './response';
-import { isSerialization, Serializers, SerializersInit } from './serializer';
+import { isSerialization, Serializers, SerializersInit } from './serial';
 
 export { default as ClientResponse } from './response';
 
@@ -19,6 +19,7 @@ export default class Client {
 
   #serializers = new Serializers({
     'application/x-www-form-urlencoded': Serializers.URL_ENCODED_FORM_DATA,
+    'multipart/form-data': Serializers.MULTIPART_FORM_DATA,
     'text/plain': Serializers.PLAIN_TEXT_FORM_DATA
   });
 
@@ -45,9 +46,7 @@ export default class Client {
   }
 
   follow(link: LinkLike): Promise<ClientResponse> {
-    return isLinkLike(link)
-      ? this.fetch(link.href)
-      : Promise.reject('cannot follow a link without an href');
+    return isLinkLike(link) ? this.fetch(link.href) : Promise.reject('cannot follow a link without an href');
   }
 
   async submit(action: ActionLike): Promise<ClientResponse> {
@@ -65,22 +64,15 @@ export default class Client {
   }
 
   private async serializeToQuery(action: Action, url: URL): Promise<void> {
-    const serializer = this.#serializers.get(
-      'application/x-www-form-urlencoded'
-    );
+    const serializer = this.#serializers.get('application/x-www-form-urlencoded');
     if (serializer == null) {
-      throw new Error(
-        'No serializer found for application/x-www-form-urlencoded'
-      );
+      throw new Error('No serializer found for application/x-www-form-urlencoded');
     }
     const serialization = await serializer(action);
     url.search = serialization.toString();
   }
 
-  private async serializeToBody(
-    action: Action,
-    requestInit: RequestInit
-  ): Promise<void> {
+  private async serializeToBody(action: Action, requestInit: RequestInit): Promise<void> {
     const mimeType = action.type ?? 'application/x-www-form-urlencoded';
     const serializer = this.#serializers.get(mimeType);
     if (serializer == null) {
@@ -106,11 +98,7 @@ export interface ClientOptions {
 export type HeadersInit = Headers | [string, string][] | Record<string, string>;
 
 function mergeHeaders(target: Headers, source: HeadersInit): void {
-  merge(
-    target,
-    source,
-    (source): source is Headers => source instanceof Headers
-  );
+  merge(target, source, (source): source is Headers => source instanceof Headers);
 }
 
 function makeRequestInit(headers: Headers, init?: RequestInit): RequestInit {

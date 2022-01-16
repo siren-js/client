@@ -45,10 +45,7 @@ export function toEntryList(action: Pick<Action, 'fields'>): EntryList {
 const isArray: (x: unknown) => x is unknown[] = Array.isArray;
 
 const isSkippableField = (field: Field): boolean =>
-  field.name == null ||
-  field.name === '' ||
-  !!field.disabled ||
-  field.type === 'image';
+  field.name == null || field.name === '' || !!field.disabled || field.type === 'image';
 
 /**
  * Appends a [`checkbox` field](https://github.com/siren-js/spec-extensions#checkbox-fields)
@@ -67,11 +64,7 @@ function appendCheckbox(entryList: EntryList, field: Field): void {
  * [append an entry](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#append-an-entry)
  * to `entryList` given a `name` and a `value`, as defined in the HTML standard.
  */
-function appendEntry(
-  entryList: EntryList,
-  name: string,
-  value: EntryValue
-): void {
+function appendEntry(entryList: EntryList, name: string, value: EntryValue): void {
   name = convert(name);
   value = typeof value === 'string' ? convert(value) : value;
   entryList.push(new Entry(name, value));
@@ -92,10 +85,7 @@ const isBlob = (value: unknown): value is Blob =>
   typeof value.text === 'function';
 
 const isFile = (value: unknown): value is File =>
-  isRecord(value) &&
-  typeof value.lastModified === 'number' &&
-  typeof value.name === 'string' &&
-  isBlob(value);
+  isRecord(value) && typeof value.lastModified === 'number' && typeof value.name === 'string' && isBlob(value);
 
 /**
  * Appends a [`file` field](https://github.com/siren-js/spec-extensions#file-fields)
@@ -113,10 +103,7 @@ function appendFileUpload(entryList: EntryList, field: Field): void {
     } else {
       appendEntry(entryList, name, emptyFile());
     }
-  } /* istanbul ignore next: can't test in Node */ else if (
-    isFileList(files) &&
-    files.length > 0
-  ) {
+  } /* istanbul ignore next: can't test in Node */ else if (isFileList(files) && files.length > 0) {
     [...files].forEach((file) => {
       appendEntry(entryList, name, file);
     });
@@ -131,8 +118,7 @@ const emptyFile = () => new File([], '', { type: 'application/octet-stream' });
  * Cross-platform type guard for `FileList`
  */
 /* istanbul ignore next: can't test in Node */
-const isFileList = (value: unknown): value is FileList =>
-  typeof FileList !== 'undefined' && value instanceof FileList;
+const isFileList = (value: unknown): value is FileList => typeof FileList !== 'undefined' && value instanceof FileList;
 
 /**
  * Appends the first [checked](https://github.com/siren-js/spec-extensions#checked-1)
@@ -150,8 +136,7 @@ function appendRadioButton(entryList: EntryList, field: Field): void {
   }
 }
 
-const isCheckedRadio = (value: unknown): value is UnknownRecord =>
-  isRecord(value) && !!value.checked;
+const isCheckedRadio = (value: unknown): value is UnknownRecord => isRecord(value) && !!value.checked;
 
 /**
  * Appends all [selected](https://github.com/siren-js/spec-extensions#selected)
@@ -164,24 +149,16 @@ function appendSelect(entryList: EntryList, field: Field): void {
   if (isArray(field.options)) {
     field.options.forEach((option) => {
       if (isSelectedOption(option)) {
-        appendEntry(
-          entryList,
-          field.name,
-          coerceToString(option.value, option.title)
-        );
+        appendEntry(entryList, field.name, coerceToString(option.value, option.title));
       }
     });
   }
 }
 
 const isSelectedOption = (value: unknown): value is UnknownRecord =>
-  isRecord(value) &&
-  isPrimitive(value.title) &&
-  !!value.selected &&
-  !value.disabled;
+  isRecord(value) && isPrimitive(value.title) && !!value.selected && !value.disabled;
 
 const isPrimitive = (value: unknown): value is string | number | boolean =>
   ['string', 'number', 'boolean'].includes(typeof value);
 
-const coerceToString = (value: unknown, defaultValue: unknown = '') =>
-  String(value ?? defaultValue);
+const coerceToString = (value: unknown, defaultValue: unknown = '') => String(value ?? defaultValue);

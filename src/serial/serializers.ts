@@ -1,37 +1,25 @@
-import { Action } from '@siren-js/core';
-import {
-  isMediaTypeString,
-  isRecord
-} from '@siren-js/core/dist/util/type-guard';
+import { isMediaTypeString } from '@siren-js/core/dist/util/type-guard';
+
+import { merge } from '../merge';
 import { toEntryList } from './entry-list';
-import { merge } from './merge';
+import { toMultipartFormData } from './multipart-form-data';
 import { toNameValuePairs } from './name-value-pairs';
+import { Serializer } from './serializer';
 
-export type Serializer = (
-  action: Action
-) => BodyInit | Serialization | Promise<BodyInit | Serialization>;
-
-export interface Serialization {
-  mediaType: string;
-  body: BodyInit;
-}
-
-export function isSerialization(value: unknown): value is Serialization {
-  return (
-    isRecord(value) &&
-    (typeof value.contentType === 'string' || value.contentType == null) &&
-    (typeof value.body === 'object' || typeof value.body === 'string')
-  );
-}
+export { Serializer } from './serializer';
 
 export class Serializers extends Map<string, Serializer> {
+  static get MULTIPART_FORM_DATA(): Serializer {
+    return (action) => {
+      const entryList = toEntryList(action);
+      return toMultipartFormData(entryList);
+    };
+  }
+
   static get PLAIN_TEXT_FORM_DATA(): Serializer {
     return (action) => {
       const entryList = toEntryList(action);
-      return toNameValuePairs(entryList).reduce(
-        (result, [name, value]) => `${result}${name}=${value}\r\n`,
-        ''
-      );
+      return toNameValuePairs(entryList).reduce((result, [name, value]) => `${result}${name}=${value}\r\n`, '');
     };
   }
 
@@ -76,16 +64,8 @@ export class Serializers extends Map<string, Serializer> {
   }
 
   merge(that: SerializersInit): void {
-    merge(
-      this,
-      that,
-      (source): source is Serializers =>
-        source instanceof Serializers || source instanceof Map
-    );
+    merge(this, that, (source): source is Serializers => source instanceof Serializers || source instanceof Map);
   }
 }
 
-export type SerializersInit =
-  | [string, Serializer][]
-  | Record<string, Serializer>
-  | Serializers;
+export type SerializersInit = [string, Serializer][] | Record<string, Serializer> | Serializers;
