@@ -46,7 +46,6 @@ describe('SirenClientResponse', () => {
     expect(clientResponse.redirected).toBe(response.redirected);
     expect(clientResponse.status).toBe(response.status);
     expect(clientResponse.statusText).toBe(response.statusText);
-    expect(clientResponse.trailer).toBe(response.trailer);
     expect(clientResponse.type).toBe(response.type);
     expect(clientResponse.url).toBe(response.url);
   });
