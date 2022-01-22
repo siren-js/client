@@ -47,10 +47,6 @@ export default class ClientResponse implements Response {
     return this.#response.statusText;
   }
 
-  get trailer() {
-    return this.#response.trailer;
-  }
-
   get type() {
     return this.#response.type;
   }

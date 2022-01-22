@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@siren-js/core';
 import { File } from '@web-std/file';
-import { EntryList, EntryValue, toEntryList } from '../entry-list';
+import { EntryList, EntryValue, toEntryList } from './entry-list';
 
-const toRawPairs = (entryList: EntryList): [string, EntryValue][] =>
-  entryList.map(({ name, value }) => [name, value]);
+const toRawPairs = (entryList: EntryList): [string, EntryValue][] => entryList.map(({ name, value }) => [name, value]);
 
 describe('constructing the entry list', () => {
   it('should return empty list when fields is not an array', () => {

@@ -2,9 +2,9 @@
 import { Action, EmbeddedLink, Entity, Link } from '@siren-js/core';
 import { Headers } from 'cross-fetch';
 import nock from 'nock';
-import Client from '../client';
-import { Serializers } from '../serializer';
-import siren from './entity.json';
+import Client from './client';
+import { Serializers } from './serial';
+import siren from '../test/entity.json';
 
 const baseUrl = 'http://api.example.com';
 const entity = new Entity(siren);
@@ -90,6 +90,7 @@ describe('Client', () => {
     it('should have defaults', () => {
       expect([...client.serializers.keys()]).toEqual([
         'application/x-www-form-urlencoded',
+        'multipart/form-data',
         'text/plain'
       ]);
     });
@@ -138,7 +139,7 @@ describe('Client', () => {
           serializers: 'foobar' as any
         });
 
-        expect(client.serializers.size).toBe(2);
+        expect(client.serializers.size).toBe(3);
       });
 
       it('should overwrite defaults', () => {
@@ -283,9 +284,7 @@ describe('Client', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const values: any[] = [undefined, null, true, 42, 'foo', [1, 2, 3], {}];
       for (const value of values) {
-        await expect(client.follow(value)).rejects.toBe(
-          'cannot follow a link without an href'
-        );
+        await expect(client.follow(value)).rejects.toBe('cannot follow a link without an href');
       }
     });
   });
@@ -337,17 +336,38 @@ describe('Client', () => {
       });
 
       it('should serialize fields in payload for methods that support one', async () => {
-        const reqheaders = requestHeaderMatcher(
-          'application/x-www-form-urlencoded'
-        );
-        scope = nock(baseUrl, { reqheaders })
-          .post(path, urlEncodedForm)
-          .reply(204);
+        const reqheaders = requestHeaderMatcher('application/x-www-form-urlencoded');
+        scope = nock(baseUrl, { reqheaders }).post(path, urlEncodedForm).reply(204);
         action.method = 'POST';
 
         const response = await client.submit(action);
 
         expect(response.ok).toBe(true);
+      });
+    });
+
+    describe('default multipart/form-data serializer', () => {
+      const type = 'multipart/form-data';
+      const action = new Action('foo', `${baseUrl}/foos`, {
+        type,
+        method: 'POST',
+        fields: [
+          { name: 'query', value: 'lorem ipsum' },
+          { name: 'page', value: 42 }
+        ]
+      });
+      const bodyMatcher: nock.RequestBodyMatcher = (body: string) =>
+        /Content-Disposition: form-data; name="query"\r\n\r\nlorem ipsum\r\n/.test(body) &&
+        /Content-Disposition: form-data; name="page"\r\n\r\n42\r\n/.test(body);
+
+      it('should serialize fields in payload', async () => {
+        const reqheaders = requestHeaderMatcher(type);
+        const status = 204;
+        scope = nock(baseUrl, { reqheaders }).post('/foos', bodyMatcher).reply(status);
+
+        const response = await client.submit(action);
+
+        expect(response.status).toBe(status);
       });
     });
 
@@ -428,9 +448,7 @@ describe('Client', () => {
   });
 });
 
-function requestHeaderMatcher(
-  mediaType: string
-): Record<string, nock.RequestHeaderMatcher> {
+function requestHeaderMatcher(mediaType: string): Record<string, nock.RequestHeaderMatcher> {
   return {
     'Content-Type': new RegExp(`^${mediaType}`)
   };

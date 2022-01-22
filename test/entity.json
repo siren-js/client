@@ -8,9 +8,7 @@
     {
       "class": ["entity"],
       "rel": ["entity"],
-      "links": [
-        { "rel": ["self"], "href": "http://api.example.com/foo/bar/baz" }
-      ]
+      "links": [{ "rel": ["self"], "href": "http://api.example.com/foo/bar/baz" }]
     },
     {
       "class": ["missing-link"],

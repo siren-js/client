@@ -10,7 +10,13 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## Unreleased
 
-## 0.4.0
+### Added
+
+- Defaulter serializer for `multipart/form-data` actions ([#8])
+
+[#8]: https://github.com/siren-js/client/issues/8
+
+## 0.4.0 - 2021-12-05
 
 ### Added
 
