@@ -1,8 +1,11 @@
-import { IsArray, IsMimeType, IsOptional, IsString } from 'class-validator';
+import { ArrayMinSize, IsArray, IsMimeType, IsOptional, IsString } from 'class-validator';
 
 import { IsUri } from '../utils/is-uri';
 
-export class Link {
+/**
+ * Represent a sub-entity as a link
+ */
+export class EmbeddedLink {
   /**
    * List of strings describing the nature of the `Link` based on the current representation. Possible values are
    * implementation-dependent and should be documented.
@@ -22,6 +25,7 @@ export class Link {
    * List of strings describing the relationship of the `Link` to its `Entity`, per [RFC 8288](https://tools.ietf.org/html/rfc8288).
    */
   @IsArray()
+  @ArrayMinSize(1)
   @IsString({ each: true })
   rel!: string[];
 
@@ -39,5 +43,5 @@ export class Link {
   @IsOptional()
   type?: string;
 
-  [extension: string]: unknown;
+  [extensions: string]: unknown;
 }

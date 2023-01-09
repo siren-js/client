@@ -1,12 +1,10 @@
-import { isMediaTypeString } from '@siren-js/core/dist/util/type-guard';
+import { isMimeType } from 'class-validator';
 
 import { merge } from '../merge';
 import { toEntryList } from './entry-list';
 import { toMultipartFormData } from './multipart-form-data';
 import { toNameValuePairs } from './name-value-pairs';
 import { Serializer } from './serializer';
-
-export { Serializer } from './serializer';
 
 export class Serializers extends Map<string, Serializer> {
   static get MULTIPART_FORM_DATA(): Serializer {
@@ -54,7 +52,7 @@ export class Serializers extends Map<string, Serializer> {
   }
 
   set(mediaType: string, serializer: Serializer): this {
-    if (!isMediaTypeString(mediaType)) {
+    if (!isMimeType(mediaType)) {
       throw new Error(`Invalid media type: '${mediaType}'`);
     }
     if (typeof serializer !== 'function') {

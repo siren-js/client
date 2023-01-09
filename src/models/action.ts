@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { ArrayUnique, IsArray, IsMimeType, IsOptional, IsString, ValidateNested } from 'class-validator';
 
-import { IsUri } from '../utils/IsUri';
+import { IsUri } from '../utils/is-uri';
 import { Field } from './field';
 
 /**
@@ -21,10 +21,10 @@ export class Action {
    * Input controls of the `Action`.
    */
   @IsArray()
+  @ValidateNested({ each: true })
   @ArrayUnique((field: Field) => field.name)
   @IsOptional()
   @Type(() => Field)
-  @ValidateNested({ each: true })
   fields?: Field[];
 
   /**
@@ -60,4 +60,6 @@ export class Action {
   @IsMimeType()
   @IsOptional()
   type?: string = 'application/x-www-form-urlencoded';
+
+  [extensions: string]: unknown;
 }

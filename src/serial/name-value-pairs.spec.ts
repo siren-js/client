@@ -1,5 +1,7 @@
 import { File } from '@web-std/file';
-import { Entry, EntryList } from './entry-list';
+
+import { Entry } from './entry';
+import { EntryList } from './entry-list';
 import { toNameValuePairs } from './name-value-pairs';
 
 describe('toNameValuePairs', () => {

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Serializer, Serializers } from './serializers';
+import { Serializer } from './serializer';
+import { Serializers } from './serializers';
 
 const mediaType = 'application/json';
 const serializer: Serializer = () => '';

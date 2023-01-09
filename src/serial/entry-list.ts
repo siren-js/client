@@ -1,9 +1,12 @@
-import { Action, Field } from '@siren-js/core';
-import { isRecord, UnknownRecord } from '@siren-js/core/dist/util/type-guard';
-import { File } from '@web-std/file';
-import { Entry, EntryValue } from './entry';
+import { isNumber, isString } from 'class-validator';
 
-export { Entry, EntryValue } from './entry';
+import { File } from '@web-std/file';
+
+import { Action } from '../models/action';
+import { Field } from '../models/field';
+import { isRecord } from '../utils/is-record';
+import { UnknownRecord } from '../utils/unknown-record';
+import { Entry, EntryValue } from './entry';
 
 export type EntryList = Entry[];
 
@@ -77,15 +80,15 @@ const convert = (s: string): string => s.replace(/[\uD800-\uDFFF]/g, '\uFFFD');
 
 const isBlob = (value: unknown): value is Blob =>
   isRecord(value) &&
-  typeof value.size === 'number' &&
-  typeof value.type === 'string' &&
+  isNumber(value.size) &&
+  isString(value.type) &&
   typeof value.arrayBuffer === 'function' &&
   typeof value.slice === 'function' &&
   typeof value.stream === 'function' &&
   typeof value.text === 'function';
 
 const isFile = (value: unknown): value is File =>
-  isRecord(value) && typeof value.lastModified === 'number' && typeof value.name === 'string' && isBlob(value);
+  isRecord(value) && isNumber(value.lastModified) && isString(value.name) && isBlob(value);
 
 /**
  * Appends a [`file` field](https://github.com/siren-js/spec-extensions#file-fields)

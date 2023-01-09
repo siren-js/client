@@ -1,4 +1,4 @@
-import { isRecord } from '@siren-js/core/dist/util/type-guard';
+import { isRecord } from '../utils/is-record';
 
 export interface Serialization {
   mediaType: string;

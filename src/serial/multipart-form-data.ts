@@ -1,5 +1,6 @@
 import { Serialization } from './';
-import { Entry, EntryList } from './entry-list';
+import { Entry } from './entry';
+import { EntryList } from './entry-list';
 import normalizeNewlines from './normalize-newlines';
 
 const CRLF = '\r\n';
