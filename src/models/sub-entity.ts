@@ -15,4 +15,3 @@ export function transformSubEntities(subEntities: unknown): SubEntity[] | unknow
     return plainToInstance(constructor, subEntity);
   });
 }
-

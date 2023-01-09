@@ -3,6 +3,6 @@
   "exclude": ["**/*.spec.ts", "test", "jest.config.ts"],
   "compilerOptions": {
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "dist"
   }
 }
