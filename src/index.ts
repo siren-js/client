@@ -5,5 +5,3 @@ export { Entity } from './models/entity';
 export { Field } from './models/field';
 export { Link } from './models/link';
 export { follow } from './follow';
-export { parse } from './parse';
-export { submit } from './submit';
