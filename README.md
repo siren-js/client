@@ -1,28 +1,67 @@
 # Siren.js Client
 
-[![Node Package](https://img.shields.io/npm/v/@siren-js/client)](https://npmjs.org/@siren-js/client)
-[![Build Status](https://img.shields.io/github/workflow/status/siren-js/client/Build%20Package)](https://github.com/siren-js/client/actions/workflows/build.yaml)
-[![Code Coverage](https://img.shields.io/codecov/c/github/siren-js/client)](https://codecov.io/gh/siren-js/client)
-[![License](https://img.shields.io/github/license/siren-js/client)](LICENSE)
-[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Node Package](https://img.shields.io/npm/v/@siren-js/client?style=flat-square)](https://npmjs.org/@siren-js/client)
+[![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)]()
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![License](https://img.shields.io/github/license/siren-js/client?style=flat-square)](LICENSE)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 
-A cross-platform library that allows for easily communicating with [Siren]
-servers. Built on top of the [core Siren.js library][core].
+[Siren](https://github.com/kevinswiber/siren) API client library for JavaScript
 
-[siren]: https://github.com/kevinswiber/siren
-[core]: https://github.com/siren-js/core
+Siren is a very powerful hypermedia format that enables a server and its clients to be decoupled from one another. There is a lot of boilerplate, protocol-level details around interacting with a Siren API, which is where Siren.js client comes in. This library allows you to do the following:
 
-## Installation
+- [x] Parse and validate Siren representations
+- [x] Follow a `Link` (or any URL)
+- [x] Submit an `Action`
+- [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
+- [ ] Crawl a Siren API
 
-```text
+## Table of Contents <!-- omit in toc -->
+
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Background
+
+<!-- TODO -->
+
+## Install
+
+```bash
 npm install @siren-js/client
 ```
 
 ## Usage
 
-See our [API documentation](https://siren-js.github.io/client).
+```js
+import { follow, parse } from '@siren-js/client';
+
+const response = await follow('https://api.example.com/entry-point');
+
+// TODO
+```
+
+## API
+
+<!-- TODO -->
+
+## Maintainers
+
+[@dillonredding](https://github.com/dillonredding)
 
 ## Contributing
 
-If you would like to contribute anything from a bug report to a code change, see
-our [contribution guidelines](CONTRIBUTING.md).
+See [the contributing file](CONTRIBUTING.md)!
+
+PRs accepted.
+
+Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## License
+
+[MIT](LICENSE) &copy; 2021 Dillon Redding
