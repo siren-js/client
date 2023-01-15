@@ -22,7 +22,7 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [Install](#install)
 - [Usage](#usage)
 - [API](#api)
-- [Maintainers](#maintainers)
+- [Maintainer](#maintainer)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -48,20 +48,20 @@ const response = await follow('https://api.example.com/entry-point');
 
 ## API
 
-<!-- TODO -->
+See the [docs](./docs/modules.md) folder.
 
-## Maintainers
+## Maintainer
 
 [@dillonredding](https://github.com/dillonredding)
 
 ## Contributing
 
-See [the contributing file](CONTRIBUTING.md)!
+See our [contribution guidelines](./CONTRIBUTING.md).
 
 PRs accepted.
 
-Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
 ## License
 
-[MIT](LICENSE) &copy; 2021 Dillon Redding
+[MIT](./LICENSE) &copy; 2021 Dillon Redding

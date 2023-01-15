@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-interface Hyperlink {
+export interface Hyperlink {
   href: string | URL;
 }
 
@@ -8,10 +8,10 @@ function isHyperlink(value: unknown): value is Hyperlink {
   return value != null && typeof value === 'object' && 'href' in value;
 }
 
-type Target = Hyperlink | RequestInfo;
+export type Target = Hyperlink | RequestInfo;
 
 /**
- * Follows `target` by making an HTTP `GET` request. `target` can be a `RequestInfo` object
+ * Follows `target` by making an HTTP `GET` request. `target` can be a `RequestInfo` object or a `Hyperlink` object.
  * @param target request target
  * @param init optional HTTP request metadata
  * @returns HTTP response of following `target`
