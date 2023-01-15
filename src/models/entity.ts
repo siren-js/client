@@ -8,8 +8,9 @@ import { SubEntity, transformSubEntities } from './sub-entity';
 
 /**
  * Represents a URI-addressable resource
+ * @typeParam T Type of the `properties` property
  */
-export class Entity<T extends UnknownRecord = UnknownRecord> {
+export class Entity<T extends object = UnknownRecord> {
   /**
    * Available behavior exposed by the `Entity`
    */

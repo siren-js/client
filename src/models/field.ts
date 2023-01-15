@@ -3,6 +3,7 @@ import { IsArray, IsOptional, IsString } from 'class-validator';
 /**
  * Represents an input control inside an `Action`. Serialization of a `Field` depends on its `type` and its
  * corresponding `Action`'s `type`.
+ * @typeParam T Type of the `value` property.
  */
 export class Field<T = unknown> {
   /**
