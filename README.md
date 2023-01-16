@@ -13,6 +13,8 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
+  - [ ] Toggle and customize `Field` validation
+  - [ ] Customize `Field` serialization
 - [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
 
@@ -42,6 +44,7 @@ npm install @siren-js/client
 import { follow, parse } from '@siren-js/client';
 
 const response = await follow('https://api.example.com/entry-point');
+const entity = await parse(response);
 
 // TODO
 ```
