@@ -39,7 +39,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/embedded-link.ts:16](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-link.ts#L16)
+[models/embedded-link.ts:16](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-link.ts#L16)
 
 ___
 
@@ -51,7 +51,7 @@ URI of the linked resource.
 
 #### Defined in
 
-[models/embedded-link.ts:22](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-link.ts#L22)
+[models/embedded-link.ts:22](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-link.ts#L22)
 
 ___
 
@@ -63,7 +63,7 @@ List of strings describing the relationship of the `Link` to its `Entity`, per [
 
 #### Defined in
 
-[models/embedded-link.ts:30](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-link.ts#L30)
+[models/embedded-link.ts:30](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-link.ts#L30)
 
 ___
 
@@ -75,7 +75,7 @@ Text describing the nature of the link.
 
 #### Defined in
 
-[models/embedded-link.ts:37](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-link.ts#L37)
+[models/embedded-link.ts:37](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-link.ts#L37)
 
 ___
 
@@ -87,4 +87,4 @@ Hint indicating what the media type of the result of dereferencing the `Link` sh
 
 #### Defined in
 
-[models/embedded-link.ts:44](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-link.ts#L44)
+[models/embedded-link.ts:44](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-link.ts#L44)

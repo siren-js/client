@@ -41,7 +41,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/action.ts:18](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L18)
+[models/action.ts:18](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L18)
 
 ___
 
@@ -53,7 +53,7 @@ Input controls of the `Action`.
 
 #### Defined in
 
-[models/action.ts:28](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L28)
+[models/action.ts:28](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L28)
 
 ___
 
@@ -65,7 +65,7 @@ URI of the action
 
 #### Defined in
 
-[models/action.ts:34](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L34)
+[models/action.ts:34](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L34)
 
 ___
 
@@ -77,7 +77,7 @@ Protocol method used when submitting the `Action`. When missing, the default is 
 
 #### Defined in
 
-[models/action.ts:41](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L41)
+[models/action.ts:41](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L41)
 
 ___
 
@@ -89,7 +89,7 @@ Name identifying the action to be performed. Must be unique within an `Entity`'s
 
 #### Defined in
 
-[models/action.ts:47](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L47)
+[models/action.ts:47](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L47)
 
 ___
 
@@ -101,7 +101,7 @@ Descriptive text about the `Action`.
 
 #### Defined in
 
-[models/action.ts:54](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L54)
+[models/action.ts:54](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L54)
 
 ___
 
@@ -114,4 +114,4 @@ assumed to be `'application/x-www-form-urlencoded'`.
 
 #### Defined in
 
-[models/action.ts:62](https://github.com/siren-js/client/blob/728c0fb/src/models/action.ts#L62)
+[models/action.ts:62](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L62)

@@ -19,13 +19,36 @@
 
 ### Type Aliases
 
+- [Parsable](modules.md#parsable)
+- [SubEntity](modules.md#subentity)
 - [Target](modules.md#target)
 
 ### Functions
 
 - [follow](modules.md#follow)
+- [parse](modules.md#parse)
 
 ## Type Aliases
+
+### Parsable
+
+Ƭ **Parsable**: `string` \| `UnknownRecord` \| `Response`
+
+#### Defined in
+
+parse.ts:8
+
+___
+
+### SubEntity
+
+Ƭ **SubEntity**: [`EmbeddedEntity`](classes/EmbeddedEntity.md) \| [`EmbeddedLink`](classes/EmbeddedLink.md)
+
+#### Defined in
+
+[models/sub-entity.ts:7](https://github.com/siren-js/client/blob/f34d34d/src/models/sub-entity.ts#L7)
+
+___
 
 ### Target
 
@@ -33,7 +56,7 @@
 
 #### Defined in
 
-[follow.ts:11](https://github.com/siren-js/client/blob/728c0fb/src/follow.ts#L11)
+[follow.ts:11](https://github.com/siren-js/client/blob/f34d34d/src/follow.ts#L11)
 
 ## Functions
 
@@ -58,4 +81,32 @@ HTTP response of following `target`
 
 #### Defined in
 
-[follow.ts:19](https://github.com/siren-js/client/blob/728c0fb/src/follow.ts#L19)
+[follow.ts:19](https://github.com/siren-js/client/blob/f34d34d/src/follow.ts#L19)
+
+___
+
+### parse
+
+▸ **parse**<`T`\>(`value`): `Promise`<[`Entity`](classes/Entity.md)<`T`\>\>
+
+Parses `value` as an [Entity](classes/Entity.md)
+
+#### Type parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `T` | extends `object` = `UnknownRecord` | type of `Entity.properties` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | [`Parsable`](modules.md#parsable) |
+
+#### Returns
+
+`Promise`<[`Entity`](classes/Entity.md)<`T`\>\>
+
+#### Defined in
+
+parse.ts:14

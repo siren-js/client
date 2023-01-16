@@ -7,9 +7,9 @@ corresponding `Action`'s `type`.
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `unknown` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `T` | `unknown` | Type of the `value` property. |
 
 ## Indexable
 
@@ -52,7 +52,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/field.ts:15](https://github.com/siren-js/client/blob/728c0fb/src/models/field.ts#L15)
+[models/field.ts:16](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L16)
 
 ___
 
@@ -64,7 +64,7 @@ Name describing the control. Must be unique within an `Action`.
 
 #### Defined in
 
-[models/field.ts:21](https://github.com/siren-js/client/blob/728c0fb/src/models/field.ts#L21)
+[models/field.ts:22](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L22)
 
 ___
 
@@ -76,7 +76,7 @@ Textual annotation of a field. Clients may use this as a label.
 
 #### Defined in
 
-[models/field.ts:28](https://github.com/siren-js/client/blob/728c0fb/src/models/field.ts#L28)
+[models/field.ts:29](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L29)
 
 ___
 
@@ -89,7 +89,7 @@ When missing, the default is assumed to be `text`.
 
 #### Defined in
 
-[models/field.ts:36](https://github.com/siren-js/client/blob/728c0fb/src/models/field.ts#L36)
+[models/field.ts:37](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L37)
 
 ___
 
@@ -101,4 +101,4 @@ Value assigned to the `Field`.
 
 #### Defined in
 
-[models/field.ts:42](https://github.com/siren-js/client/blob/728c0fb/src/models/field.ts#L42)
+[models/field.ts:43](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L43)

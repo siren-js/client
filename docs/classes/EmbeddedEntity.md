@@ -52,7 +52,7 @@ Available behavior exposed by the `EmbeddedEntity`
 
 #### Defined in
 
-[models/embedded-entity.ts:21](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L21)
+[models/embedded-entity.ts:21](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L21)
 
 ___
 
@@ -65,19 +65,19 @@ are implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/embedded-entity.ts:30](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L30)
+[models/embedded-entity.ts:30](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L30)
 
 ___
 
 ### entities
 
-• `Optional` **entities**: `SubEntity`[]
+• `Optional` **entities**: [`SubEntity`](../modules.md#subentity)[]
 
 Related entities represented as embedded links or representations
 
 #### Defined in
 
-[models/embedded-entity.ts:39](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L39)
+[models/embedded-entity.ts:39](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L39)
 
 ___
 
@@ -89,7 +89,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[models/embedded-entity.ts:48](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L48)
+[models/embedded-entity.ts:48](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L48)
 
 ___
 
@@ -101,7 +101,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[models/embedded-entity.ts:55](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L55)
+[models/embedded-entity.ts:55](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L55)
 
 ___
 
@@ -113,7 +113,7 @@ List of strings describing the relationship of the `EmbeddedEntity` to its paren
 
 #### Defined in
 
-[models/embedded-entity.ts:62](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L62)
+[models/embedded-entity.ts:62](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L62)
 
 ___
 
@@ -125,4 +125,4 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[models/embedded-entity.ts:69](https://github.com/siren-js/client/blob/728c0fb/src/models/embedded-entity.ts#L69)
+[models/embedded-entity.ts:69](https://github.com/siren-js/client/blob/f34d34d/src/models/embedded-entity.ts#L69)

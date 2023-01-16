@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[follow.ts:4](https://github.com/siren-js/client/blob/728c0fb/src/follow.ts#L4)
+[follow.ts:4](https://github.com/siren-js/client/blob/f34d34d/src/follow.ts#L4)

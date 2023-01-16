@@ -8,7 +8,7 @@ Represents a URI-addressable resource
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `T` | extends `UnknownRecord` = `UnknownRecord` | describes the `properties` property |
+| `T` | extends `object` = `UnknownRecord` | Type of the `properties` property |
 
 ## Indexable
 
@@ -39,7 +39,7 @@ Represents a URI-addressable resource
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `UnknownRecord` = `UnknownRecord` |
+| `T` | extends `object` = `UnknownRecord` |
 
 ## Properties
 
@@ -51,7 +51,7 @@ Available behavior exposed by the `Entity`
 
 #### Defined in
 
-[models/entity.ts:22](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L22)
+[models/entity.ts:22](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L22)
 
 ___
 
@@ -64,19 +64,19 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/entity.ts:31](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L31)
+[models/entity.ts:31](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L31)
 
 ___
 
 ### entities
 
-• `Optional` **entities**: `SubEntity`[]
+• `Optional` **entities**: [`SubEntity`](../modules.md#subentity)[]
 
 Related entities represented as embedded links or representations
 
 #### Defined in
 
-[models/entity.ts:40](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L40)
+[models/entity.ts:40](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L40)
 
 ___
 
@@ -88,7 +88,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[models/entity.ts:49](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L49)
+[models/entity.ts:49](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L49)
 
 ___
 
@@ -100,7 +100,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[models/entity.ts:56](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L56)
+[models/entity.ts:56](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L56)
 
 ___
 
@@ -112,4 +112,4 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[models/entity.ts:63](https://github.com/siren-js/client/blob/728c0fb/src/models/entity.ts#L63)
+[models/entity.ts:63](https://github.com/siren-js/client/blob/f34d34d/src/models/entity.ts#L63)
