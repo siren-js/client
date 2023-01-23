@@ -49,7 +49,7 @@ let response = await follow('https://api.example.com/entry-point');
 let entity = await parse(response);
 
 // find the first 'next' link
-const nextLink = entity.links.find(link => link.rel.includes('next'));
+const nextLink = entity.links.find((link) => link.rel.includes('next'));
 if (nextLink != null) {
   // follow the 'next' link, if present
   response = await follow(nextLink);
@@ -58,10 +58,10 @@ if (nextLink != null) {
 }
 
 // find the 'edit' action
-const editAction = entity.actions.find(action => action.name === 'edit');
+const editAction = entity.actions.find((action) => action.name === 'edit');
 if (editAction != null) {
   // find the 'quantity' field, if 'edit' action is present
-  const quantityField = editAction.fields.find(field => field.name === 'quantity');
+  const quantityField = editAction.fields.find((field) => field.name === 'quantity');
   if (quantityField != null) {
     // update 'quantity' field, if present
     quantityField.value = 69;
