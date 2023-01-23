@@ -9,7 +9,7 @@ describe('Link', () => {
   it('should validate known properties', async () => {
     const link = { class: 69, title: 70, type: 'foo' };
 
-    await expect(transformAndValidate(Link, link)).rejects.toMatchObject(
+    await expect(transformAndValidate(Link, link)).rejects.toEqual(
       expect.arrayContaining([
         expectValidationError('rel', ['isArray', 'isString']),
         expectValidationError('href', ['matches']),
@@ -20,10 +20,17 @@ describe('Link', () => {
     );
   });
 
+  const rel = ['self'];
+  const href = 'http://example.com';
+
+  it('should default class property', async () => {
+    await expect(transformAndValidate(Link, { rel, href })).resolves.toMatchObject({ class: [] });
+  });
+
   it('should allow unknown properties', async () => {
     const link = {
-      rel: ['self'],
-      href: 'http://example.com',
+      rel,
+      href,
       hreflang: 'en-US',
       media: 'screen and (color)'
     };

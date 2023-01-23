@@ -12,7 +12,7 @@ describe('EmbeddedEntity', () => {
   it('should should validate known properties', async () => {
     const entity = { actions: 69, class: 70, entities: 71, links: 72, properties: 73, title: 74 };
 
-    await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toMatchObject(
+    await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toEqual(
       expect.arrayContaining([
         expectValidationError('actions', ['isArray', 'arrayUnique', 'nestedValidation']),
         expectValidationError('class', ['isArray', 'isString']),
@@ -26,6 +26,15 @@ describe('EmbeddedEntity', () => {
   });
 
   const rel = ['item'];
+
+  it('should default actions, class, entities, and links properties', async () => {
+    await expect(transformAndValidate(EmbeddedEntity, { rel })).resolves.toMatchObject({
+      actions: [],
+      class: [],
+      entities: [],
+      links: []
+    });
+  });
 
   it('should allow unknown properties', async () => {
     const entity = { rel, lang: 'en-US' };
@@ -70,7 +79,7 @@ describe('EmbeddedEntity', () => {
       ]
     };
 
-    await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toMatchObject([
+    await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toStrictEqual([
       expectValidationError('actions', ['arrayUnique'])
     ]);
   });

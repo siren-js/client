@@ -10,7 +10,7 @@ describe('Action', () => {
   it('should validate known properties', async () => {
     const action = { class: 69, title: 70, type: 'foo', method: 71, fields: 'bar' };
 
-    await expect(transformAndValidate(Action, action)).rejects.toMatchObject(
+    await expect(transformAndValidate(Action, action)).rejects.toEqual(
       expect.arrayContaining([
         expectValidationError('name', ['isString']),
         expectValidationError('href', ['matches']),
@@ -26,26 +26,19 @@ describe('Action', () => {
   const name = 'add-item';
   const href = 'http://example.com';
 
+  it('should default method, type, class, and fields properties', async () => {
+    await expect(transformAndValidate(Action, { name, href })).resolves.toMatchObject({
+      method: 'GET',
+      type: 'application/x-www-form-urlencoded',
+      class: [],
+      fields: []
+    });
+  });
+
   it('should allow extension properties', async () => {
     const action = { name, href, encoding: 'UTF-16' };
 
-    const result = await transformAndValidate(Action, action);
-
-    expect(result).toBeInstanceOf(Action);
-    expect(result).toMatchObject(action);
-  });
-
-  it('should default method and type properties', async () => {
-    const action = { name, href };
-
-    const result = await transformAndValidate(Action, action);
-
-    expect(result).toBeInstanceOf(Action);
-    expect(result).toMatchObject({
-      ...action,
-      method: 'GET',
-      type: 'application/x-www-form-urlencoded'
-    });
+    await expect(transformAndValidate(Action, action)).resolves.toMatchObject(action);
   });
 
   it('should transform fields', async () => {
@@ -61,7 +54,7 @@ describe('Action', () => {
   it('should require unique field names', async () => {
     const action = { name, href, fields: [{ name: 'foo' }, { name: 'foo' }] };
 
-    await expect(transformAndValidate(Action, action)).rejects.toMatchObject([
+    await expect(transformAndValidate(Action, action)).rejects.toStrictEqual([
       expectValidationError('fields', ['arrayUnique'])
     ]);
   });

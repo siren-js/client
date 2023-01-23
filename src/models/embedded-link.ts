@@ -13,7 +13,7 @@ export class EmbeddedLink {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * URI of the linked resource.

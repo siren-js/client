@@ -15,7 +15,7 @@ export class Action {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * Input controls of the `Action`.
@@ -25,7 +25,7 @@ export class Action {
   @ArrayUnique((field: Field) => field.name)
   @IsOptional()
   @Type(() => Field)
-  fields?: Field[];
+  fields: Field[] = [];
 
   /**
    * URI of the action
@@ -38,7 +38,7 @@ export class Action {
    */
   @IsString()
   @IsOptional()
-  method?: string = 'GET';
+  method: string = 'GET';
 
   /**
    * Name identifying the action to be performed. Must be unique within an `Entity`'s `actions`.
@@ -59,7 +59,7 @@ export class Action {
    */
   @IsMimeType()
   @IsOptional()
-  type?: string = 'application/x-www-form-urlencoded';
+  type: string = 'application/x-www-form-urlencoded';
 
   [extensions: string]: unknown;
 }

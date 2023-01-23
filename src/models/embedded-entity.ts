@@ -7,7 +7,7 @@ import { Link } from './link';
 import { SubEntity, transformSubEntities } from './sub-entity';
 
 /**
- * Represents a URI-addressable resource
+ * Represents an embedded URI-addressable resource
  */
 export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   /**
@@ -18,7 +18,7 @@ export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   @ArrayUnique((action: Action) => action.name)
   @IsOptional()
   @Type(() => Action)
-  actions?: Action[];
+  actions: Action[] = [];
 
   /**
    * List of strings describing the nature of the `EmbeddedEntity` based on the current representation. Possible values
@@ -27,7 +27,7 @@ export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * Related entities represented as embedded links or representations
@@ -36,7 +36,7 @@ export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   @ValidateNested({ each: true })
   @IsOptional()
   @Transform(({ value }) => transformSubEntities(value))
-  entities?: SubEntity[];
+  entities: SubEntity[] = [];
 
   /**
    * Navigation links that communicate ways to navigate outside the entity graph
@@ -45,7 +45,7 @@ export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   @ValidateNested({ each: true })
   @IsOptional()
   @Type(() => Link)
-  links?: Link[];
+  links: Link[] = [];
 
   /**
    * Key-value pairs describing the state of the `Entity`

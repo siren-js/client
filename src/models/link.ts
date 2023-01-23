@@ -2,6 +2,9 @@ import { IsArray, IsMimeType, IsOptional, IsString } from 'class-validator';
 
 import { IsUri } from '../utils/is-uri';
 
+/**
+ * Represents a URI-addressable resource
+ */
 export class Link {
   /**
    * List of strings describing the nature of the `Link` based on the current representation. Possible values are
@@ -10,7 +13,7 @@ export class Link {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * URI of the linked resource.

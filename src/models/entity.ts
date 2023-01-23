@@ -19,7 +19,7 @@ export class Entity<T extends object = UnknownRecord> {
   @ArrayUnique((action: Action) => action.name)
   @IsOptional()
   @Type(() => Action)
-  actions?: Action[];
+  actions: Action[] = [];
 
   /**
    * List of strings describing the nature of the `Entity` based on the current representation. Possible values are
@@ -28,7 +28,7 @@ export class Entity<T extends object = UnknownRecord> {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * Related entities represented as embedded links or representations
@@ -37,7 +37,7 @@ export class Entity<T extends object = UnknownRecord> {
   @ValidateNested({ each: true })
   @IsOptional()
   @Transform(({ value }) => transformSubEntities(value))
-  entities?: SubEntity[];
+  entities: SubEntity[] = [];
 
   /**
    * Navigation links that communicate ways to navigate outside the entity graph
@@ -46,7 +46,7 @@ export class Entity<T extends object = UnknownRecord> {
   @ValidateNested({ each: true })
   @IsOptional()
   @Type(() => Link)
-  links?: Link[];
+  links: Link[] = [];
 
   /**
    * Key-value pairs describing the state of the `Entity`

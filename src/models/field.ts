@@ -13,7 +13,7 @@ export class Field<T = unknown> {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  class?: string[];
+  class: string[] = [];
 
   /**
    * Name describing the control. Must be unique within an `Action`.
@@ -34,7 +34,7 @@ export class Field<T = unknown> {
    */
   @IsString()
   @IsOptional()
-  type?: string = 'text';
+  type: string = 'text';
 
   /**
    * Value assigned to the `Field`.

@@ -13,7 +13,7 @@ describe('Entity', () => {
   it('should should validate known properties', async () => {
     const entity = { actions: 69, class: 70, entities: 71, links: 72, properties: 73, title: 74 };
 
-    await expect(transformAndValidate(Entity, entity)).rejects.toMatchObject(
+    await expect(transformAndValidate(Entity, entity)).rejects.toEqual(
       expect.arrayContaining([
         expectValidationError('actions', ['isArray', 'arrayUnique', 'nestedValidation']),
         expectValidationError('class', ['isArray', 'isString']),
@@ -25,13 +25,19 @@ describe('Entity', () => {
     );
   });
 
+  it('should default actions, class, entities, and links properties', async () => {
+    await expect(transformAndValidate(Entity, {})).resolves.toMatchObject({
+      actions: [],
+      class: [],
+      entities: [],
+      links: []
+    });
+  });
+
   it('should allow unknown properties', async () => {
     const entity = { lang: 'en-US' };
 
-    const result = await transformAndValidate(Entity, entity);
-
-    expect(result).toBeInstanceOf(Entity);
-    expect(result).toMatchObject(entity);
+    await expect(transformAndValidate(Entity, entity)).resolves.toMatchObject(entity);
   });
 
   const name = 'foo';
@@ -67,7 +73,7 @@ describe('Entity', () => {
       ]
     };
 
-    await expect(transformAndValidate(Entity, entity)).rejects.toMatchObject([
+    await expect(transformAndValidate(Entity, entity)).rejects.toStrictEqual([
       expectValidationError('actions', ['arrayUnique'])
     ]);
   });
