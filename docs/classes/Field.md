@@ -45,14 +45,14 @@ corresponding `Action`'s `type`.
 
 ### class
 
-• `Optional` **class**: `string`[]
+• **class**: `string`[] = `[]`
 
 List of strings describing the nature of the `Field` based on the current representation. Possible values are
 implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/field.ts:16](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L16)
+[src/models/field.ts:16](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L16)
 
 ___
 
@@ -64,7 +64,7 @@ Name describing the control. Must be unique within an `Action`.
 
 #### Defined in
 
-[models/field.ts:22](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L22)
+[src/models/field.ts:22](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L22)
 
 ___
 
@@ -76,20 +76,20 @@ Textual annotation of a field. Clients may use this as a label.
 
 #### Defined in
 
-[models/field.ts:29](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L29)
+[src/models/field.ts:29](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L29)
 
 ___
 
 ### type
 
-• `Optional` **type**: `string` = `'text'`
+• **type**: `string` = `'text'`
 
 Input type of the field. May include any of the [input types from HTML](https://html.spec.whatwg.org/multipage/input.html#attr-input-type).
 When missing, the default is assumed to be `text`.
 
 #### Defined in
 
-[models/field.ts:37](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L37)
+[src/models/field.ts:37](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L37)
 
 ___
 
@@ -101,4 +101,4 @@ Value assigned to the `Field`.
 
 #### Defined in
 
-[models/field.ts:43](https://github.com/siren-js/client/blob/f34d34d/src/models/field.ts#L43)
+[src/models/field.ts:43](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L43)

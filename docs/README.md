@@ -15,8 +15,8 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
+  - [x] Customize `Field` serialization
   - [ ] Toggle and customize `Field` validation
-  - [ ] Customize `Field` serialization
 - [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
 
@@ -45,10 +45,34 @@ npm install @siren-js/client
 ```js
 import { follow, parse } from '@siren-js/client';
 
-const response = await follow('https://api.example.com/entry-point');
-const entity = await parse(response);
+// follow API entry point
+let response = await follow('https://api.example.com/entry-point');
+// parse the response as Siren
+let entity = await parse(response);
 
-// TODO
+// find the first 'next' link
+const nextLink = entity.links.find((link) => link.rel.includes('next'));
+if (nextLink != null) {
+  // follow the 'next' link, if present
+  response = await follow(nextLink);
+  // parse the response as Siren
+  entity = await parse(response);
+}
+
+// find the 'edit' action
+const editAction = entity.actions.find((action) => action.name === 'edit');
+if (editAction != null) {
+  // find the 'quantity' field, if 'edit' action is present
+  const quantityField = editAction.fields.find((field) => field.name === 'quantity');
+  if (quantityField != null) {
+    // update 'quantity' field, if present
+    quantityField.value = 69;
+  }
+  // submit the action
+  response = await submit(editAction);
+  // parse the response as Siren
+  entity = await parse(response);
+}
 ```
 
 ## API

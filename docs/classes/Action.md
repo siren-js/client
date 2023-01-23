@@ -34,26 +34,26 @@ Represents available behavior exposed by an `Entity`.
 
 ### class
 
-• `Optional` **class**: `string`[]
+• **class**: `string`[] = `[]`
 
 List of strings describing the nature of the `Action` based on the current representation. Possible values are
 implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/action.ts:18](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L18)
+[src/models/action.ts:18](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L18)
 
 ___
 
 ### fields
 
-• `Optional` **fields**: [`Field`](Field.md)<`unknown`\>[]
+• **fields**: [`Field`](Field.md)<`unknown`\>[] = `[]`
 
 Input controls of the `Action`.
 
 #### Defined in
 
-[models/action.ts:28](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L28)
+[src/models/action.ts:28](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L28)
 
 ___
 
@@ -65,19 +65,19 @@ URI of the action
 
 #### Defined in
 
-[models/action.ts:34](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L34)
+[src/models/action.ts:34](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L34)
 
 ___
 
 ### method
 
-• `Optional` **method**: `string` = `'GET'`
+• **method**: `string` = `'GET'`
 
 Protocol method used when submitting the `Action`. When missing, the default is assumed to be `'GET'`.
 
 #### Defined in
 
-[models/action.ts:41](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L41)
+[src/models/action.ts:41](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L41)
 
 ___
 
@@ -89,7 +89,7 @@ Name identifying the action to be performed. Must be unique within an `Entity`'s
 
 #### Defined in
 
-[models/action.ts:47](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L47)
+[src/models/action.ts:47](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L47)
 
 ___
 
@@ -101,17 +101,17 @@ Descriptive text about the `Action`.
 
 #### Defined in
 
-[models/action.ts:54](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L54)
+[src/models/action.ts:54](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L54)
 
 ___
 
 ### type
 
-• `Optional` **type**: `string` = `'application/x-www-form-urlencoded'`
+• **type**: `string` = `'application/x-www-form-urlencoded'`
 
 Encoding type indicating how `fields` are serialized when submitting the `Action`. When missing, the default is
 assumed to be `'application/x-www-form-urlencoded'`.
 
 #### Defined in
 
-[models/action.ts:62](https://github.com/siren-js/client/blob/f34d34d/src/models/action.ts#L62)
+[src/models/action.ts:62](https://github.com/siren-js/client/blob/3170d58/src/models/action.ts#L62)

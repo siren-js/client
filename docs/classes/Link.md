@@ -2,6 +2,8 @@
 
 # Class: Link
 
+Represents a URI-addressable resource
+
 ## Indexable
 
 ▪ [extension: `string`]: `unknown`
@@ -30,14 +32,14 @@
 
 ### class
 
-• `Optional` **class**: `string`[]
+• **class**: `string`[] = `[]`
 
 List of strings describing the nature of the `Link` based on the current representation. Possible values are
 implementation-dependent and should be documented.
 
 #### Defined in
 
-[models/link.ts:13](https://github.com/siren-js/client/blob/f34d34d/src/models/link.ts#L13)
+[src/models/link.ts:16](https://github.com/siren-js/client/blob/3170d58/src/models/link.ts#L16)
 
 ___
 
@@ -49,7 +51,7 @@ URI of the linked resource.
 
 #### Defined in
 
-[models/link.ts:19](https://github.com/siren-js/client/blob/f34d34d/src/models/link.ts#L19)
+[src/models/link.ts:22](https://github.com/siren-js/client/blob/3170d58/src/models/link.ts#L22)
 
 ___
 
@@ -61,7 +63,7 @@ List of strings describing the relationship of the `Link` to its `Entity`, per [
 
 #### Defined in
 
-[models/link.ts:26](https://github.com/siren-js/client/blob/f34d34d/src/models/link.ts#L26)
+[src/models/link.ts:29](https://github.com/siren-js/client/blob/3170d58/src/models/link.ts#L29)
 
 ___
 
@@ -73,7 +75,7 @@ Text describing the nature of the link.
 
 #### Defined in
 
-[models/link.ts:33](https://github.com/siren-js/client/blob/f34d34d/src/models/link.ts#L33)
+[src/models/link.ts:36](https://github.com/siren-js/client/blob/3170d58/src/models/link.ts#L36)
 
 ___
 
@@ -85,4 +87,4 @@ Hint indicating what the media type of the result of dereferencing the `Link` sh
 
 #### Defined in
 
-[models/link.ts:40](https://github.com/siren-js/client/blob/f34d34d/src/models/link.ts#L40)
+[src/models/link.ts:43](https://github.com/siren-js/client/blob/3170d58/src/models/link.ts#L43)
