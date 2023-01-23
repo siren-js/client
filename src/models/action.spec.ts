@@ -46,9 +46,8 @@ describe('Action', () => {
 
     const result = await transformAndValidate(Action, action);
 
-    expect(result.fields).toBeDefined();
     expect(result.fields).toHaveLength(1);
-    expect(result.fields?.[0]).toBeInstanceOf(Field);
+    expect(result.fields[0]).toBeInstanceOf(Field);
   });
 
   it('should require unique field names', async () => {

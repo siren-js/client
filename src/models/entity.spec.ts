@@ -53,16 +53,13 @@ describe('Entity', () => {
 
     const result = await transformAndValidate(Entity, entity);
 
-    expect(result.actions).toBeDefined();
     expect(result.actions).toHaveLength(1);
-    expect(result.actions?.[0]).toBeInstanceOf(Action);
-    expect(result.entities).toBeDefined();
+    expect(result.actions[0]).toBeInstanceOf(Action);
     expect(result.entities).toHaveLength(2);
-    expect(result.entities?.[0]).toBeInstanceOf(EmbeddedEntity);
-    expect(result.entities?.[1]).toBeInstanceOf(EmbeddedLink);
-    expect(result.links).toBeDefined();
+    expect(result.entities[0]).toBeInstanceOf(EmbeddedEntity);
+    expect(result.entities[1]).toBeInstanceOf(EmbeddedLink);
     expect(result.links).toHaveLength(1);
-    expect(result.links?.[0]).toBeInstanceOf(Link);
+    expect(result.links[0]).toBeInstanceOf(Link);
   });
 
   it('should require uniue action names', async () => {
