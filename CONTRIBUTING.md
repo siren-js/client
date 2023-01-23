@@ -92,10 +92,3 @@ $ npm run compile
 # build (compile, lint, test) the project
 $ npm run build
 ```
-
-This project uses [SemVer](https://semver.org/). When making code changes, be
-sure to increment the version accordingly with the
-[`npm version` command][npm-version]. We recommend using the
-`--no-git-tag-version` option to avoid potential issues.
-
-[npm-version]: https://docs.npmjs.com/cli/v7/commands/npm-version
