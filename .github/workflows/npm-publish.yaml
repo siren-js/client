@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          registry-url: https://registry.npmjs.org/
       - run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
       - run: npm ci
       - run: npm publish --access public
