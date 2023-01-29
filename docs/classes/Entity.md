@@ -8,7 +8,7 @@ Represents a URI-addressable resource
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `T` | extends `object` = `UnknownRecord` | Type of the `properties` property |
+| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) | Type of the `properties` property |
 
 ## Indexable
 
@@ -29,6 +29,10 @@ Represents a URI-addressable resource
 - [properties](Entity.md#properties)
 - [title](Entity.md#title)
 
+### Methods
+
+- [getAction](Entity.md#getaction)
+
 ## Constructors
 
 ### constructor
@@ -39,7 +43,7 @@ Represents a URI-addressable resource
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `object` = `UnknownRecord` |
+| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) |
 
 ## Properties
 
@@ -51,7 +55,7 @@ Available behavior exposed by the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:22](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L22)
+[src/models/entity.ts:22](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L22)
 
 ___
 
@@ -64,7 +68,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/entity.ts:31](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L31)
+[src/models/entity.ts:31](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L31)
 
 ___
 
@@ -76,7 +80,7 @@ Related entities represented as embedded links or representations
 
 #### Defined in
 
-[src/models/entity.ts:40](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L40)
+[src/models/entity.ts:40](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L40)
 
 ___
 
@@ -88,7 +92,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[src/models/entity.ts:49](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L49)
+[src/models/entity.ts:49](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L49)
 
 ___
 
@@ -100,7 +104,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:56](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L56)
+[src/models/entity.ts:56](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L56)
 
 ___
 
@@ -112,4 +116,26 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:63](https://github.com/siren-js/client/blob/3170d58/src/models/entity.ts#L63)
+[src/models/entity.ts:63](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L63)
+
+## Methods
+
+### getAction
+
+▸ **getAction**(`name`): `undefined` \| [`Action`](Action.md)
+
+Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise, returns `undefined`.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+
+#### Returns
+
+`undefined` \| [`Action`](Action.md)
+
+#### Defined in
+
+[src/models/entity.ts:70](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L70)

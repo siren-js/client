@@ -13,8 +13,8 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
+  - [x] Customize `Field` serialization
   - [ ] Toggle and customize `Field` validation
-  - [ ] Customize `Field` serialization
 - [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
 
@@ -53,22 +53,26 @@ const nextLink = entity.links.find((link) => link.rel.includes('next'));
 if (nextLink != null) {
   // follow the 'next' link, if present
   response = await follow(nextLink);
-  // parse the response as Siren
-  entity = await parse(response);
+  // alternatively, parse the response content as JSON...
+  const json = await response.json();
+  // ...and run that result through the parse function
+  entity = await parse(json);
 }
 
 // find the 'edit' action
-const editAction = entity.actions.find((action) => action.name === 'edit');
+const editAction = entity.getAction('edit');
 if (editAction != null) {
   // find the 'quantity' field, if 'edit' action is present
-  const quantityField = editAction.fields.find((field) => field.name === 'quantity');
+  const quantityField = editAction.getField('quantity');
   if (quantityField != null) {
     // update 'quantity' field, if present
     quantityField.value = 69;
   }
   // submit the action
   response = await submit(editAction);
-  // parse the response as Siren
+  // a third option is to extract the response content as text...
+  const text = await response.text();
+  // ...and run it through the parse function
   entity = await parse(response);
 }
 ```

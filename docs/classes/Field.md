@@ -52,7 +52,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/field.ts:16](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L16)
+[src/models/field.ts:16](https://github.com/siren-js/client/blob/f21a3b1/src/models/field.ts#L16)
 
 ___
 
@@ -64,7 +64,7 @@ Name describing the control. Must be unique within an `Action`.
 
 #### Defined in
 
-[src/models/field.ts:22](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L22)
+[src/models/field.ts:22](https://github.com/siren-js/client/blob/f21a3b1/src/models/field.ts#L22)
 
 ___
 
@@ -76,7 +76,7 @@ Textual annotation of a field. Clients may use this as a label.
 
 #### Defined in
 
-[src/models/field.ts:29](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L29)
+[src/models/field.ts:29](https://github.com/siren-js/client/blob/f21a3b1/src/models/field.ts#L29)
 
 ___
 
@@ -89,7 +89,7 @@ When missing, the default is assumed to be `text`.
 
 #### Defined in
 
-[src/models/field.ts:37](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L37)
+[src/models/field.ts:37](https://github.com/siren-js/client/blob/f21a3b1/src/models/field.ts#L37)
 
 ___
 
@@ -101,4 +101,4 @@ Value assigned to the `Field`.
 
 #### Defined in
 
-[src/models/field.ts:43](https://github.com/siren-js/client/blob/3170d58/src/models/field.ts#L43)
+[src/models/field.ts:43](https://github.com/siren-js/client/blob/f21a3b1/src/models/field.ts#L43)

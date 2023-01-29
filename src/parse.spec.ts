@@ -1,10 +1,8 @@
-import '../test/setup';
-
 import nock from 'nock';
 
 import { entity, siren } from '../test/stubs';
+import { Entity } from './';
 import { follow } from './follow';
-import { Entity } from './models/entity';
 import { parse } from './parse';
 
 describe('parse', () => {

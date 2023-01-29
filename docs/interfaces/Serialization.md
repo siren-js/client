@@ -2,6 +2,8 @@
 
 # Interface: Serialization
 
+Result of serializing and [Action](../classes/Action.md)
+
 ## Table of contents
 
 ### Properties
@@ -17,7 +19,7 @@
 
 #### Defined in
 
-src/serialize/serialization.ts:3
+[src/serialize/serialization.ts:6](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/serialization.ts#L6)
 
 ___
 
@@ -27,4 +29,4 @@ ___
 
 #### Defined in
 
-src/serialize/serialization.ts:2
+[src/serialize/serialization.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/serialization.ts#L5)

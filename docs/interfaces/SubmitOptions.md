@@ -19,7 +19,7 @@ Additional HTTP request options
 
 #### Defined in
 
-src/submit.ts:11
+[src/submit.ts:11](https://github.com/siren-js/client/blob/f21a3b1/src/submit.ts#L11)
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 #### Defined in
 
-src/submit.ts:16
+[src/submit.ts:16](https://github.com/siren-js/client/blob/f21a3b1/src/submit.ts#L16)

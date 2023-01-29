@@ -1,5 +1,3 @@
-import '../../test/setup';
-
 import { transformAndValidate } from 'class-transformer-validator';
 
 import { expectValidationError } from '../../test/helpers';

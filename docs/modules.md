@@ -26,6 +26,7 @@
 - [Serializer](modules.md#serializer)
 - [SubEntity](modules.md#subentity)
 - [Target](modules.md#target)
+- [UnknownRecord](modules.md#unknownrecord)
 
 ### Functions
 
@@ -38,11 +39,11 @@
 
 ### Parsable
 
-Ƭ **Parsable**: `string` \| `UnknownRecord` \| `Response`
+Ƭ **Parsable**: `string` \| [`UnknownRecord`](modules.md#unknownrecord) \| `Response`
 
 #### Defined in
 
-[src/parse.ts:8](https://github.com/siren-js/client/blob/3170d58/src/parse.ts#L8)
+[src/parse.ts:8](https://github.com/siren-js/client/blob/f21a3b1/src/parse.ts#L8)
 
 ___
 
@@ -54,20 +55,28 @@ ___
 
 ▸ (`type`, `fields`): `Promise`<[`Serialization`](interfaces/Serialization.md)\>
 
+Serializes an array of [`Field`](classes/Field.md) objects to the given media `type`.
+
+**`Throws`**
+
+[`UnsupportedSerializerTypeError`](classes/UnsupportedSerializerTypeError.md) when `type` is not supported
+
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `type` | `string` |
-| `fields` | [`Field`](classes/Field.md)[] |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `string` | media type of the target serialization |
+| `fields` | [`Field`](classes/Field.md)[] | array of [`Field`](classes/Field.md) objects |
 
 ##### Returns
 
 `Promise`<[`Serialization`](interfaces/Serialization.md)\>
 
+`Promise` that resolves to a [`Serialization`](interfaces/Serialization.md)
+
 #### Defined in
 
-src/serialize/serializer.ts:4
+[src/serialize/serializer.ts:11](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/serializer.ts#L11)
 
 ___
 
@@ -77,7 +86,7 @@ ___
 
 #### Defined in
 
-[src/models/sub-entity.ts:7](https://github.com/siren-js/client/blob/3170d58/src/models/sub-entity.ts#L7)
+[src/models/sub-entity.ts:7](https://github.com/siren-js/client/blob/f21a3b1/src/models/sub-entity.ts#L7)
 
 ___
 
@@ -87,7 +96,17 @@ ___
 
 #### Defined in
 
-[src/follow.ts:11](https://github.com/siren-js/client/blob/3170d58/src/follow.ts#L11)
+[src/follow.ts:11](https://github.com/siren-js/client/blob/f21a3b1/src/follow.ts#L11)
+
+___
+
+### UnknownRecord
+
+Ƭ **UnknownRecord**: `Record`<`string`, `unknown`\>
+
+#### Defined in
+
+[src/utils/unknown-record.ts:1](https://github.com/siren-js/client/blob/f21a3b1/src/utils/unknown-record.ts#L1)
 
 ## Functions
 
@@ -112,7 +131,7 @@ HTTP response of following `target`
 
 #### Defined in
 
-[src/follow.ts:19](https://github.com/siren-js/client/blob/3170d58/src/follow.ts#L19)
+[src/follow.ts:19](https://github.com/siren-js/client/blob/f21a3b1/src/follow.ts#L19)
 
 ___
 
@@ -126,7 +145,7 @@ Parses `value` as an [Entity](classes/Entity.md)
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `T` | extends `object` = `UnknownRecord` | type of `Entity.properties` |
+| `T` | extends [`UnknownRecord`](modules.md#unknownrecord) = [`UnknownRecord`](modules.md#unknownrecord) | type of `Entity.properties` |
 
 #### Parameters
 
@@ -140,7 +159,7 @@ Parses `value` as an [Entity](classes/Entity.md)
 
 #### Defined in
 
-[src/parse.ts:14](https://github.com/siren-js/client/blob/3170d58/src/parse.ts#L14)
+[src/parse.ts:14](https://github.com/siren-js/client/blob/f21a3b1/src/parse.ts#L14)
 
 ___
 
@@ -166,7 +185,7 @@ Submits the given `action` by making an HTTP request according to `action`'s `me
 
 #### Defined in
 
-src/submit.ts:25
+[src/submit.ts:25](https://github.com/siren-js/client/blob/f21a3b1/src/submit.ts#L25)
 
 ___
 
@@ -186,4 +205,4 @@ ___
 
 #### Defined in
 
-[src/models/sub-entity.ts:11](https://github.com/siren-js/client/blob/3170d58/src/models/sub-entity.ts#L11)
+[src/models/sub-entity.ts:11](https://github.com/siren-js/client/blob/f21a3b1/src/models/sub-entity.ts#L11)

@@ -2,6 +2,8 @@
 
 # Class: UnsupportedSerializerTypeError
 
+Indicates a `Serializer` does not support the given `type`
+
 ## Hierarchy
 
 - `Error`
@@ -19,6 +21,7 @@
 - [message](UnsupportedSerializerTypeError.md#message)
 - [name](UnsupportedSerializerTypeError.md#name)
 - [stack](UnsupportedSerializerTypeError.md#stack)
+- [type](UnsupportedSerializerTypeError.md#type)
 - [prepareStackTrace](UnsupportedSerializerTypeError.md#preparestacktrace)
 - [stackTraceLimit](UnsupportedSerializerTypeError.md#stacktracelimit)
 
@@ -44,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-src/serialize/unsupported-serializer-type-error.ts:2
+[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/unsupported-serializer-type-error.ts#L5)
 
 ## Properties
 
@@ -87,6 +90,16 @@ Error.stack
 #### Defined in
 
 node_modules/typescript/lib/lib.es5.d.ts:1055
+
+___
+
+### type
+
+• `Readonly` **type**: `string`
+
+#### Defined in
+
+[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/unsupported-serializer-type-error.ts#L5)
 
 ___
 

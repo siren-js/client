@@ -1,9 +1,6 @@
-import '../test/setup';
-
 import nock from 'nock';
 
-import { Action } from './models/action';
-import { Field } from './models/field';
+import { Action, Field } from './';
 import { Serializer } from './serialize/serializer';
 import { submit } from './submit';
 
