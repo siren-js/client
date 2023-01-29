@@ -11,8 +11,8 @@ export type Parsable = string | UnknownRecord | Response;
  * Parses `value` as an {@link Entity}
  * @typeParam T - type of `Entity.properties`
  */
-export async function parse<T extends object = UnknownRecord>(value: Parsable): Promise<Entity<T>> {
-  let obj: object;
+export async function parse<T extends UnknownRecord = UnknownRecord>(value: Parsable): Promise<Entity<T>> {
+  let obj: UnknownRecord;
   if (value instanceof Response) {
     obj = await value.json();
   } else if (isString(value)) {

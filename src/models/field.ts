@@ -34,7 +34,7 @@ export class Field<T = unknown> {
    */
   @IsString()
   @IsOptional()
-  type: string = 'text';
+  type = 'text';
 
   /**
    * Value assigned to the `Field`.

@@ -38,7 +38,7 @@ export class Action {
    */
   @IsString()
   @IsOptional()
-  method: string = 'GET';
+  method = 'GET';
 
   /**
    * Name identifying the action to be performed. Must be unique within an `Entity`'s `actions`.
@@ -59,7 +59,7 @@ export class Action {
    */
   @IsMimeType()
   @IsOptional()
-  type: string = 'application/x-www-form-urlencoded';
+  type = 'application/x-www-form-urlencoded';
 
   [extensions: string]: unknown;
 

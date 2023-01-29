@@ -26,7 +26,7 @@ describe('fieldsToNameValuePairs', () => {
 
     const result = fieldsToNameValuePairs(fields);
 
-    const expectedNameValuePairs = fieldData.map<NameValuePair>(([_, name, value]) => [name, String(value)]);
+    const expectedNameValuePairs = fieldData.map<NameValuePair>(([, name, value]) => [name, String(value)]);
     expect(result).toStrictEqual(expectedNameValuePairs);
   });
 

@@ -43,7 +43,7 @@ describe('submit', () => {
   postAction.fields = [nameField, emailField];
 
   const urlEncodedForm = `${nameField.name}=${nameField.value}&${emailField.name}=${encodeURIComponent(
-    emailField.value!
+    emailField.value
   )}`;
 
   it('should make HTTP GET request when method is missing', async () => {

@@ -1,9 +1,7 @@
 root: true
 env:
   browser: true
-  es2021: true
   jest: true
-  node: true
 extends:
   - eslint:recommended
   - plugin:@typescript-eslint/eslint-recommended
@@ -16,8 +14,4 @@ ignorePatterns:
   - dist
   - node_modules
   - src/coverage
-rules:
-  '@typescript-eslint/explicit-module-boundary-types': off
-  '@typescript-eslint/no-empty-function':
-    - error
-    - allow: [constructors]
+rules: {}
