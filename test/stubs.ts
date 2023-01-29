@@ -14,26 +14,26 @@ knowsLink.href = 'https://api.example.com/people/69421';
 knowsLink.class = ['person'];
 knowsLink.title = 'Harry Potter';
 
-const nameField = new Field();
+export const nameField = new Field<string>();
 nameField.name = 'name';
 nameField.title = 'Name';
 nameField.required = true;
 nameField.placeholder = "What's your name?";
 
-const emailField = new Field();
+export const emailField = new Field<string>();
 emailField.name = 'email';
 emailField.type = 'email';
 emailField.title = 'Email';
 emailField.required = true;
 emailField.placeholder = "What's your email?";
 
-const messageField = new Field();
+const messageField = new Field<string>();
 messageField.name = 'message';
 messageField.title = 'Message';
 messageField.required = true;
 messageField.placeholder = 'What would you like to say?';
 
-const action = new Action();
+export const action = new Action();
 action.name = 'send-message';
 action.href = 'https://api.example.com/people/69420/messages';
 action.method = 'POST';
@@ -68,3 +68,5 @@ entity.links = [selfLink, upLink, knowsLink];
 entity.entities = [spouseEmbeddedLink, child1EmbeddedLink, child2EmbeddedLink];
 
 export const siren = JSON.stringify(entity);
+
+export const textFile = new File(['Lorem ipsum'], 'foo.txt', { type: 'text/plain' });
