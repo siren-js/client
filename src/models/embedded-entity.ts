@@ -69,4 +69,11 @@ export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
   title?: string;
 
   [extensions: string]: unknown;
+
+  /**
+   * Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise, returns `undefined`.
+   */
+  getAction(name: string): Action | undefined {
+    return this.actions.find((action) => action.name === name);
+  }
 }

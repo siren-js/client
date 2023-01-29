@@ -1,4 +1,4 @@
-import { Action, EmbeddedLink, Entity, Field, Link } from '../src';
+import { Action, EmbeddedEntity, EmbeddedLink, Entity, Field, Link } from '../src';
 
 const selfLink = new Link();
 selfLink.rel = ['self'];
@@ -39,11 +39,16 @@ action.href = 'https://api.example.com/people/69420/messages';
 action.method = 'POST';
 action.fields = [nameField, emailField, messageField];
 
-const spouseEmbeddedLink = new EmbeddedLink();
-spouseEmbeddedLink.rel = ['https://schema.org/spouse'];
-spouseEmbeddedLink.href = 'https://api.example.com/people/69422';
-spouseEmbeddedLink.class = ['person'];
-spouseEmbeddedLink.title = 'Hermione Granger';
+const spouseLink = new Link();
+spouseLink.rel = ['self'];
+spouseLink.href = 'https://api.example.com/people/69422';
+
+export const embeddedEntity = new EmbeddedEntity();
+embeddedEntity.rel = ['https://schema.org/spouse'];
+embeddedEntity.class = ['person'];
+embeddedEntity.title = 'Hermione Granger';
+embeddedEntity.links = [spouseLink];
+embeddedEntity.actions = [action];
 
 const child1EmbeddedLink = new EmbeddedLink();
 child1EmbeddedLink.rel = ['https://schema.org/children'];
@@ -65,7 +70,8 @@ entity.properties = {
   familyName: 'Weasley'
 };
 entity.links = [selfLink, upLink, knowsLink];
-entity.entities = [spouseEmbeddedLink, child1EmbeddedLink, child2EmbeddedLink];
+entity.actions = [action];
+entity.entities = [embeddedEntity, child1EmbeddedLink, child2EmbeddedLink];
 
 export const siren = JSON.stringify(entity);
 

@@ -62,4 +62,11 @@ export class Action {
   type: string = 'application/x-www-form-urlencoded';
 
   [extensions: string]: unknown;
+
+  /**
+   * Returns the `Field` in `fields` with the given `name`, if it exists. Otherwise, returns `undefined`.
+   */
+  getField(name: string): Field | undefined {
+    return this.fields.find((field) => field.name === name);
+  }
 }

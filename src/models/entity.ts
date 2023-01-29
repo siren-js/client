@@ -63,4 +63,11 @@ export class Entity<T extends object = UnknownRecord> {
   title?: string;
 
   [extension: string]: unknown;
+
+  /**
+   * Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise, returns `undefined`.
+   */
+  getAction(name: string): Action | undefined {
+    return this.actions.find((action) => action.name === name);
+  }
 }

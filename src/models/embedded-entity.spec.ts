@@ -3,6 +3,7 @@ import '../../test/setup';
 import { transformAndValidate } from 'class-transformer-validator';
 
 import { expectValidationError } from '../../test/helpers';
+import { action, embeddedEntity } from '../../test/stubs';
 import { Action } from './action';
 import { EmbeddedEntity } from './embedded-entity';
 import { EmbeddedLink } from './embedded-link';
@@ -79,5 +80,19 @@ describe('EmbeddedEntity', () => {
     await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toStrictEqual([
       expectValidationError('actions', ['arrayUnique'])
     ]);
+  });
+
+  describe('getAction', () => {
+    it('should return undefined when no Field with the given name exists', () => {
+      const result = embeddedEntity.getAction('not-the-action-you-are-looking-for');
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return Field with the given name', () => {
+      const result = embeddedEntity.getAction(action.name);
+
+      expect(result).toBe(action);
+    });
   });
 });

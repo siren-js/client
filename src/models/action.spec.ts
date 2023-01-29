@@ -3,6 +3,7 @@ import '../../test/setup';
 import { transformAndValidate } from 'class-transformer-validator';
 
 import { expectValidationError } from '../../test/helpers';
+import { action, nameField } from '../../test/stubs';
 import { Action } from './action';
 import { Field } from './field';
 
@@ -56,5 +57,19 @@ describe('Action', () => {
     await expect(transformAndValidate(Action, action)).rejects.toStrictEqual([
       expectValidationError('fields', ['arrayUnique'])
     ]);
+  });
+
+  describe('getField', () => {
+    it('should return undefined when no Field with the given name exists', () => {
+      const result = action.getField('not-the-field-you-are-looking-for');
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return Field with the given name', () => {
+      const result = action.getField(nameField.name);
+
+      expect(result).toBe(nameField);
+    });
   });
 });
