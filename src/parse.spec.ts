@@ -12,14 +12,14 @@ describe('parse', () => {
     const result = await parse(siren);
 
     expect(result).toBeInstanceOf(Entity);
-    expect(result).toMatchObject(entity);
+    expect(result).toEqual(entity);
   });
 
   it('should parse object as Entity', async () => {
     const result = await parse(entity);
 
     expect(result).toBeInstanceOf(Entity);
-    expect(result).toMatchObject(entity);
+    expect(result).toEqual(entity);
   });
 
   it('should parse Response body as Entity', async () => {
@@ -29,7 +29,7 @@ describe('parse', () => {
     const result = await parse(response);
 
     expect(result).toBeInstanceOf(Entity);
-    expect(result).toMatchObject(entity);
+    expect(result).toEqual(entity);
   });
 
   it('should throw error when JSON text is invalid Siren', async () => {
