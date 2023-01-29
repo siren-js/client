@@ -32,8 +32,15 @@ describe('fieldsToNameValuePairs', () => {
 
   it('should format date-time field when value is a Date', () => {
     const date = new Date('2023-01-01T00:00Z');
-    const dateTimeFieldTypes = ['date', 'month', 'week', 'time', 'date-time'];
-    const fields = dateTimeFieldTypes.map((type) => {
+    const fieldTypeFormattedDatePairs = [
+      ['date', '2023-01-01'],
+      ['month', '2023-01'],
+      ['week', '2022-W52'],
+      ['time', '00:00:00.000Z'],
+      ['date-time', '2023-01-01T00:00:00.000Z'],
+      ['unknown', '2023-01-01T00:00:00.000Z']
+    ];
+    const fields = fieldTypeFormattedDatePairs.map(([type]) => {
       const field = new Field<Date>();
       field.name = type;
       field.type = type;
@@ -43,13 +50,7 @@ describe('fieldsToNameValuePairs', () => {
 
     const result = fieldsToNameValuePairs(fields);
 
-    expect(result).toStrictEqual([
-      ['date', '2023-01-01'],
-      ['month', '2023-01'],
-      ['week', '2022-W52'],
-      ['time', '00:00:00.000Z'],
-      ['date-time', '2023-01-01T00:00:00.000Z']
-    ]);
+    expect(result).toStrictEqual(fieldTypeFormattedDatePairs);
   });
 
   it('should add checkbox value only if checked', () => {
@@ -87,8 +88,8 @@ describe('fieldsToNameValuePairs', () => {
   it('should support file fields', () => {
     // const jsonFile = new File(['{"foo":"bar"}'], 'foo.json', { type: 'application/json' });
     const fileField = new Field<File>();
+    fileField.name = 'logo';
     fileField.type = 'file';
-    fileField.name = 'file-to-upload';
     fileField.value = textFile;
     // unable to test FileList since jsdom is missing the Drag and Drop API
     // https://github.com/jsdom/jsdom/issues/1568
@@ -109,5 +110,13 @@ describe('fieldsToNameValuePairs', () => {
     ]);
   });
 
-  // it('should flatten array values', () => {});
+  it('should ignore empty file field', () => {
+    const fileField = new Field<File>();
+    fileField.name = 'logo';
+    fileField.type = 'file';
+
+    const result = fieldsToNameValuePairs([fileField]);
+
+    expect(result).toStrictEqual([]);
+  });
 });

@@ -19,8 +19,6 @@ const temporalFieldTypesToFormat = new Map<string, string>([
   ['date-time', 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]']
 ]);
 
-const dateTimeFieldTypes = new Set(temporalFieldTypesToFormat.keys());
-
 function formatDate(type: string, value: Date): string {
   const formatString = temporalFieldTypesToFormat.get(type);
   return formatString == null ? value.toISOString() : dayjs.utc(value).format(formatString);
@@ -28,13 +26,14 @@ function formatDate(type: string, value: Date): string {
 
 function fieldToValue(field: Field): string | File | (string | File)[] | undefined {
   const { type, value } = field;
-  if (dateTimeFieldTypes.has(type) && isDate(value)) {
+  if (isDate(value)) {
     return formatDate(type, value);
   } else if (type === 'checkbox' && !field.checked) {
     return undefined;
   } else if (type === 'file') {
-    if (value instanceof File) return value;
-    else if (value instanceof FileList) return [...value];
+    /* istanbul ignore if: unable to create a FileList instance */
+    if (value instanceof FileList) return [...value];
+    else if (value instanceof File) return value;
   } else if (Array.isArray(value)) {
     return value;
   } else {
