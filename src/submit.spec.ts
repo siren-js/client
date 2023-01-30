@@ -100,4 +100,17 @@ describe('submit', () => {
     await expect(response.text()).resolves.toBe(responseBody);
     expect(scope.isDone()).toBe(true);
   });
+
+  it('should accept and send request options', async () => {
+    const apiKey = 'foo-bar-baz';
+    const headers = { 'Api-Key': apiKey };
+    const scope = nock(baseUrl, { reqheaders: headers }).get(path).reply(200, responseBody);
+
+    const response = await submit(getAction, { requestInit: { headers } });
+
+    expect(response.url).toBe(url);
+    expect(response.status).toBe(200);
+    await expect(response.text()).resolves.toBe(responseBody);
+    expect(scope.isDone()).toBe(true);
+  });
 });
