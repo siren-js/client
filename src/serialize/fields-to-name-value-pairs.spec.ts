@@ -71,9 +71,8 @@ describe('fieldsToNameValuePairs', () => {
     expect(result).toStrictEqual([[field1.name, field1.value]]);
   });
 
-  it('should flatten multiple values', () => {
+  it('should generate a pair per element when value is an array', () => {
     const field = new Field<string[]>();
-    field.type = 'email';
     field.name = 'email';
     field.value = ['foo@example.com', 'bar@example.com'];
 

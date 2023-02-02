@@ -8,7 +8,7 @@ import { serializeUrlEncodedForm } from './serialize-url-encoded-form';
 import { Serializer } from './serializer';
 import { UnsupportedSerializerTypeError } from './unsupported-serializer-type-error';
 
-const typeToSerializerFn = new Map<string, SerializeFn>([
+const typeToSerializeFn = new Map<string, SerializeFn>([
   ['application/x-www-form-urlencoded', serializeUrlEncodedForm],
   ['multipart/form-data', serializeMultipartFormData],
   ['text/plain', serializePlainText]
@@ -22,7 +22,7 @@ const typeToSerializerFn = new Map<string, SerializeFn>([
  */
 export const defaultSerializer: Serializer = (type: string, fields: Field[]): Promise<Serialization> =>
   new Promise((resolve, reject) => {
-    const serialize = typeToSerializerFn.get(type);
+    const serialize = typeToSerializeFn.get(type);
     return serialize == null
       ? reject(new UnsupportedSerializerTypeError(type))
       : resolve({
