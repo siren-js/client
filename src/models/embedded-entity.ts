@@ -9,7 +9,7 @@ import { SubEntity, transformSubEntities } from './sub-entity';
 /**
  * Represents an embedded URI-addressable resource
  */
-export class EmbeddedEntity<T extends UnknownRecord = UnknownRecord> {
+export class EmbeddedEntity<T extends object = UnknownRecord> {
   /**
    * Available behavior exposed by the `EmbeddedEntity`
    */

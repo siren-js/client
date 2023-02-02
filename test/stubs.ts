@@ -62,7 +62,13 @@ child2EmbeddedLink.href = 'https://api.example.com/people/69424';
 child2EmbeddedLink.class = ['person'];
 child2EmbeddedLink.title = 'Hugo Granger-Weasley';
 
-export const entity = new Entity();
+interface Person {
+  givenName: string;
+  familyName: string;
+  birthDate?: string;
+}
+
+export const entity = new Entity<Person>();
 entity.class = ['person'];
 entity.title = 'Ron Weasley';
 entity.properties = {
