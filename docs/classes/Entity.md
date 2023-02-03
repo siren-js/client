@@ -8,7 +8,7 @@ Represents a URI-addressable resource
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) | Type of the `properties` property |
+| `T` | extends `object` = `object` | Type of the `properties` property |
 
 ## Indexable
 
@@ -43,7 +43,7 @@ Represents a URI-addressable resource
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) |
+| `T` | extends `object` = `object` |
 
 ## Properties
 
@@ -55,7 +55,7 @@ Available behavior exposed by the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:22](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L22)
+[src/models/entity.ts:21](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L21)
 
 ___
 
@@ -68,7 +68,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/entity.ts:31](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L31)
+[src/models/entity.ts:30](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L30)
 
 ___
 
@@ -80,7 +80,7 @@ Related entities represented as embedded links or representations
 
 #### Defined in
 
-[src/models/entity.ts:40](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L40)
+[src/models/entity.ts:39](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L39)
 
 ___
 
@@ -92,7 +92,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[src/models/entity.ts:49](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L49)
+[src/models/entity.ts:48](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L48)
 
 ___
 
@@ -104,7 +104,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:56](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L56)
+[src/models/entity.ts:55](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L55)
 
 ___
 
@@ -116,7 +116,7 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:63](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L63)
+[src/models/entity.ts:62](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L62)
 
 ## Methods
 
@@ -138,4 +138,4 @@ Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise
 
 #### Defined in
 
-[src/models/entity.ts:70](https://github.com/siren-js/client/blob/f21a3b1/src/models/entity.ts#L70)
+[src/models/entity.ts:69](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L69)

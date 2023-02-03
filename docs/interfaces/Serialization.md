@@ -19,7 +19,7 @@ Result of serializing and [Action](../classes/Action.md)
 
 #### Defined in
 
-[src/serialize/serialization.ts:6](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/serialization.ts#L6)
+[src/serialize/serialization.ts:6](https://github.com/siren-js/client/blob/eb240c3/src/serialize/serialization.ts#L6)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[src/serialize/serialization.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/serialization.ts#L5)
+[src/serialize/serialization.ts:5](https://github.com/siren-js/client/blob/eb240c3/src/serialize/serialization.ts#L5)

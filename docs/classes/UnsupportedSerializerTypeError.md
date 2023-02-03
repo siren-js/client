@@ -47,7 +47,7 @@ Error.constructor
 
 #### Defined in
 
-[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/unsupported-serializer-type-error.ts#L5)
+[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/eb240c3/src/serialize/unsupported-serializer-type-error.ts#L5)
 
 ## Properties
 
@@ -99,7 +99,7 @@ ___
 
 #### Defined in
 
-[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/f21a3b1/src/serialize/unsupported-serializer-type-error.ts#L5)
+[src/serialize/unsupported-serializer-type-error.ts:5](https://github.com/siren-js/client/blob/eb240c3/src/serialize/unsupported-serializer-type-error.ts#L5)
 
 ___
 

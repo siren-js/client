@@ -8,7 +8,7 @@ Represents an embedded URI-addressable resource
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) |
+| `T` | extends `object` = `object` |
 
 ## Indexable
 
@@ -44,7 +44,7 @@ Represents an embedded URI-addressable resource
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`UnknownRecord`](../modules.md#unknownrecord) = [`UnknownRecord`](../modules.md#unknownrecord) |
+| `T` | extends `object` = `object` |
 
 ## Properties
 
@@ -56,7 +56,7 @@ Available behavior exposed by the `EmbeddedEntity`
 
 #### Defined in
 
-[src/models/embedded-entity.ts:21](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L21)
+[src/models/embedded-entity.ts:20](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L20)
 
 ___
 
@@ -69,7 +69,7 @@ are implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/embedded-entity.ts:30](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L30)
+[src/models/embedded-entity.ts:29](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L29)
 
 ___
 
@@ -81,7 +81,7 @@ Related entities represented as embedded links or representations
 
 #### Defined in
 
-[src/models/embedded-entity.ts:39](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L39)
+[src/models/embedded-entity.ts:38](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L38)
 
 ___
 
@@ -93,7 +93,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[src/models/embedded-entity.ts:48](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L48)
+[src/models/embedded-entity.ts:47](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L47)
 
 ___
 
@@ -105,7 +105,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[src/models/embedded-entity.ts:55](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L55)
+[src/models/embedded-entity.ts:54](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L54)
 
 ___
 
@@ -117,7 +117,7 @@ List of strings describing the relationship of the `EmbeddedEntity` to its paren
 
 #### Defined in
 
-[src/models/embedded-entity.ts:62](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L62)
+[src/models/embedded-entity.ts:61](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L61)
 
 ___
 
@@ -129,7 +129,7 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[src/models/embedded-entity.ts:69](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L69)
+[src/models/embedded-entity.ts:68](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L68)
 
 ## Methods
 
@@ -151,4 +151,4 @@ Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise
 
 #### Defined in
 
-[src/models/embedded-entity.ts:76](https://github.com/siren-js/client/blob/f21a3b1/src/models/embedded-entity.ts#L76)
+[src/models/embedded-entity.ts:75](https://github.com/siren-js/client/blob/eb240c3/src/models/embedded-entity.ts#L75)

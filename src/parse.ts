@@ -3,16 +3,15 @@ import { isString } from 'class-validator';
 import { Response } from 'cross-fetch';
 
 import { Entity } from './models/entity';
-import { UnknownRecord } from './utils/unknown-record';
 
-export type Parsable = string | UnknownRecord | Response;
+export type Parsable = string | Record<string, unknown> | Response;
 
 /**
  * Parses `value` as an {@link Entity}
  * @typeParam T - type of `Entity.properties`
  */
-export async function parse<T extends object = UnknownRecord>(value: Parsable): Promise<Entity<T>> {
-  let obj: UnknownRecord;
+export async function parse<T extends object = object>(value: Parsable): Promise<Entity<T>> {
+  let obj: Record<string, unknown>;
   if (value instanceof Response) {
     obj = await value.json();
   } else if (isString(value)) {

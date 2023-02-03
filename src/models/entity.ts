@@ -1,7 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import { ArrayUnique, IsArray, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 
-import { UnknownRecord } from '../utils/unknown-record';
 import { Action } from './action';
 import { Link } from './link';
 import { SubEntity, transformSubEntities } from './sub-entity';
@@ -10,7 +9,7 @@ import { SubEntity, transformSubEntities } from './sub-entity';
  * Represents a URI-addressable resource
  * @typeParam T Type of the `properties` property
  */
-export class Entity<T extends object = UnknownRecord> {
+export class Entity<T extends object = object> {
   /**
    * Available behavior exposed by the `Entity`
    */
