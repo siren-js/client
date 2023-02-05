@@ -55,7 +55,7 @@ Available behavior exposed by the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:21](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L21)
+[src/models/entity.ts:21](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L21)
 
 ___
 
@@ -68,7 +68,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/entity.ts:30](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L30)
+[src/models/entity.ts:30](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L30)
 
 ___
 
@@ -80,7 +80,7 @@ Related entities represented as embedded links or representations
 
 #### Defined in
 
-[src/models/entity.ts:39](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L39)
+[src/models/entity.ts:39](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L39)
 
 ___
 
@@ -92,7 +92,7 @@ Navigation links that communicate ways to navigate outside the entity graph
 
 #### Defined in
 
-[src/models/entity.ts:48](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L48)
+[src/models/entity.ts:48](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L48)
 
 ___
 
@@ -104,7 +104,7 @@ Key-value pairs describing the state of the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:55](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L55)
+[src/models/entity.ts:55](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L55)
 
 ___
 
@@ -116,7 +116,7 @@ Descriptive text about the `Entity`
 
 #### Defined in
 
-[src/models/entity.ts:62](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L62)
+[src/models/entity.ts:62](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L62)
 
 ## Methods
 
@@ -138,4 +138,4 @@ Returns the `Action` in `actions` with the given `name`, if it exists. Otherwise
 
 #### Defined in
 
-[src/models/entity.ts:69](https://github.com/siren-js/client/blob/eb240c3/src/models/entity.ts#L69)
+[src/models/entity.ts:69](https://github.com/siren-js/client/blob/647f8ee/src/models/entity.ts#L69)

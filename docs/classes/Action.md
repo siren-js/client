@@ -45,7 +45,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/action.ts:18](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L18)
+[src/models/action.ts:18](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L18)
 
 ___
 
@@ -57,7 +57,7 @@ Input controls of the `Action`.
 
 #### Defined in
 
-[src/models/action.ts:28](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L28)
+[src/models/action.ts:28](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L28)
 
 ___
 
@@ -69,7 +69,7 @@ URI of the action
 
 #### Defined in
 
-[src/models/action.ts:34](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L34)
+[src/models/action.ts:34](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L34)
 
 ___
 
@@ -81,7 +81,7 @@ Protocol method used when submitting the `Action`. When missing, the default is 
 
 #### Defined in
 
-[src/models/action.ts:41](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L41)
+[src/models/action.ts:41](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L41)
 
 ___
 
@@ -93,7 +93,7 @@ Name identifying the action to be performed. Must be unique within an `Entity`'s
 
 #### Defined in
 
-[src/models/action.ts:47](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L47)
+[src/models/action.ts:47](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L47)
 
 ___
 
@@ -105,7 +105,7 @@ Descriptive text about the `Action`.
 
 #### Defined in
 
-[src/models/action.ts:54](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L54)
+[src/models/action.ts:54](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L54)
 
 ___
 
@@ -118,7 +118,7 @@ assumed to be `'application/x-www-form-urlencoded'`.
 
 #### Defined in
 
-[src/models/action.ts:62](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L62)
+[src/models/action.ts:62](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L62)
 
 ## Methods
 
@@ -140,4 +140,4 @@ Returns the `Field` in `fields` with the given `name`, if it exists. Otherwise, 
 
 #### Defined in
 
-[src/models/action.ts:69](https://github.com/siren-js/client/blob/eb240c3/src/models/action.ts#L69)
+[src/models/action.ts:69](https://github.com/siren-js/client/blob/647f8ee/src/models/action.ts#L69)

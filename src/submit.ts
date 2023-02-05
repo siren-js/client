@@ -11,13 +11,21 @@ export interface SubmitOptions {
   requestInit?: RequestInit;
 
   /**
-   * `Serializer` used to serialize an `Action`'s `fields` when present
+   * {@linkcode Serializer} used to serialize an {@link Action#fields `Action`'s `fields`}
    */
   serializer?: Serializer;
 }
 
 /**
- * Submits the given `action` by making an HTTP request according to `action`'s `method`, `href`, `fields`, and `type.
+ * Submits the given `action` by making an HTTP request according to `action`'s
+ * `method` and `href`. If `fields` are present in `action`, they are serialized
+ * according to `options.serializer` using `action.type` and `action.fields`. By
+ * default, a serializer supporting the following `type`s is provided:
+ * - `application/x-www-form-urlencoded`
+ * - `multipart/form-data`
+ * - `text/plain`
+ * If `action.method` is `'GET'` or `'DELETE'`, the serialized content is placed
+ * in the query string. Otherwise, the content is placed in the request body.
  * @param action Siren `Action` to submit
  * @param options Submission configuration
  * @returns `Promise` that fulfills with an HTTP `Response` object
@@ -42,5 +50,5 @@ export async function submit(action: Action, options: SubmitOptions = {}): Promi
     }
   }
 
-  return fetch(target.toString(), init);
+  return fetch(target, init);
 }

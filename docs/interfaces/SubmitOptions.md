@@ -19,7 +19,7 @@ Additional HTTP request options
 
 #### Defined in
 
-[src/submit.ts:11](https://github.com/siren-js/client/blob/eb240c3/src/submit.ts#L11)
+[src/submit.ts:11](https://github.com/siren-js/client/blob/647f8ee/src/submit.ts#L11)
 
 ___
 
@@ -27,8 +27,8 @@ ___
 
 • `Optional` **serializer**: [`Serializer`](../modules.md#serializer)
 
-`Serializer` used to serialize an `Action`'s `fields` when present
+[`Serializer`](../modules.md#serializer) used to serialize an [`Action`'s `fields`](../classes/Action.md#fields)
 
 #### Defined in
 
-[src/submit.ts:16](https://github.com/siren-js/client/blob/eb240c3/src/submit.ts#L16)
+[src/submit.ts:16](https://github.com/siren-js/client/blob/647f8ee/src/submit.ts#L16)

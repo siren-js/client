@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/parse.ts:7](https://github.com/siren-js/client/blob/eb240c3/src/parse.ts#L7)
+[src/parse.ts:7](https://github.com/siren-js/client/blob/647f8ee/src/parse.ts#L7)
 
 ___
 
@@ -75,7 +75,7 @@ Serializes an array of [`Field`](classes/Field.md) objects to the given media `t
 
 #### Defined in
 
-[src/serialize/serializer.ts:11](https://github.com/siren-js/client/blob/eb240c3/src/serialize/serializer.ts#L11)
+[src/serialize/serializer.ts:11](https://github.com/siren-js/client/blob/647f8ee/src/serialize/serializer.ts#L11)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[src/models/sub-entity.ts:7](https://github.com/siren-js/client/blob/eb240c3/src/models/sub-entity.ts#L7)
+[src/models/sub-entity.ts:7](https://github.com/siren-js/client/blob/647f8ee/src/models/sub-entity.ts#L7)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-[src/follow.ts:11](https://github.com/siren-js/client/blob/eb240c3/src/follow.ts#L11)
+[src/follow.ts:11](https://github.com/siren-js/client/blob/647f8ee/src/follow.ts#L11)
 
 ## Functions
 
@@ -120,7 +120,7 @@ HTTP response of following `target`
 
 #### Defined in
 
-[src/follow.ts:19](https://github.com/siren-js/client/blob/eb240c3/src/follow.ts#L19)
+[src/follow.ts:19](https://github.com/siren-js/client/blob/647f8ee/src/follow.ts#L19)
 
 ___
 
@@ -148,7 +148,7 @@ Parses `value` as an [Entity](classes/Entity.md)
 
 #### Defined in
 
-[src/parse.ts:13](https://github.com/siren-js/client/blob/eb240c3/src/parse.ts#L13)
+[src/parse.ts:13](https://github.com/siren-js/client/blob/647f8ee/src/parse.ts#L13)
 
 ___
 
@@ -156,25 +156,32 @@ ___
 
 ▸ **submit**(`action`, `options?`): `Promise`<`Response`\>
 
-Submits the given `action` by making an HTTP request according to `action`'s `method`, `href`, `fields`, and `type.
-@param action Siren `Action` to submit
-@param options Submission configuration
-@returns `Promise` that fulfills with an HTTP `Response` object
+Submits the given `action` by making an HTTP request according to `action`'s
+`method` and `href`. If `fields` are present in `action`, they are serialized
+according to `options.serializer` using `action.type` and `action.fields`. By
+default, a serializer supporting the following `type`s is provided:
+- `application/x-www-form-urlencoded`
+- `multipart/form-data`
+- `text/plain`
+If `action.method` is `'GET'` or `'DELETE'`, the serialized content is placed
+in the query string. Otherwise, the content is placed in the request body.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `action` | [`Action`](classes/Action.md) |
-| `options` | [`SubmitOptions`](interfaces/SubmitOptions.md) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | [`Action`](classes/Action.md) | Siren `Action` to submit |
+| `options` | [`SubmitOptions`](interfaces/SubmitOptions.md) | Submission configuration |
 
 #### Returns
 
 `Promise`<`Response`\>
 
+`Promise` that fulfills with an HTTP `Response` object
+
 #### Defined in
 
-[src/submit.ts:25](https://github.com/siren-js/client/blob/eb240c3/src/submit.ts#L25)
+[src/submit.ts:33](https://github.com/siren-js/client/blob/647f8ee/src/submit.ts#L33)
 
 ___
 
@@ -194,4 +201,4 @@ ___
 
 #### Defined in
 
-[src/models/sub-entity.ts:11](https://github.com/siren-js/client/blob/eb240c3/src/models/sub-entity.ts#L11)
+[src/models/sub-entity.ts:11](https://github.com/siren-js/client/blob/647f8ee/src/models/sub-entity.ts#L11)

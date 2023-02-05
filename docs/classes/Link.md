@@ -39,7 +39,7 @@ implementation-dependent and should be documented.
 
 #### Defined in
 
-[src/models/link.ts:16](https://github.com/siren-js/client/blob/eb240c3/src/models/link.ts#L16)
+[src/models/link.ts:16](https://github.com/siren-js/client/blob/647f8ee/src/models/link.ts#L16)
 
 ___
 
@@ -51,7 +51,7 @@ URI of the linked resource.
 
 #### Defined in
 
-[src/models/link.ts:22](https://github.com/siren-js/client/blob/eb240c3/src/models/link.ts#L22)
+[src/models/link.ts:22](https://github.com/siren-js/client/blob/647f8ee/src/models/link.ts#L22)
 
 ___
 
@@ -63,7 +63,7 @@ List of strings describing the relationship of the `Link` to its `Entity`, per [
 
 #### Defined in
 
-[src/models/link.ts:29](https://github.com/siren-js/client/blob/eb240c3/src/models/link.ts#L29)
+[src/models/link.ts:29](https://github.com/siren-js/client/blob/647f8ee/src/models/link.ts#L29)
 
 ___
 
@@ -75,7 +75,7 @@ Text describing the nature of the link.
 
 #### Defined in
 
-[src/models/link.ts:36](https://github.com/siren-js/client/blob/eb240c3/src/models/link.ts#L36)
+[src/models/link.ts:36](https://github.com/siren-js/client/blob/647f8ee/src/models/link.ts#L36)
 
 ___
 
@@ -87,4 +87,4 @@ Hint indicating what the media type of the result of dereferencing the `Link` sh
 
 #### Defined in
 
-[src/models/link.ts:43](https://github.com/siren-js/client/blob/eb240c3/src/models/link.ts#L43)
+[src/models/link.ts:43](https://github.com/siren-js/client/blob/647f8ee/src/models/link.ts#L43)
