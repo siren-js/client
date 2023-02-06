@@ -8,7 +8,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run build:lib",
-    "build:docs": "typedoc ./src --plugin typedoc-plugin-markdown",
+    "build:docs": "typedoc ./src",
     "build:lib": "npm run clean && npm run compile && npm run lint && npm run format:check",
     "clean": "rimraf dist coverage",
     "compile": "tsc --project tsconfig.build.json",
@@ -62,7 +62,6 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.24",
-    "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^4.9.4"
   }
 }
