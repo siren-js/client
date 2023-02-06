@@ -79,7 +79,7 @@ if (editAction != null) {
 
 ## API
 
-See the [docs](./docs/modules.md) folder.
+See our [docs](https://siren-js.github.io/client).
 
 ## Maintainer
 
