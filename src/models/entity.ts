@@ -52,7 +52,7 @@ export class Entity<T extends object = object> {
    */
   @IsObject()
   @IsOptional()
-  properties?: T;
+  properties: T = {} as T;
 
   /**
    * Descriptive text about the `Entity`
