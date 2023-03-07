@@ -1,8 +1,8 @@
 {
+  "extends": "./tsconfig.json",
+  "exclude": ["**/*.spec.ts", "test", "jest.config.ts"],
   "compilerOptions": {
     "declaration": true,
     "outDir": "dist"
-  },
-  "extends": "./tsconfig.json",
-  "exclude": ["**/*.spec.ts", "jest.config.ts"]
+  }
 }

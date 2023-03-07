@@ -1,4 +1,4 @@
-endOfLine: crlf
+endOfLine: lf
 printWidth: 120
 singleQuote: true
 trailingComma: none
