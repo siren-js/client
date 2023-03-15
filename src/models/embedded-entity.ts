@@ -51,7 +51,7 @@ export class EmbeddedEntity<T extends object = object> {
    */
   @IsObject()
   @IsOptional()
-  properties?: T;
+  properties: T = {} as T;
 
   /**
    * List of strings describing the relationship of the `EmbeddedEntity` to its parent, per [RFC 8288](https://tools.ietf.org/html/rfc8288).
