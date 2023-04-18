@@ -1,22 +1,37 @@
 import fetch from 'cross-fetch';
 
+import { Href, isHref } from './href';
+
 export interface Hyperlink {
-  href: string | URL;
+  href: Href;
 }
 
 function isHyperlink(value: unknown): value is Hyperlink {
-  return value != null && typeof value === 'object' && 'href' in value;
+  return value != null && typeof value === 'object' && 'href' in value && isHref(value.href);
 }
 
-export type Target = Hyperlink | RequestInfo;
+export type Target = Href | Hyperlink;
+
+export interface FollowOptions {
+  /**
+   * Base URL used to resolve relative URIs
+   */
+  baseUrl?: Href;
+
+  /**
+   * Request options
+   */
+  requestInit?: RequestInit;
+}
 
 /**
- * Follows `target` by making an HTTP `GET` request. `target` can be a `RequestInfo` object or a `Hyperlink` object.
+ * Follows `target` by making an HTTP `GET` request.
  * @param target request target
- * @param init optional HTTP request metadata
+ * @param options configuration object
  * @returns HTTP response of following `target`
  */
-export async function follow(target: Target, init?: RequestInit): Promise<Response> {
+export async function follow(target: Target, options: FollowOptions = {}): Promise<Response> {
   const input = isHyperlink(target) ? target.href : target;
-  return fetch(input, init);
+  const url = new URL(input, options.baseUrl);
+  return fetch(url, options.requestInit);
 }

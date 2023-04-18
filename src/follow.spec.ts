@@ -4,13 +4,7 @@ import { follow } from './follow';
 
 describe('follow', () => {
   const url = new URL('https://api.example.com/foo');
-  const urlString = url.toString();
   const responseBody = 'Success!';
-  let scope: nock.Scope;
-
-  function setupNockScope(reqheaders?: Record<string, nock.RequestHeaderMatcher>) {
-    scope = nock(urlString, { reqheaders }).get('').reply(200, responseBody);
-  }
 
   beforeEach(() => {
     if (!nock.isActive()) {
@@ -19,60 +13,46 @@ describe('follow', () => {
   });
 
   afterEach(() => {
-    expect(scope.isDone()).toBe(true);
-
     nock.restore();
   });
 
-  it('should HTTP GET a URL string', async () => {
-    setupNockScope();
+  it.each([
+    ['string', url.toString()],
+    ['URL', url],
+    ['Hyperlink', { href: url.toString() }]
+  ])('should make GET request for a %s', async (_, target) => {
+    const scope = nock(url.toString()).get('').reply(200, responseBody);
 
-    const response = await follow(urlString);
+    const response = await follow(target);
 
-    expect(response.url).toBe(urlString);
+    expect(response.url).toBe(url.toString());
     expect(response.status).toBe(200);
     await expect(response.text()).resolves.toBe(responseBody);
-  });
-
-  it('should HTTP GET a URL', async () => {
-    setupNockScope();
-
-    const response = await follow(url);
-
-    expect(response.url).toBe(urlString);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
-  });
-
-  it('should HTTP GET a Hyperlink URL string', async () => {
-    setupNockScope();
-
-    const response = await follow({ href: urlString });
-
-    expect(response.url).toBe(urlString);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
-  });
-
-  it('should HTTP GET a Hyperlink URL', async () => {
-    setupNockScope();
-
-    const response = await follow({ href: url });
-
-    expect(response.url).toBe(urlString);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(scope.isDone()).toBe(true);
   });
 
   it('should accept and send request options', async () => {
     const apiKey = 'foo-bar-baz';
     const headers = { 'Api-Key': apiKey };
-    setupNockScope(headers);
+    const scope = nock(url.toString(), { reqheaders: headers }).get('').reply(200, responseBody);
 
-    const response = await follow(url, { headers });
+    const response = await follow(url, { requestInit: { headers } });
 
-    expect(response.url).toBe(urlString);
+    expect(response.url).toBe(url.toString());
     expect(response.status).toBe(200);
     await expect(response.text()).resolves.toBe(responseBody);
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it('should resolve relative URL', async () => {
+    const url = new URL('http://foo.example.com/foo');
+    const scope = nock(url.toString()).get('').reply(200, responseBody);
+
+    const response = await follow({ href: '/foo' }, { baseUrl: url.origin });
+
+    expect(response.url).toBe(url.toString());
+    expect(response.status).toBe(200);
+    await expect(response.text()).resolves.toBe(responseBody);
+    expect(scope.isDone()).toBe(true);
   });
 });
