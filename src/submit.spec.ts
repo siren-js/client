@@ -5,7 +5,7 @@ import { Serializer } from './serialize/serializer';
 import { submit } from './submit';
 
 describe('submit', () => {
-  const baseUrl = new URL('https://api.example.com').toString();
+  const baseUrl = 'https://api.example.com';
   const path = '/foo';
   const url = new URL(path, baseUrl).toString();
   const responseBody = 'Success!';
@@ -29,15 +29,9 @@ describe('submit', () => {
   emailField.type = 'email';
   emailField.value = 'ron@example.com';
 
-  const getAction = new Action();
-  getAction.name = 'get';
-  getAction.href = url;
-
-  const postAction = new Action();
-  postAction.name = 'post';
-  postAction.href = url;
-  postAction.method = 'POST';
-  postAction.fields = [nameField, emailField];
+  const action = new Action();
+  action.name = 'do-something';
+  action.href = url;
 
   const urlEncodedForm = `${nameField.name}=${nameField.value}&${emailField.name}=${encodeURIComponent(
     emailField.value
@@ -46,7 +40,7 @@ describe('submit', () => {
   it('should make HTTP GET request when method is missing', async () => {
     const scope = nock(baseUrl).get(path).reply(200, responseBody);
 
-    const response = await submit(getAction);
+    const response = await submit(action);
 
     expect(response.url).toBe(url);
     expect(response.status).toBe(200);
@@ -54,14 +48,15 @@ describe('submit', () => {
     expect(scope.isDone()).toBe(true);
   });
 
-  it('should serialize fields into the query string for non-content-supporting HTTP method', async () => {
-    const getAction = new Action();
-    getAction.name = 'get';
-    getAction.href = url;
-    getAction.fields = [nameField, emailField];
-    const scope = nock(baseUrl).get(`${path}?${urlEncodedForm}`).reply(200, responseBody);
+  it.each(['GET', 'DELETE'])('should serialize fields into the query string for %s', async (method) => {
+    const action = new Action();
+    action.name = 'do-something';
+    action.href = url;
+    action.method = method;
+    action.fields = [nameField, emailField];
+    const scope = nock(baseUrl).intercept(`${path}?${urlEncodedForm}`, method).reply(200, responseBody);
 
-    const response = await submit(getAction);
+    const response = await submit(action);
 
     expect(response.url).toBe(`${url}?${urlEncodedForm}`);
     expect(response.status).toBe(200);
@@ -69,10 +64,15 @@ describe('submit', () => {
     expect(scope.isDone()).toBe(true);
   });
 
-  it('should serialize fields into the request for content-supporting HTTP method', async () => {
-    const scope = nock(baseUrl).post(path, urlEncodedForm).reply(200, responseBody);
+  it.each(['POST', 'PUT', 'PATCH'])('should serialize fields into the request for %s', async (method) => {
+    const action = new Action();
+    action.name = 'post';
+    action.href = url;
+    action.method = method;
+    action.fields = [nameField, emailField];
+    const scope = nock(baseUrl).intercept(path, method, urlEncodedForm).reply(200, responseBody);
 
-    const response = await submit(postAction);
+    const response = await submit(action);
 
     expect(response.url).toBe(url);
     expect(response.status).toBe(200);
@@ -81,11 +81,16 @@ describe('submit', () => {
   });
 
   it('should use custom serializer', async () => {
+    const action = new Action();
+    action.name = 'do-something';
+    action.href = url;
+    action.method = 'POST';
+    action.fields = [nameField, emailField];
     const content = `
-      <${getAction.name}>
+      <${action.name}>
         <${nameField.name}>${nameField.value}</${nameField.name}>
         <${emailField.name}>${emailField.value}</${emailField.name}>
-      </${getAction.name}>
+      </${action.name}>
     `;
     const contentType = 'text/xml';
     const serializer: Serializer = () => Promise.resolve({ content, contentType });
@@ -93,7 +98,7 @@ describe('submit', () => {
       .post(path, content)
       .reply(200, responseBody);
 
-    const response = await submit(postAction, { serializer });
+    const response = await submit(action, { serializer });
 
     expect(response.url).toBe(url);
     expect(response.status).toBe(200);
@@ -106,7 +111,21 @@ describe('submit', () => {
     const headers = { 'Api-Key': apiKey };
     const scope = nock(baseUrl, { reqheaders: headers }).get(path).reply(200, responseBody);
 
-    const response = await submit(getAction, { requestInit: { headers } });
+    const response = await submit(action, { requestInit: { headers } });
+
+    expect(response.url).toBe(url);
+    expect(response.status).toBe(200);
+    await expect(response.text()).resolves.toBe(responseBody);
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it('should resolve relative URL', async () => {
+    const action = new Action();
+    action.name = 'do-something';
+    action.href = path;
+    const scope = nock(baseUrl).get(path).reply(200, responseBody);
+
+    const response = await submit(action, { baseUrl });
 
     expect(response.url).toBe(url);
     expect(response.status).toBe(200);

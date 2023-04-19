@@ -1,10 +1,16 @@
 import fetch from 'cross-fetch';
 
+import { Href } from './href';
 import { Action } from './models/action';
 import { defaultSerializer } from './serialize/default-serializer';
 import { Serializer } from './serialize/serializer';
 
 export interface SubmitOptions {
+  /**
+   * Base URL used to resolve relative URIs
+   */
+  baseUrl?: Href;
+
   /**
    * Additional HTTP request options
    */
@@ -32,7 +38,7 @@ export interface SubmitOptions {
  */
 export async function submit(action: Action, options: SubmitOptions = {}): Promise<Response> {
   const { method, href, fields } = action;
-  const target = new URL(href);
+  const target = new URL(href, options.baseUrl);
   const init: RequestInit = {
     ...options.requestInit,
     method
