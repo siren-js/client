@@ -28,8 +28,6 @@ function fieldToValue(field: Field): string | File | (string | File)[] | undefin
   const { type, value } = field;
   if (isDate(value)) {
     return formatDate(type, value);
-  } else if (type === 'checkbox' && !field.checked) {
-    return undefined;
   } else if (type === 'file') {
     /* istanbul ignore if: unable to create a FileList instance */
     if (value instanceof FileList) return [...value];
