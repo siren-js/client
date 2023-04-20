@@ -4,21 +4,39 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.2]
+## [0.7.0] - 2023-04-20
+
+> **NOTE:** This release includes breaking changes from [v0.6.0](#060---2023-03-06).
+
+### Added
+
+- Support for relative URLs ([#21](https://github.com/siren-js/client/issues/21))
+
+### Changed
+
+- For supporting relative URLs ([#21](https://github.com/siren-js/client/issues/21)), `follow`'s `RequestInit` parameter is now nested in an options object
+- `Serialization`'s `contentType` is now optional
+- The default serializer no longer requires `checkbox` fields to use the `checked` extension ([#22](https://github.com/siren-js/client/issues/22))
+
+### Fixed
+
+- Submitting a `multipart/form-data` action now includes the `boundary` parameter ([#23](https://github.com/siren-js/client/issues/23))
+
+## [0.6.2] - 2023-03-15
 
 ### Fixed
 
 - `EmbeddedEntity`'s `properties` now default to an empty object ([#19](https://github.com/siren-js/client/issues/19))
 
-## [0.6.1]
+## [0.6.1] - 2023-03-08
 
 ### Fixed
 
 - Made `reflect-metadata` a non-dev dependency ([#18](https://github.com/siren-js/client/issues/18))
 
-## [0.6.0]
+## [0.6.0] - 2023-03-06
 
-> **NOTE:** This release includes breaking change from v0.5.0.
+> **NOTE:** This release includes breaking changes from [v0.5.0](#050---2022-01-22).
 
 ### Removed
 
@@ -94,6 +112,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
   - `submit()` method for submitting actions; currently, only actions whose `type` is `"application/x-www-form-urlencoded"` are supported.
 - Client `Response` wrapper for parsing Siren responses
 
+[0.7.0]: https://github.com/siren-js/client/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/siren-js/client/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/siren-js/client/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/siren-js/client/compare/v0.5.0...v0.6.0
