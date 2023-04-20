@@ -5,7 +5,7 @@ import { NameValuePair } from './name-value-pair';
 
 describe('fieldsToNameValuePairs', () => {
   it('should use Field name and value as-is for text-based fields', () => {
-    const fieldData: [string, string, string | number][] = [
+    const fieldData: [string, string, string | number | boolean][] = [
       ['text', 'a', 'foo'],
       ['search', 'b', 'bar'],
       ['tel', 'c', '(111) 222-3333'],
@@ -14,7 +14,8 @@ describe('fieldsToNameValuePairs', () => {
       ['password', 'f', 's3cr3t-p4ssw0rd'],
       ['number', 'g', 69420],
       ['color', 'h', '#696969'],
-      ['radio', 'i', 'baz']
+      ['radio', 'i', 'baz'],
+      ['checkbox', 'j', true]
     ];
     const fields = fieldData.map(([type, name, value]) => {
       const field = new Field();
@@ -51,24 +52,6 @@ describe('fieldsToNameValuePairs', () => {
     const result = fieldsToNameValuePairs(fields);
 
     expect(result).toStrictEqual(fieldTypeFormattedDatePairs);
-  });
-
-  it('should add checkbox value only if checked', () => {
-    const field1 = new Field();
-    field1.type = 'checkbox';
-    field1.name = 'foo';
-    field1.value = 'Lorem ipsum';
-    field1.checked = true;
-
-    const field2 = new Field();
-    field2.type = 'checkbox';
-    field2.name = 'bar';
-    field2.value = 'Dolor sit';
-    field2.checked = false;
-
-    const result = fieldsToNameValuePairs([field1, field2]);
-
-    expect(result).toStrictEqual([[field1.name, field1.value]]);
   });
 
   it('should generate a pair per element when value is an array', () => {
