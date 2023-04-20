@@ -48,7 +48,6 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@golevelup/ts-jest": "^0.3.4",
     "@types/jest": "^29.2.5",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
