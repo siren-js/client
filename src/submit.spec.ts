@@ -8,7 +8,6 @@ describe('submit', () => {
   const baseUrl = 'https://api.example.com';
   const path = '/foo';
   const url = new URL(path, baseUrl).toString();
-  const responseBody = 'Success!';
 
   beforeEach(() => {
     if (!nock.isActive()) {
@@ -38,13 +37,12 @@ describe('submit', () => {
   )}`;
 
   it('should make HTTP GET request when method is missing', async () => {
-    const scope = nock(baseUrl).get(path).reply(200, responseBody);
+    const scope = nock(baseUrl).get(path).reply(204);
 
     const response = await submit(action);
 
     expect(response.url).toBe(url);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 
@@ -54,13 +52,12 @@ describe('submit', () => {
     action.href = url;
     action.method = method;
     action.fields = [nameField, emailField];
-    const scope = nock(baseUrl).intercept(`${path}?${urlEncodedForm}`, method).reply(200, responseBody);
+    const scope = nock(baseUrl).intercept(`${path}?${urlEncodedForm}`, method).reply(204);
 
     const response = await submit(action);
 
     expect(response.url).toBe(`${url}?${urlEncodedForm}`);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 
@@ -70,13 +67,12 @@ describe('submit', () => {
     action.href = url;
     action.method = method;
     action.fields = [nameField, emailField];
-    const scope = nock(baseUrl).intercept(path, method, urlEncodedForm).reply(200, responseBody);
+    const scope = nock(baseUrl).intercept(path, method, urlEncodedForm).reply(204);
 
     const response = await submit(action);
 
     expect(response.url).toBe(url);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 
@@ -96,26 +92,24 @@ describe('submit', () => {
     const serializer: Serializer = () => Promise.resolve({ content, contentType });
     const scope = nock(baseUrl, { reqheaders: { 'Content-Type': contentType } })
       .post(path, content)
-      .reply(200, responseBody);
+      .reply(204);
 
     const response = await submit(action, { serializer });
 
     expect(response.url).toBe(url);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 
   it('should accept and send request options', async () => {
     const apiKey = 'foo-bar-baz';
     const headers = { 'Api-Key': apiKey };
-    const scope = nock(baseUrl, { reqheaders: headers }).get(path).reply(200, responseBody);
+    const scope = nock(baseUrl, { reqheaders: headers }).get(path).reply(204);
 
     const response = await submit(action, { requestInit: { headers } });
 
     expect(response.url).toBe(url);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 
@@ -123,13 +117,12 @@ describe('submit', () => {
     const action = new Action();
     action.name = 'do-something';
     action.href = path;
-    const scope = nock(baseUrl).get(path).reply(200, responseBody);
+    const scope = nock(baseUrl).get(path).reply(204);
 
     const response = await submit(action, { baseUrl });
 
     expect(response.url).toBe(url);
-    expect(response.status).toBe(200);
-    await expect(response.text()).resolves.toBe(responseBody);
+    expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
   });
 });

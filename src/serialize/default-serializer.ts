@@ -23,10 +23,13 @@ const typeToSerializeFn = new Map<string, SerializeFn>([
 export const defaultSerializer: Serializer = (type: string, fields: Field[]): Promise<Serialization> =>
   new Promise((resolve, reject) => {
     const serialize = typeToSerializeFn.get(type);
-    return serialize == null
-      ? reject(new UnsupportedSerializerTypeError(type))
-      : resolve({
-          contentType: type,
-          content: serialize(fieldsToNameValuePairs(fields))
-        });
+    if (serialize == null) return reject(new UnsupportedSerializerTypeError(type));
+
+    const serialization = serialize(fieldsToNameValuePairs(fields));
+
+    return resolve({
+      content: serialization,
+      // let the Fetch API generate a boundary parameter for FormData
+      contentType: serialization instanceof FormData ? undefined : type
+    });
   });

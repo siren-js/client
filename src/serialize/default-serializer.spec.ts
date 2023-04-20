@@ -1,5 +1,3 @@
-import { createMock } from '@golevelup/ts-jest';
-
 import { nameField } from '../../test/stubs';
 import { defaultSerializer } from './default-serializer';
 import { fieldsToNameValuePairs } from './fields-to-name-value-pairs';
@@ -33,12 +31,12 @@ describe('defaultSerializer', () => {
 
   it('should serialize application/x-www-form-urlencoded', async () => {
     const type = 'application/x-www-form-urlencoded';
-    const params = createMock<URLSearchParams>();
-    mockedSerializeUrlEncodedForm.mockReturnValueOnce(params);
+    const content = new URLSearchParams();
+    mockedSerializeUrlEncodedForm.mockReturnValueOnce(content);
 
     const result = await defaultSerializer(type, fields);
 
-    expect(result).toStrictEqual({ contentType: type, content: params });
+    expect(result).toEqual({ content: content, contentType: type });
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledTimes(1);
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledWith(fields);
     expect(mockedSerializeUrlEncodedForm).toHaveBeenCalledTimes(1);
@@ -47,12 +45,12 @@ describe('defaultSerializer', () => {
 
   it('should serialize multipart/form-data', async () => {
     const type = 'multipart/form-data';
-    const content = 'foo';
+    const content = new FormData();
     mockedSerializeMultipartFormData.mockReturnValueOnce(content);
 
     const result = await defaultSerializer(type, fields);
 
-    expect(result).toEqual({ contentType: type, content });
+    expect(result).toEqual({ content, contentType: undefined });
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledTimes(1);
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledWith(fields);
     expect(mockedSerializeMultipartFormData).toHaveBeenCalledTimes(1);
@@ -66,7 +64,7 @@ describe('defaultSerializer', () => {
 
     const result = await defaultSerializer(type, fields);
 
-    expect(result).toEqual({ contentType: type, content });
+    expect(result).toEqual({ content, contentType: type });
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledTimes(1);
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledWith(fields);
     expect(mockedSerializePlainText).toHaveBeenCalledTimes(1);

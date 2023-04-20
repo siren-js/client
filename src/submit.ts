@@ -51,7 +51,9 @@ export async function submit(action: Action, options: SubmitOptions = {}): Promi
     if (init.method === 'GET' || init.method === 'DELETE') {
       target.search = serialization.content.toString();
     } else {
-      init.headers = { ...init.headers, 'Content-Type': serialization.contentType };
+      if (serialization.contentType) {
+        init.headers = { ...init.headers, 'Content-Type': serialization.contentType };
+      }
       init.body = serialization.content;
     }
   }
