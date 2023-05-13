@@ -1,7 +1,7 @@
 {
   "name": "@siren-js/client",
   "version": "0.0.0",
-  "description": "Client class for communicating with Siren APIs",
+  "description": "Siren API client library",
   "files": [
     "/dist"
   ],
@@ -27,6 +27,7 @@
   },
   "keywords": [
     "API",
+    "client",
     "HATEOAS",
     "hypermedia",
     "REST",

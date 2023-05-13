@@ -4,7 +4,7 @@
 [![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)]()
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![License](https://img.shields.io/github/license/siren-js/client?style=flat-square)](LICENSE)
-[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/siren-js/.github/blob/main/profile/CONTRIBUTING.md)
 
 [Siren](https://github.com/kevinswiber/siren) API client library for JavaScript
 
@@ -23,6 +23,7 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
+- [Development](#development)
 - [API](#api)
 - [Maintainer](#maintainer)
 - [Contributing](#contributing)
@@ -77,6 +78,39 @@ if (editAction != null) {
 }
 ```
 
+## Development
+
+```sh
+# setup Node.js
+$ nvm use
+
+# test with Jest
+$ npm test
+# run tests in watch mode
+$ npm run test:watch
+# run tests with coverage
+$ npm run test:cov
+
+# compile TypeScript code
+$ npm run compile
+
+# lint with ESLint
+$ npm run lint
+# automatically fix lint issues where possible
+$ npm run lint:fix
+
+# format files with Prettier
+$ npm run format
+# check files for proper formatting
+$ npm run format:check
+
+# build the library (compile, lint, format check)
+$ npm run build:lib
+
+# generate docs with TypeDoc
+$ npm run build:docs
+```
+
 ## API
 
 See our [docs](https://siren-js.github.io/client).
@@ -87,7 +121,7 @@ See our [docs](https://siren-js.github.io/client).
 
 ## Contributing
 
-See our [contribution guidelines](./CONTRIBUTING.md).
+See our [contribution guidelines](https://github.com/siren-js/.github/blob/main/profile/CONTRIBUTING.md).
 
 PRs accepted.
 
