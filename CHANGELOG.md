@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0]
+
+### Added
+
+- `resolve` function for resolving a `SubEntity`
+- [Development section in the README](./README.md#development)
+
+### Changed
+
+- Project is now built with Node 18
+
+### Removed
+
+- Contribution guidelines and code of conduct, which now live [here](https://github.com/siren-js/.github/tree/main/profile)
+
 ## [0.7.0] - 2023-04-20
 
 > **NOTE:** This release includes breaking changes from [v0.6.0](#060---2023-03-06).
