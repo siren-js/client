@@ -43,7 +43,7 @@ npm install @siren-js/client
 ## Usage
 
 ```js
-import { follow, parse } from '@siren-js/client';
+import { follow, parse, resolve } from '@siren-js/client';
 
 // follow API entry point
 let response = await follow('https://api.example.com/entry-point');
@@ -76,6 +76,13 @@ if (editAction != null) {
   const text = await response.text();
   // ...and run it through the parse function
   entity = await parse(response);
+}
+
+// find the first 'item' sub-entity
+const itemSubEntity = entity.entities.find((subEntity) => subEntity.rel.includes('item'));
+if (itemSubEntity != null) {
+  // resolve the sub-entity to a full entity
+  entity = await resolve(itemSubEntity);
 }
 ```
 
