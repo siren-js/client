@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2023-05-25
+
+### Added
+
+- Usage docs for `resolve`
+- Re-export for `Href` and `isHref` to round out docs
+
+### Fixed
+
+- Re-export `resolve` ([#32](https://github.com/siren-js/client/issues/32))
+
 ## [0.8.0] - 2023-05-25
 
 ### Added
@@ -127,6 +138,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
   - `submit()` method for submitting actions; currently, only actions whose `type` is `"application/x-www-form-urlencoded"` are supported.
 - Client `Response` wrapper for parsing Siren responses
 
+[0.8.1]: https://github.com/siren-js/client/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/siren-js/client/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/siren-js/client/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/siren-js/client/compare/v0.6.1...v0.6.2
