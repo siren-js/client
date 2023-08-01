@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import { fetch, Headers } from 'cross-fetch';
 
 import { Href } from './href';
 import { Action } from './models/action';
@@ -52,7 +52,9 @@ export async function submit(action: Action, options: SubmitOptions = {}): Promi
       target.search = serialization.content.toString();
     } else {
       if (serialization.contentType) {
-        init.headers = { ...init.headers, 'Content-Type': serialization.contentType };
+        const headers = new Headers(init.headers);
+        headers.set('Content-Type', serialization.contentType);
+        init.headers = headers;
       }
       init.body = serialization.content;
     }

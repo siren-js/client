@@ -101,16 +101,34 @@ describe('submit', () => {
     expect(scope.isDone()).toBe(true);
   });
 
-  it('should accept and send request options', async () => {
+  describe('requestInit option', () => {
     const apiKey = 'foo-bar-baz';
     const headers = { 'Api-Key': apiKey };
-    const scope = nock(baseUrl, { reqheaders: headers }).get(path).reply(204);
+    const action = new Action();
+    action.name = 'foo';
+    action.href = url;
+    action.method = 'POST';
+    action.fields = [nameField];
 
-    const response = await submit(action, { requestInit: { headers } });
+    it('should send custom headers', async () => {
+      const scope = nock(baseUrl, { reqheaders: headers }).post(path).reply(204);
 
-    expect(response.url).toBe(url);
-    expect(response.status).toBe(204);
-    expect(scope.isDone()).toBe(true);
+      const response = await submit(action, { requestInit: { headers } });
+
+      expect(response.url).toBe(url);
+      expect(response.status).toBe(204);
+      expect(scope.isDone()).toBe(true);
+    });
+
+    it('should merge custom headers with base headers', async () => {
+      const scope = nock(baseUrl, { reqheaders: headers }).post(path).reply(204);
+
+      const response = await submit(action, { requestInit: { headers: Object.entries(headers) } });
+
+      expect(response.url).toBe(url);
+      expect(response.status).toBe(204);
+      expect(scope.isDone()).toBe(true);
+    });
   });
 
   it('should resolve relative URL', async () => {
