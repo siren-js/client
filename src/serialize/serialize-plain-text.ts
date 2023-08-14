@@ -1,7 +1,7 @@
 import { isString } from 'class-validator';
 
-import { NameValuePair } from './name-value-pair';
-import { SerializeFn } from './serialize-fn';
+import { NameValuePair } from '../types/name-value-pair';
+import { SerializeFn } from '../types/serialize-fn';
 
 /**
  * Transforms an array of {@linkcode NameValuePair} objects into a string by
@@ -9,7 +9,7 @@ import { SerializeFn } from './serialize-fn';
  * If the value is a [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File)
  * object, its `name` is used.
  */
-export const serializePlainText: SerializeFn = (nameValuePairs: NameValuePair[]): string =>
+export const serializePlainText: SerializeFn<NameValuePair, string> = (nameValuePairs) =>
   nameValuePairs.reduce(
     (content, [name, value]) => `${content}${name}=${isString(value) ? value : value.name}\r\n`,
     ''

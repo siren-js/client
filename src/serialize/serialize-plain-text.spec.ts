@@ -1,5 +1,5 @@
 import { textFile } from '../../test/stubs';
-import { NameValuePair } from './name-value-pair';
+import { NameValuePair } from '../types/name-value-pair';
 import { serializePlainText } from './serialize-plain-text';
 
 describe('serializePlainText', () => {
@@ -41,7 +41,7 @@ describe('serializePlainText', () => {
   it("should use file's name when value is a File object", () => {
     const nameValuePairs: NameValuePair[] = [['attachment', textFile]];
 
-    const result = serializePlainText(nameValuePairs) as URLSearchParams;
+    const result = serializePlainText(nameValuePairs);
 
     expect(result).toBe(`${nameValuePairs[0][0]}=${textFile.name}\r\n`);
   });

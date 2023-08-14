@@ -1,5 +1,5 @@
 import { textFile } from '../../test/stubs';
-import { NameValuePair } from './name-value-pair';
+import { NameValuePair } from '../types/name-value-pair';
 import { serializeMultipartFormData } from './serialize-multipart-form-data';
 
 describe('serializeMultipartFormData', () => {
@@ -21,7 +21,7 @@ describe('serializeMultipartFormData', () => {
       ['bar', '42']
     ];
 
-    const result = serializeMultipartFormData(nameValuePairs) as URLSearchParams;
+    const result = serializeMultipartFormData(nameValuePairs);
 
     expect([...result.keys()]).toHaveLength(2);
     expect(result.get(nameValuePairs[0][0])).toBe(nameValuePairs[0][1]);
@@ -35,7 +35,7 @@ describe('serializeMultipartFormData', () => {
       ['bar', '42']
     ];
 
-    const result = serializeMultipartFormData(nameValuePairs) as URLSearchParams;
+    const result = serializeMultipartFormData(nameValuePairs);
 
     expect([...result.keys()]).toHaveLength(3);
     expect(result.getAll(nameValuePairs[0][0])).toEqual([nameValuePairs[0][1], nameValuePairs[1][1]]);
@@ -45,7 +45,7 @@ describe('serializeMultipartFormData', () => {
   it('should use file when value is a File object', () => {
     const nameValuePairs: NameValuePair[] = [['attachment', textFile]];
 
-    const result = serializeMultipartFormData(nameValuePairs) as URLSearchParams;
+    const result = serializeMultipartFormData(nameValuePairs);
 
     expect([...result.keys()]).toHaveLength(1);
     expect(result.get(nameValuePairs[0][0])).toBe(textFile);
