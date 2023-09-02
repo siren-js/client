@@ -13,8 +13,7 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
-  - [x] Customize `Field` serialization
-  - [ ] Toggle and customize `Field` validation
+  - [x] Customizable `Field` validation and serialization
 - [x] Resolve a `SubEntity`
 - [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
