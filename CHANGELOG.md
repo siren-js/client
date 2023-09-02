@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
 ### Added
 
 - Default JSON serializer ([#27](https://github.com/siren-js/client/issues/27))
+- Default serializer is available for extension (see [`submit` docs](https://siren-js.github.io/client/functions/submit.html))
 
 ## [0.8.2] - 2023-08-01
 
