@@ -1,8 +1,8 @@
 import nock from 'nock';
 
 import { Action, Field } from './';
-import { Serializer } from './serialize/serializer';
 import { submit } from './submit';
+import { Serializer } from './types/serializer';
 
 describe('submit', () => {
   const baseUrl = 'https://api.example.com';

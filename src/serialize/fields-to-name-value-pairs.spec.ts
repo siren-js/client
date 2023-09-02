@@ -1,7 +1,7 @@
 import { textFile } from '../../test/stubs';
 import { Field } from '../models/field';
+import { NameValuePair } from '../types/name-value-pair';
 import { fieldsToNameValuePairs } from './fields-to-name-value-pairs';
-import { NameValuePair } from './name-value-pair';
 
 describe('fieldsToNameValuePairs', () => {
   it('should use Field name and value as-is for text-based fields', () => {

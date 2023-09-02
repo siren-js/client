@@ -1,18 +1,21 @@
 import { nameField } from '../../test/stubs';
+import { NameValuePair } from '../types/name-value-pair';
 import { defaultSerializer } from './default-serializer';
 import { fieldsToNameValuePairs } from './fields-to-name-value-pairs';
-import { NameValuePair } from './name-value-pair';
+import { serializeJson } from './serialize-json';
 import { serializeMultipartFormData } from './serialize-multipart-form-data';
 import { serializePlainText } from './serialize-plain-text';
 import { serializeUrlEncodedForm } from './serialize-url-encoded-form';
 import { UnsupportedSerializerTypeError } from './unsupported-serializer-type-error';
 
 jest.mock('./fields-to-name-value-pairs');
+jest.mock('./serialize-json');
 jest.mock('./serialize-multipart-form-data');
 jest.mock('./serialize-plain-text');
 jest.mock('./serialize-url-encoded-form');
 
 const mockedFieldsToNamedValuePairs = jest.mocked(fieldsToNameValuePairs);
+const mockedSerializeJson = jest.mocked(serializeJson);
 const mockedSerializeMultipartFormData = jest.mocked(serializeMultipartFormData);
 const mockedSerializePlainText = jest.mocked(serializePlainText);
 const mockedSerializeUrlEncodedForm = jest.mocked(serializeUrlEncodedForm);
@@ -29,6 +32,19 @@ describe('defaultSerializer', () => {
     jest.resetAllMocks();
   });
 
+  it('should serialize application/json', async () => {
+    const type = 'application/json';
+    const content = JSON.stringify({ foo: 'bar' });
+    mockedSerializeJson.mockReturnValueOnce(content);
+
+    const result = await defaultSerializer(type, fields);
+
+    expect(result).toEqual({ content, contentType: type });
+    expect(mockedFieldsToNamedValuePairs).not.toHaveBeenCalled();
+    expect(mockedSerializeJson).toHaveBeenCalledTimes(1);
+    expect(mockedSerializeJson).toHaveBeenCalledWith(fields);
+  });
+
   it('should serialize application/x-www-form-urlencoded', async () => {
     const type = 'application/x-www-form-urlencoded';
     const content = new URLSearchParams();
@@ -36,7 +52,7 @@ describe('defaultSerializer', () => {
 
     const result = await defaultSerializer(type, fields);
 
-    expect(result).toEqual({ content: content, contentType: type });
+    expect(result).toEqual({ content, contentType: type });
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledTimes(1);
     expect(mockedFieldsToNamedValuePairs).toHaveBeenCalledWith(fields);
     expect(mockedSerializeUrlEncodedForm).toHaveBeenCalledTimes(1);
@@ -72,7 +88,7 @@ describe('defaultSerializer', () => {
   });
 
   it('should throw UnsupportedSerializerTypeError for other types', async () => {
-    await expect(defaultSerializer('application/json', [])).rejects.toThrow(UnsupportedSerializerTypeError);
+    await expect(defaultSerializer('application/octet-stream', [])).rejects.toThrow(UnsupportedSerializerTypeError);
     await expect(defaultSerializer('application/xml', [])).rejects.toThrow(UnsupportedSerializerTypeError);
     await expect(defaultSerializer('text/xml', [])).rejects.toThrow(UnsupportedSerializerTypeError);
   });
