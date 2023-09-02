@@ -50,39 +50,39 @@ let response = await follow('https://api.example.com/entry-point');
 // parse the response as Siren
 let entity = await parse(response);
 
+// find the first 'item' sub-entity
+const itemSubEntity = entity.entities.find((subEntity) => subEntity.rel.includes('item'));
+if (itemSubEntity != null) {
+  // resolve the sub-entity to a full entity
+  entity = await resolve(itemSubEntity);
+}
+
 // find the first 'next' link
 const nextLink = entity.links.find((link) => link.rel.includes('next'));
 if (nextLink != null) {
   // follow the 'next' link, if present
   response = await follow(nextLink);
-  // alternatively, parse the response content as JSON...
+  // alternatively, manually parse the response content as JSON...
   const json = await response.json();
-  // ...and run that result through the parse function
+  // ...and parse the result as Siren
   entity = await parse(json);
 }
 
 // find the 'edit' action
 const editAction = entity.getAction('edit');
 if (editAction != null) {
-  // find the 'quantity' field, if 'edit' action is present
+  // find the 'quantity' field in the 'edit' action
   const quantityField = editAction.getField('quantity');
   if (quantityField != null) {
-    // update 'quantity' field, if present
+    // set the 'quantity' field value
     quantityField.value = 69;
   }
   // submit the action
   response = await submit(editAction);
   // a third option is to extract the response content as text...
   const text = await response.text();
-  // ...and run it through the parse function
+  // ...and parse the result as Siren JSON
   entity = await parse(response);
-}
-
-// find the first 'item' sub-entity
-const itemSubEntity = entity.entities.find((subEntity) => subEntity.rel.includes('item'));
-if (itemSubEntity != null) {
-  // resolve the sub-entity to a full entity
-  entity = await resolve(itemSubEntity);
 }
 ```
 
