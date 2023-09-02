@@ -1,8 +1,10 @@
+import 'reflect-metadata';
+
 import nock from 'nock';
 
-import { Action, Field } from './';
+import { Action, Field } from './models';
 import { submit } from './submit';
-import { Serializer } from './types/serializer';
+import { NegativeValidationResult, ValidationError } from './validate';
 
 describe('submit', () => {
   const baseUrl = 'https://api.example.com';

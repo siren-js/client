@@ -1,5 +1,5 @@
 import { Field } from '../models';
-import { SerializeFn } from '../types/serialize-fn';
+import { SerializeFn } from './serialize-fn';
 
 /**
  * Builds and stringifies a JSON object from the given `fields`' `name` and

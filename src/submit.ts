@@ -1,9 +1,9 @@
 import { fetch, Headers } from 'cross-fetch';
 
+import { Href } from './href';
 import { Action } from './models/action';
+import { Serializer } from './serialize';
 import { defaultSerializer } from './serialize/default-serializer';
-import { Href } from './types/href';
-import { Serializer } from './types/serializer';
 
 export interface SubmitOptions {
   /**
