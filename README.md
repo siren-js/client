@@ -1,8 +1,8 @@
 # Siren.js Client
 
 [![Node Package](https://img.shields.io/npm/v/@siren-js/client?style=flat-square)](https://npmjs.org/@siren-js/client)
-[![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)]()
-[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)](https://github.com/siren-js/client/actions/workflows/build.yaml)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![License](https://img.shields.io/github/license/siren-js/client?style=flat-square)](LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/siren-js/.github/blob/main/profile/CONTRIBUTING.md)
 
