@@ -4,7 +4,7 @@ import { textFile } from '../../test/stubs';
 import { Field } from '../models';
 import { serializeJson } from './serialize-json';
 
-function field(name: string, value: any) {
+function field(name: string, value: unknown) {
   const f = new Field();
   f.name = name;
   f.value = value;
