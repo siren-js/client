@@ -1,8 +1,8 @@
 # Siren.js Client
 
 [![Node Package](https://img.shields.io/npm/v/@siren-js/client?style=flat-square)](https://npmjs.org/@siren-js/client)
-[![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)]()
-[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![Build Workflow](https://img.shields.io/github/actions/workflow/status/siren-js/client/build.yaml?style=flat-square)](https://github.com/siren-js/client/actions/workflows/build.yaml)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![License](https://img.shields.io/github/license/siren-js/client?style=flat-square)](LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/siren-js/.github/blob/main/profile/CONTRIBUTING.md)
 
@@ -13,8 +13,7 @@ Siren is a very powerful hypermedia format that enables a server and its clients
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
-  - [x] Customize `Field` serialization
-  - [ ] Toggle and customize `Field` validation
+  - [x] Customizable `Field` validation and serialization
 - [x] Resolve a `SubEntity`
 - [ ] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
@@ -50,39 +49,39 @@ let response = await follow('https://api.example.com/entry-point');
 // parse the response as Siren
 let entity = await parse(response);
 
+// find the first 'item' sub-entity
+const itemSubEntity = entity.entities.find((subEntity) => subEntity.rel.includes('item'));
+if (itemSubEntity != null) {
+  // resolve the sub-entity to a full entity
+  entity = await resolve(itemSubEntity);
+}
+
 // find the first 'next' link
 const nextLink = entity.links.find((link) => link.rel.includes('next'));
 if (nextLink != null) {
   // follow the 'next' link, if present
   response = await follow(nextLink);
-  // alternatively, parse the response content as JSON...
+  // alternatively, manually parse the response content as JSON...
   const json = await response.json();
-  // ...and run that result through the parse function
+  // ...and parse the result as Siren
   entity = await parse(json);
 }
 
 // find the 'edit' action
 const editAction = entity.getAction('edit');
 if (editAction != null) {
-  // find the 'quantity' field, if 'edit' action is present
+  // find the 'quantity' field in the 'edit' action
   const quantityField = editAction.getField('quantity');
   if (quantityField != null) {
-    // update 'quantity' field, if present
+    // set the 'quantity' field value
     quantityField.value = 69;
   }
   // submit the action
   response = await submit(editAction);
   // a third option is to extract the response content as text...
   const text = await response.text();
-  // ...and run it through the parse function
+  // ...and parse the result as Siren JSON
   entity = await parse(response);
-}
-
-// find the first 'item' sub-entity
-const itemSubEntity = entity.entities.find((subEntity) => subEntity.rel.includes('item'));
-if (itemSubEntity != null) {
-  // resolve the sub-entity to a full entity
-  entity = await resolve(itemSubEntity);
 }
 ```
 

@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import { Href, isHref } from './types/href';
+import { Href, isHref } from './href';
 
 export interface Hyperlink {
   href: Href;

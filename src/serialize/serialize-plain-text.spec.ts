@@ -1,5 +1,5 @@
 import { textFile } from '../../test/stubs';
-import { NameValuePair } from '../types/name-value-pair';
+import { NameValuePair } from './name-value-pair';
 import { serializePlainText } from './serialize-plain-text';
 
 describe('serializePlainText', () => {

@@ -1,5 +1,5 @@
 import { textFile } from '../../test/stubs';
-import { NameValuePair } from '../types/name-value-pair';
+import { NameValuePair } from './name-value-pair';
 import { serializeMultipartFormData } from './serialize-multipart-form-data';
 
 describe('serializeMultipartFormData', () => {
