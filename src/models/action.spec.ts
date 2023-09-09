@@ -1,7 +1,9 @@
 import { transformAndValidate } from 'class-transformer-validator';
+import { mock } from 'jest-mock-extended';
 
 import { expectValidationError } from '../../test/helpers';
 import { action, nameField } from '../../test/stubs';
+import { SirenElementVisitor } from '../visitor';
 import { Action } from './action';
 import { Field } from './field';
 
@@ -55,6 +57,31 @@ describe('Action', () => {
     await expect(transformAndValidate(Action, action)).rejects.toStrictEqual([
       expectValidationError('fields', ['arrayUnique'])
     ]);
+  });
+
+  describe('accept', () => {
+    it('should pass itself to the visitor', async () => {
+      const action = new Action();
+      const visitor = mock<SirenElementVisitor>();
+
+      await action.accept(visitor);
+
+      expect(visitor.visitAction).toHaveBeenCalledTimes(1);
+      expect(visitor.visitAction).toHaveBeenCalledWith(action);
+    });
+
+    it('should pass the visitor to each field', async () => {
+      const action = new Action();
+      action.fields = [mock<Field>(), mock<Field>()];
+      const visitor = mock<SirenElementVisitor>();
+
+      await action.accept(visitor);
+
+      action.fields.forEach((field) => {
+        expect(field.accept).toHaveBeenCalledTimes(1);
+        expect(field.accept).toHaveBeenCalledWith(visitor);
+      });
+    });
   });
 
   describe('getField', () => {

@@ -1,6 +1,8 @@
 import { transformAndValidate } from 'class-transformer-validator';
+import { mock } from 'jest-mock-extended';
 
 import { expectValidationError } from '../../test/helpers';
+import { SirenElementVisitor } from '../visitor';
 import { Link } from './link';
 
 describe('Link', () => {
@@ -37,5 +39,18 @@ describe('Link', () => {
 
     expect(result).toBeInstanceOf(Link);
     expect(result).toMatchObject(link);
+  });
+
+  describe('accept', () => {
+    const link = new Link();
+
+    it('should pass itself to the visitor', async () => {
+      const visitor = mock<SirenElementVisitor>();
+
+      await link.accept(visitor);
+
+      expect(visitor.visitLink).toHaveBeenCalledTimes(1);
+      expect(visitor.visitLink).toHaveBeenCalledWith(link);
+    });
   });
 });

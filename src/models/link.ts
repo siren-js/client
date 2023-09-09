@@ -1,11 +1,13 @@
 import { IsArray, IsMimeType, IsOptional, IsString } from 'class-validator';
 
 import { IsUri } from '../utils/is-uri';
+import { SirenElementVisitor } from '../visitor/siren-element-visitor';
+import { SirenElement } from './siren-element';
 
 /**
  * Represents a URI-addressable resource
  */
-export class Link {
+export class Link implements SirenElement {
   /**
    * List of strings describing the nature of the `Link` based on the current representation. Possible values are
    * implementation-dependent and should be documented.
@@ -43,4 +45,11 @@ export class Link {
   type?: string;
 
   [extension: string]: unknown;
+
+  /**
+   * Visits this link.
+   */
+  async accept(visitor: SirenElementVisitor): Promise<void> {
+    await visitor.visitLink(this);
+  }
 }

@@ -1,7 +1,9 @@
 import { transformAndValidate } from 'class-transformer-validator';
+import { mock } from 'jest-mock-extended';
 
 import { expectValidationError } from '../../test/helpers';
 import { action, embeddedEntity } from '../../test/stubs';
+import { SirenElementVisitor } from '../visitor';
 import { Action } from './action';
 import { EmbeddedEntity } from './embedded-entity';
 import { EmbeddedLink } from './embedded-link';
@@ -78,6 +80,57 @@ describe('EmbeddedEntity', () => {
     await expect(transformAndValidate(EmbeddedEntity, entity)).rejects.toStrictEqual([
       expectValidationError('actions', ['arrayUnique'])
     ]);
+  });
+
+  describe('accept', () => {
+    it('should pass itself to the visitor', async () => {
+      const entity = new EmbeddedEntity();
+      const visitor = mock<SirenElementVisitor>();
+
+      await entity.accept(visitor);
+
+      expect(visitor.visitEntity).toHaveBeenCalledTimes(1);
+      expect(visitor.visitEntity).toHaveBeenCalledWith(entity);
+    });
+
+    it('should pass the visitor to each action', async () => {
+      const entity = new EmbeddedEntity();
+      entity.actions = [mock<Action>(), mock<Action>()];
+      const visitor = mock<SirenElementVisitor>();
+
+      await entity.accept(visitor);
+
+      entity.actions.forEach((action) => {
+        expect(action.accept).toHaveBeenCalledTimes(1);
+        expect(action.accept).toHaveBeenCalledWith(visitor);
+      });
+    });
+
+    it('should pass the visitor to each sub-entity', async () => {
+      const entity = new EmbeddedEntity();
+      entity.entities = [mock<EmbeddedEntity>(), mock<EmbeddedLink>()];
+      const visitor = mock<SirenElementVisitor>();
+
+      await entity.accept(visitor);
+
+      entity.entities.forEach((subEntity) => {
+        expect(subEntity.accept).toHaveBeenCalledTimes(1);
+        expect(subEntity.accept).toHaveBeenCalledWith(visitor);
+      });
+    });
+
+    it('should pass the visitor to each action', async () => {
+      const entity = new EmbeddedEntity();
+      entity.links = [mock<Link>(), mock<Link>()];
+      const visitor = mock<SirenElementVisitor>();
+
+      await entity.accept(visitor);
+
+      entity.links.forEach((link) => {
+        expect(link.accept).toHaveBeenCalledTimes(1);
+        expect(link.accept).toHaveBeenCalledWith(visitor);
+      });
+    });
   });
 
   describe('getAction', () => {
