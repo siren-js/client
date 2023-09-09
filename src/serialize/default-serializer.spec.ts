@@ -1,7 +1,7 @@
 import { nameField } from '../../test/stubs';
-import { NameValuePair } from '../types/name-value-pair';
 import { defaultSerializer } from './default-serializer';
 import { fieldsToNameValuePairs } from './fields-to-name-value-pairs';
+import { NameValuePair } from './name-value-pair';
 import { serializeJson } from './serialize-json';
 import { serializeMultipartFormData } from './serialize-multipart-form-data';
 import { serializePlainText } from './serialize-plain-text';

@@ -1,8 +1,10 @@
+import 'reflect-metadata';
+
 import nock from 'nock';
 
-import { Action, Field } from './';
+import { Action, Field } from './models';
 import { submit } from './submit';
-import { Serializer } from './types/serializer';
+import { NegativeValidationResult, ValidationError } from './validate';
 
 describe('submit', () => {
   const baseUrl = 'https://api.example.com';
@@ -76,6 +78,18 @@ describe('submit', () => {
     expect(scope.isDone()).toBe(true);
   });
 
+  it('should throw when custom validator returns NegativeValidationResult', async () => {
+    const action = new Action();
+    action.name = 'do-something';
+    action.href = url;
+    action.fields = [nameField];
+    const validator = jest.fn(() => new NegativeValidationResult());
+
+    expect(submit(action, { validator })).rejects.toThrow(ValidationError);
+    expect(validator).toHaveBeenCalledTimes(1);
+    expect(validator).toHaveBeenCalledWith(action.fields);
+  });
+
   it('should use custom serializer', async () => {
     const action = new Action();
     action.name = 'do-something';
@@ -89,7 +103,7 @@ describe('submit', () => {
       </${action.name}>
     `;
     const contentType = 'text/xml';
-    const serializer: Serializer = () => Promise.resolve({ content, contentType });
+    const serializer = jest.fn(() => Promise.resolve({ content, contentType }));
     const scope = nock(baseUrl, { reqheaders: { 'Content-Type': contentType } })
       .post(path, content)
       .reply(204);
@@ -99,6 +113,8 @@ describe('submit', () => {
     expect(response.url).toBe(url);
     expect(response.status).toBe(204);
     expect(scope.isDone()).toBe(true);
+    expect(serializer).toHaveBeenCalledTimes(1);
+    expect(serializer).toHaveBeenCalledWith(action.type, action.fields);
   });
 
   describe('requestInit option', () => {

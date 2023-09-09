@@ -5,7 +5,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import utc from 'dayjs/plugin/utc';
 
 import { Field } from '../models/field';
-import { NameValuePair } from '../types/name-value-pair';
+import { NameValuePair } from './name-value-pair';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);

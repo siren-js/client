@@ -1,13 +1,13 @@
 import { Field } from '../models/field';
-import { NameValuePair } from '../types/name-value-pair';
-import { Serialization } from '../types/serialization';
-import { SerializeFn } from '../types/serialize-fn';
-import { Serializer } from '../types/serializer';
 import { fieldsToNameValuePairs } from './fields-to-name-value-pairs';
+import { NameValuePair } from './name-value-pair';
+import { Serialization } from './serialization';
+import { SerializeFn } from './serialize-fn';
 import { serializeJson } from './serialize-json';
 import { serializeMultipartFormData } from './serialize-multipart-form-data';
 import { serializePlainText } from './serialize-plain-text';
 import { serializeUrlEncodedForm } from './serialize-url-encoded-form';
+import { Serializer } from './serializer';
 import { UnsupportedSerializerTypeError } from './unsupported-serializer-type-error';
 
 const withNameValuePairs = (fn: SerializeFn<NameValuePair>) => (fields: Field[]) => fn(fieldsToNameValuePairs(fields));

@@ -1,7 +1,7 @@
 import { isString } from 'class-validator';
 
-import { NameValuePair } from '../types/name-value-pair';
-import { SerializeFn } from '../types/serialize-fn';
+import { NameValuePair } from './name-value-pair';
+import { SerializeFn } from './serialize-fn';
 
 /**
  * Transforms an array of {@linkcode NameValuePair} objects into a string by
