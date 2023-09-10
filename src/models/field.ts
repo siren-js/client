@@ -1,11 +1,14 @@
 import { IsArray, IsOptional, IsString } from 'class-validator';
 
+import { SirenElementVisitor } from '../visitor';
+import { SirenElement } from './siren-element';
+
 /**
  * Represents an input control inside an `Action`. Serialization of a `Field` depends on its `type` and its
  * corresponding `Action`'s `type`.
  * @typeParam T Type of the `value` property.
  */
-export class Field<T = unknown> {
+export class Field<T = unknown> implements SirenElement {
   /**
    * List of strings describing the nature of the `Field` based on the current representation. Possible values are
    * implementation-dependent and should be documented.
@@ -43,4 +46,11 @@ export class Field<T = unknown> {
   value?: T;
 
   [extension: string]: unknown;
+
+  /**
+   * Visits this field.
+   */
+  async accept(visitor: SirenElementVisitor): Promise<void> {
+    await visitor.visitField(this);
+  }
 }

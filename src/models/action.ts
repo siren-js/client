@@ -2,12 +2,14 @@ import { Type } from 'class-transformer';
 import { ArrayUnique, IsArray, IsMimeType, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 import { IsUri } from '../utils/is-uri';
+import { SirenElementVisitor } from '../visitor';
 import { Field } from './field';
+import { SirenElement } from './siren-element';
 
 /**
  * Represents available behavior exposed by an `Entity`.
  */
-export class Action {
+export class Action implements SirenElement {
   /**
    * List of strings describing the nature of the `Action` based on the current representation. Possible values are
    * implementation-dependent and should be documented.
@@ -62,6 +64,14 @@ export class Action {
   type = 'application/x-www-form-urlencoded';
 
   [extensions: string]: unknown;
+
+  /**
+   * Visits this action's {@linkcode fields} followed by the action itself.
+   */
+  async accept(visitor: SirenElementVisitor): Promise<void> {
+    await Promise.all(this.fields.map((field) => field.accept(visitor)));
+    await visitor.visitAction(this);
+  }
 
   /**
    * Returns the `Field` in `fields` with the given `name`, if it exists. Otherwise, returns `undefined`.

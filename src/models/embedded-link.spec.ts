@@ -1,6 +1,8 @@
 import { transformAndValidate } from 'class-transformer-validator';
+import { mock } from 'jest-mock-extended';
 
 import { expectValidationError } from '../../test/helpers';
+import { SirenElementVisitor } from '../visitor';
 import { EmbeddedLink } from './embedded-link';
 
 describe('EmbeddedLink', () => {
@@ -40,5 +42,18 @@ describe('EmbeddedLink', () => {
     await expect(transformAndValidate(EmbeddedLink, link)).rejects.toStrictEqual([
       expectValidationError('rel', ['arrayMinSize'])
     ]);
+  });
+
+  describe('accept', () => {
+    const link = new EmbeddedLink();
+
+    it('should pass itself to the visitor', async () => {
+      const visitor = mock<SirenElementVisitor>();
+
+      await link.accept(visitor);
+
+      expect(visitor.visitEmbeddedLink).toHaveBeenCalledTimes(1);
+      expect(visitor.visitEmbeddedLink).toHaveBeenCalledWith(link);
+    });
   });
 });

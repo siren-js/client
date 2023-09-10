@@ -1,11 +1,13 @@
 import { ArrayMinSize, IsArray, IsMimeType, IsOptional, IsString } from 'class-validator';
 
 import { IsUri } from '../utils/is-uri';
+import { SirenElementVisitor } from '../visitor';
+import { SirenElement } from './siren-element';
 
 /**
  * Represent a sub-entity as a link
  */
-export class EmbeddedLink {
+export class EmbeddedLink implements SirenElement {
   /**
    * List of strings describing the nature of the `Link` based on the current representation. Possible values are
    * implementation-dependent and should be documented.
@@ -44,4 +46,11 @@ export class EmbeddedLink {
   type?: string;
 
   [extensions: string]: unknown;
+
+  /**
+   * Visits this embedded link.
+   */
+  async accept(visitor: SirenElementVisitor): Promise<void> {
+    await visitor.visitEmbeddedLink(this);
+  }
 }
