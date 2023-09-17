@@ -3,6 +3,20 @@ import { DefaultSirenElementVisitor } from './default-siren-element-visitor';
 
 /**
  * Collects visited links that satisfy {@linkcode predicate}
+ *
+ * @example
+ * const itemLinkFinder = new LinkFinder((link) => link.rel.includes('item'));
+ *
+ * await entity.accept(itemLinkFinder);
+ *
+ * if (!itemLinkFinder.isEmpty) {
+ *   const firstItemLink = itemLinkFinder.links[0];
+ *   entity = await follow(firstItemLink).then(parse);
+ * }
+ *
+ * // reset the link finder and do it again
+ * itemLinkFinder.reset();
+ * await entity.accept(itemLinkFinder);
  */
 export class LinkFinder extends DefaultSirenElementVisitor {
   private _links: Link[] = [];
