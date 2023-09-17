@@ -38,18 +38,6 @@ export interface SubmitOptions {
  * `options.validator` returns a {@linkcode NegativeValidationResult}. If
  * `options.validator` is not provided, then validation automatically passes.
  *
- * ```js
- * submit(action, {
- *   validator: (fields) => {
- *     // ensure each field has a non-nullish value
- *     if (fields.every((field) => field.value != null))
- *       return new PositiveValidationResult();
- *     else
- *       return new NegativeValidationResult();
- *   }
- * });
- * ```
- *
  * If validation passes, the `fields` are then serialized according to
  * `options.serializer`, which receives `action`'s `type` and `fields`. If
  * `options.serializer` is not provided, the {@linkcode defaultSerializer} is
@@ -57,21 +45,28 @@ export interface SubmitOptions {
  * placed in the query string. Otherwise, the content is placed in the request
  * body.
  *
- * ```js
+ * @example
  * import { defaultSerializer } from '@siren-js/client';
  *
- * submit(action, {
+ * await submit(action, {
+ *   validator: (fields) => {
+ *     // ensure each field has a non-nullish value
+ *     if (fields.every((field) => field.value != null))
+ *       return new PositiveValidationResult();
+ *     else
+ *       return new NegativeValidationResult();
+ *   },
+ *
  *   serializer: (type, fields) => {
  *     if (type === 'text/xml')
  *       return {
  *         content: // serialize fields to XML however you like...
  *       };
  *     else
- *       // rely on defaultSerializer for any other type
+ *       // rely on default serializer for any other type
  *       return defaultSerializer(type, field);
  *   }
  * })
- * ```
  *
  * @param action an {@linkcode Action} to submit
  * @param options a {@linkcode SubmitOptions} object
