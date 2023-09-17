@@ -6,14 +6,13 @@ export class PositiveValidationResult implements ValidationResult {}
 
 /**
  * Represents failed validation. Inherit from this class for a more detailed
- * result. For example:
+ * result.
  *
- * ```js
+ * @example
  * class GoofedValidation extends NegativeValidationResult {
  *   constructor(readonly invalidFields: Field[]) {
  *     super();
  *   }
  * }
- * ```
  */
 export class NegativeValidationResult implements ValidationResult {}
