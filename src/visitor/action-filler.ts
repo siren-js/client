@@ -5,8 +5,20 @@ import { DefaultSirenElementVisitor } from './default-siren-element-visitor';
  * Fills out the `fields` in an `Action`
  *
  * @example
+ * const fooField = new Field();
+ * fooField.name = 'bar';
+ *
+ * const bazField = new Field();
+ * bazField.name = 'baz';
+ *
+ * const action = new Action();
+ * action.fields = [fooField, bazField];
+ *
  * const filler = new ActionFiller({ foo: 'bar', baz: 42 });
- * await action.accept(filler);
+ * action.accept(filler);
+ *
+ * fooField.value; //=> 'bar'
+ * bazField.value; //=> 42
  */
 export class ActionFiller extends DefaultSirenElementVisitor {
   constructor(public values: Record<string, unknown>) {
