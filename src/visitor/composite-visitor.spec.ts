@@ -5,8 +5,8 @@ import { CompositeVisitor } from './composite-visitor';
 import { SirenElementVisitor } from './siren-element-visitor';
 
 describe('CompositeVisitor', () => {
-  let visitor1 = mock<SirenElementVisitor>();
-  let visitor2 = mock<SirenElementVisitor>();
+  const visitor1 = mock<SirenElementVisitor>();
+  const visitor2 = mock<SirenElementVisitor>();
   let visitor: CompositeVisitor;
 
   beforeEach(() => {
