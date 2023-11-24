@@ -12,9 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
   - `DefaultSirenElementVisitor` for visitors that don't need to visit every type of element
   - `LinkFinder` for searching an entity's links
   - `ActionFiller` for populating an action's fields
+  - `CompositeVisitor` for composing multiple visitors
 - Support for validating fields on action submission ([#16](https://github.com/siren-js/client/issues/16))
 - Default JSON serializer ([#27](https://github.com/siren-js/client/issues/27))
-- Advanced `submit` usage examples the JSDocs
+- Advanced `submit` usage examples in the JSDocs
 - Default serializer is available for extension (see [`submit` docs](https://siren-js.github.io/client/functions/submit.html))
 
 ## [0.8.2] - 2023-08-01
