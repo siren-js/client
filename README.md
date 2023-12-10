@@ -8,12 +8,12 @@
 
 [Siren](https://github.com/kevinswiber/siren) API client library for JavaScript
 
-Siren is a very powerful hypermedia format that enables a server and its clients to be decoupled from one another. There is a lot of boilerplate, protocol-level details around interacting with a Siren API, which is where Siren.js client comes in. This library allows you to do the following:
+This library handles much of the boilerplate, protocol-level details around interacting with a Siren API. Here are the things it can do:
 
 - [x] Parse and validate Siren representations
 - [x] Follow a `Link` (or any URL)
 - [x] Submit an `Action`
-  - [x] Customizable `Field` validation and serialization
+  - [x] Customize `Field` validation and serialization
 - [x] Resolve a `SubEntity`
 - [x] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 - [ ] Crawl a Siren API
@@ -59,12 +59,8 @@ if (itemSubEntity != null) {
 // find the first 'next' link
 const nextLink = entity.links.find((link) => link.rel.includes('next'));
 if (nextLink != null) {
-  // follow the 'next' link, if present
-  response = await follow(nextLink);
-  // alternatively, manually parse the response content as JSON...
-  const json = await response.json();
-  // ...and parse the result as Siren
-  entity = await parse(json);
+  // follow the 'next' link, if present, and parse as a Siren entity
+  entity = await follow(nextLink).then(parse);
 }
 
 // find the 'edit' action
@@ -76,12 +72,8 @@ if (editAction != null) {
     // set the 'quantity' field value
     quantityField.value = 69;
   }
-  // submit the action
-  response = await submit(editAction);
-  // a third option is to extract the response content as text...
-  const text = await response.text();
-  // ...and parse the result as Siren JSON
-  entity = await parse(response);
+  // submit the action and parse the response as Siren
+  response = await submit(editAction).then(parse);
 }
 ```
 
