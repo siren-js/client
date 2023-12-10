@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
 - Advanced `submit` usage examples in the JSDocs
 - Default serializer is available for extension (see [`submit` docs](https://siren-js.github.io/client/functions/submit.html))
 
+### Changed
+
+- Links to source in the docs are no longer generated
+
 ## [0.8.2] - 2023-08-01
 
 ### Fixed
