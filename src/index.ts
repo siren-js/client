@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
+export * from './crawl';
 export * from './follow';
-export * from './href';
 export * from './models';
 export * from './parse';
 export * from './resolve';

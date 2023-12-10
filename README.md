@@ -16,7 +16,7 @@ This library handles much of the boilerplate, protocol-level details around inte
   - [x] Customize `Field` validation and serialization
 - [x] Resolve a `SubEntity`
 - [x] Traverse an `Entity` via the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
-- [ ] Crawl a Siren API
+- [x] Crawl a Siren API
 
 ## Table of Contents <!-- omit in toc -->
 
