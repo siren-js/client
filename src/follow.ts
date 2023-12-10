@@ -1,16 +1,6 @@
 import fetch from 'cross-fetch';
 
-import { Href, isHref } from './href';
-
-export interface Hyperlink {
-  href: Href;
-}
-
-function isHyperlink(value: unknown): value is Hyperlink {
-  return value != null && typeof value === 'object' && 'href' in value && isHref(value.href);
-}
-
-export type Target = Href | Hyperlink;
+import { Href, isHyperlink, Target } from './utils';
 
 export interface FollowOptions {
   /**

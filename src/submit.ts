@@ -1,9 +1,9 @@
 import { fetch, Headers } from 'cross-fetch';
 
-import { Href } from './href';
 import { Action } from './models/action';
 import { Serializer } from './serialize';
 import { defaultSerializer } from './serialize/default-serializer';
+import { Href } from './utils';
 import { NegativeValidationResult, ValidationError, Validator } from './validate';
 import { noOpValidator } from './validate/no-op-validator';
 

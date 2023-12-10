@@ -1,16 +1,18 @@
 import { Action, EmbeddedEntity, EmbeddedLink, Entity, Field, Link } from '../src';
 
-const selfLink = new Link();
+export const baseUrl = 'https://api.example.com';
+
+export const selfLink = new Link();
 selfLink.rel = ['self'];
-selfLink.href = 'https://api.example.com/people/69420';
+selfLink.href = `${baseUrl}/people/69420`;
 
-const upLink = new Link();
+export const upLink = new Link();
 upLink.rel = ['up', 'collection'];
-upLink.href = 'https://api.example.com/people';
+upLink.href = `${baseUrl}/people`;
 
-const knowsLink = new Link();
+export const knowsLink = new Link();
 knowsLink.rel = ['https://schema.org/knows'];
-knowsLink.href = 'https://api.example.com/people/69421';
+knowsLink.href = `${baseUrl}/people/69421`;
 knowsLink.class = ['person'];
 knowsLink.title = 'Harry Potter';
 
@@ -35,13 +37,13 @@ messageField.placeholder = 'What would you like to say?';
 
 export const action = new Action();
 action.name = 'send-message';
-action.href = 'https://api.example.com/people/69420/messages';
+action.href = `${baseUrl}/people/69420/messages`;
 action.method = 'POST';
 action.fields = [nameField, emailField, messageField];
 
-const spouseLink = new Link();
+export const spouseLink = new Link();
 spouseLink.rel = ['self'];
-spouseLink.href = 'https://api.example.com/people/69422';
+spouseLink.href = `${baseUrl}/people/69422`;
 
 export const embeddedEntity = new EmbeddedEntity();
 embeddedEntity.rel = ['https://schema.org/spouse'];
@@ -50,15 +52,15 @@ embeddedEntity.title = 'Hermione Granger';
 embeddedEntity.links = [spouseLink];
 embeddedEntity.actions = [action];
 
-const child1EmbeddedLink = new EmbeddedLink();
+export const child1EmbeddedLink = new EmbeddedLink();
 child1EmbeddedLink.rel = ['https://schema.org/children'];
-child1EmbeddedLink.href = 'https://api.example.com/people/69423';
+child1EmbeddedLink.href = `${baseUrl}/people/69423`;
 child1EmbeddedLink.class = ['person'];
 child1EmbeddedLink.title = 'Rose Granger-Weasley';
 
-const child2EmbeddedLink = new EmbeddedLink();
+export const child2EmbeddedLink = new EmbeddedLink();
 child2EmbeddedLink.rel = ['https://schema.org/children'];
-child2EmbeddedLink.href = 'https://api.example.com/people/69424';
+child2EmbeddedLink.href = `${baseUrl}/people/69424`;
 child2EmbeddedLink.class = ['person'];
 child2EmbeddedLink.title = 'Hugo Granger-Weasley';
 
