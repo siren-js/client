@@ -20,7 +20,6 @@ This library handles much of the boilerplate, protocol-level details around inte
 
 ## Table of Contents <!-- omit in toc -->
 
-- [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
 - [Development](#development)
@@ -28,10 +27,6 @@ This library handles much of the boilerplate, protocol-level details around inte
 - [Maintainer](#maintainer)
 - [Contributing](#contributing)
 - [License](#license)
-
-## Background
-
-<!-- TODO -->
 
 ## Install
 
@@ -42,7 +37,7 @@ npm install @siren-js/client
 ## Usage
 
 ```js
-import { follow, parse, resolve } from '@siren-js/client';
+import { follow, parse, resolve, submit } from '@siren-js/client';
 
 // follow API entry point
 let response = await follow('https://api.example.com/entry-point');
