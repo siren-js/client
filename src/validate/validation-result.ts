@@ -2,7 +2,15 @@
 export abstract class ValidationResult {}
 
 /** Represents successful validation */
-export class PositiveValidationResult implements ValidationResult {}
+export class PositiveValidationResult implements ValidationResult {
+  private static instance = new PositiveValidationResult();
+
+  private constructor() {}
+
+  static getInstance() {
+    return this.instance;
+  }
+}
 
 /**
  * Represents failed validation. Inherit from this class for a more detailed

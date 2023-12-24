@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0), 
 
 ## Unreleased
 
+### Changed
+
+- `PositiveValidationResult` is now a singleton. Replace `new PositiveValidationResult()` with `PositiveValidationResult.getInstance()`.`
+
 ## [0.9.0] - 2023-12-10
 
 ### Added
